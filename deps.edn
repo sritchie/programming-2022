@@ -1,0 +1,35 @@
+{:paths ["dev" "notebooks"]
+ :deps {io.github.nextjournal/clerk        {:git/sha "b0e13859af5280e4d75ba9cb324cbf8010e555cd"}
+        #_{:local/root "../clerk"} #_ {:mvn/version "0.5.346"}
+
+        ;; input various external data formats
+        com.github.seancorfield/next.jdbc  {:mvn/version "1.2.659"}
+        meta-csv/meta-csv                  {:mvn/version "0.1.0"}
+        org.xerial/sqlite-jdbc             {:mvn/version "3.34.0"}
+        dk.ative/docjure                   {:mvn/version "1.16.0"}
+        clojusc/wordnet                    {:mvn/version "1.2.0"}
+
+        ;; some statistical routines
+        kixi/stats {:mvn/version "0.5.4"}
+
+        ;; SICM utils numerical and physics routines
+        sicmutils/sicmutils {:mvn/version "0.21.1"}
+
+        ;; semantic web goodies and box/arrow graphs
+        jackrusher/mundaneum               {:git/url "https://github.com/jackrusher/mundaneum/"
+                                            :git/sha "84476918ee47b66a2d6128e1a90780e52fd2ae44"}
+        arrowic/arrowic                    {:mvn/version "0.1.1"}}
+
+ :aliases
+ {:nextjournal/clerk
+  {:extra-paths ["datasets"]
+   :exec-fn nextjournal.clerk/build-static-app!
+   ;; notebooks to be built, accepts globs patterns
+   :exec-args {:bundle? false
+               :paths ["index.md"
+                       "notebooks/introduction.clj"
+                       "notebooks/data_science.clj"
+                       "notebooks/images.clj"
+                       "notebooks/semantic.clj"
+                       "notebooks/sicmutils.clj"
+                       "notebooks/rule_30.clj"]}}}}
