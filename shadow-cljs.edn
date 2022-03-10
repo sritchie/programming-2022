@@ -1,0 +1,19 @@
+{:deps true
+ :compiler-options {:output-feature-set :es6}
+ :builds {:sicm-browser
+          {:asset-path "out"
+           :compiler-options
+           {:optimizations :advanced
+            :output-wrapper false
+            :source-map false
+            :output-feature-set :es6}
+           :devtools {:http-root ".", :http-port 9000}
+
+           :modules
+           {:main
+            {:entries
+             [demo.viewers
+              nextjournal.clerk.sci-viewer]}}
+
+           :output-dir "out"
+           :target :browser}}}
