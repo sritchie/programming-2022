@@ -1,4 +1,4 @@
-^{:nextjournal.clerk/visibility #{:hide-ns}}
+^{:nextjournal.clerk/visibility :hide-ns}
 (ns demo
   (:refer-clojure
    :exclude [+ - * / = zero? compare
@@ -6,12 +6,7 @@
   (:require [clojure.pprint :as pp]
             [nextjournal.clerk :as clerk]
             [nextjournal.clerk.viewer :as viewer]
-            [sicmutils.calculus.form-field :as ff]
-            [sicmutils.calculus.indexed :as ci]
-            [sicmutils.calculus.vector-field :as vf]
-            [sicmutils.env :as e :refer [define-coordinates
-                                         let-coordinates
-                                         with-literal-functions]]
+            [sicmutils.env :as e]
             [sicmutils.expression :as x]
             [sicmutils.value :as v]))
 
@@ -21,7 +16,7 @@
 
 (e/bootstrap-repl!)
 
-(+ 'x 'x)
+(+ 'x 'x 'x 'x 'x)
 
 ;; ##  Custom Viewers
 
@@ -37,8 +32,8 @@
      :original       (clerk/code (->pretty-str l))
      :TeX            (clerk/tex (->TeX l))}))
 
-#_
-(transform-literal (+ (square (sin 'x)) (square (cos 'x))))
+(transform-literal
+ (+ (square (sin 'x)) (square (cos 'x))))
 
 (def literal-viewer
   {:pred x/literal?
@@ -86,6 +81,27 @@
 ;; bundled with Clerk but we use a component based
 ;; on [d3-require](https://github.com/d3/d3-require) to load it at runtime.
 
+;; TODO next: push some of these functions back up into the viewer. Then get
+;; another demo going, one that can actually show some physical system evolving.
+
+;;
+;; demos to recreate:
+;;
+;; - sine wave: file:///Users/sritchie/code/js/mathbox/examples/test/xyzw.html
+;; - axes plus a function: file:///Users/sritchie/code/js/mathbox/examples/test/vertexcolor.html
+;; - surface file:///Users/sritchie/code/js/mathbox/examples/test/surface.html
+;;
+;; - projection onto axes file:///Users/sritchie/code/js/mathbox/examples/test/sources.html
+;;
+;; - presentation file:///Users/sritchie/code/js/mathbox/examples/test/present2.html
+;; - another: file:///Users/sritchie/code/js/mathbox/examples/test/present.html
+;;
+;; - polar file:///Users/sritchie/code/js/mathbox/examples/test/polar.html
+;;
+;; - line, make pendulum with this abd dot file:///Users/sritchie/code/js/mathbox/examples/test/line.html
+;;
+;; - history, I want this for the pendy path :file:///Users/sritchie/code/js/mathbox/examples/test/history.html
+
 (def mathbox-cube
   {:fetch-fn (fn [_ x] x)
 
@@ -108,64 +124,77 @@
                       (mb/sync!
                        el !ref value
                        (fn [mathbox]
-                         (let [view (-> mathbox
-                                        (.set (clj->js
-                                               {:scale 720 :focus 1}))
-                                        (.cartesian
-                                         (clj->js
-                                          {:range [[0 1] [0 1] [0 1]]
-                                           :scale [1 1 1]})))
+                         (-> (mb/->cartesian-view mathbox)
+                             (mb/add-volume! "volume" value))))))}]))))})
 
-                               ;; and make this function for adding
-                               ;; a "volume", which is a 3d data grid you
-                               ;; can attach things to...
-                               add-volume!
-                               (fn [id {:keys [width-rez height-rez depth-rez
-                                              size
-                                              opacity]
-                                       :or {width-rez 4 height-rez 4 depth-rez 4
-                                            size 30
-                                            opacity 1.0}
-                                       :as m}
-                                   size opacity]
-                                 (doto view
-                                   (.volume
-                                    (clj->js
-                                     {:id id
-                                      :width width-rez
-                                      :height height-rez
-                                      :depth depth-rez
-                                      :items 1,
-                                      :channels 4
-                                      :live false
-                                      :expr (fn [emit x y z]
-                                              (emit x y z opacity))}))
+;; We can then use the above viewer using `with-viewer`:
 
-                                   ;; internally a point is added to each
-                                   ;; node in the volume.
-                                   (.point
-                                    (clj->js
-                                     {;; The neat trick: use the same data
-                                      ;; for position and for color! We
-                                      ;; don't actually need to specify the
-                                      ;; points source since we just
-                                      ;; defined them but it emphasizes
-                                      ;; what's going on.
-                                      ;;
-                                      ;; The w component 1 is ignored as a
-                                      ;; position but used as opacity as a
-                                      ;; color.
-                                      :points (str "#" id)
-                                      :colors (str "#" id)
-                                      ;; Multiply every color component in [0..1] by 255
-                                      :color 0xffffff
-                                      :size size}))))]
-                           (add-volume! "volume" value))))))}]))))})
-
-;; We can then use  the above viewer using `with-viewer`:
 (clerk/with-viewer mathbox-cube
-  {:width-rez 2
-   :height-rez 3
-   :depth-rez 3
-   :size 30
+  {:width-rez 10
+   :height-rez 10
+   :depth-rez 10
+   :size 10
    :opacity 1.0})
+
+;; And another one, this one with special state:
+
+^{::clerk/viewer
+  {:pred #(when-let [v (get % ::clerk/var-from-def)]
+            (and v (instance? clojure.lang.IDeref (deref v))))
+   :fetch-fn (fn [_ x] x)
+   :transform-fn (fn [{::clerk/keys [var-from-def]}]
+                   {:var-name (symbol var-from-def)
+                    :value @@var-from-def})
+   :render-fn '(fn [{:keys [var-name value]}]
+                 (v/html
+                  (reagent/with-let [!ref (reagent/atom nil)]
+                    (v/html
+                     [:div
+                      [:div
+                       [:span "width: "]
+                       [:input
+                        {:type :range
+                         :value (:width-rez value)
+                         :on-change
+                         #(v/clerk-eval
+                           `(swap! ~var-name assoc :width-rez (Integer/parseInt ~(.. % -target -value))))}]
+                       [:span "height: "]
+                       [:input
+                        {:type :range
+                         :value (:height-rez value)
+                         :on-change
+                         #(v/clerk-eval
+                           `(swap! ~var-name assoc :height-rez (Integer/parseInt ~(.. % -target -value))))}]
+                       [:span "depth: "]
+                       [:input
+                        {:type :range
+                         :value (:depth-rez value)
+                         :on-change
+                         #(v/clerk-eval
+                           `(swap! ~var-name assoc :depth-rez (Integer/parseInt ~(.. % -target -value))))}]
+                       [:span "Size!!!"]
+                       [:input
+                        {:type :range
+                         :value (:size value)
+                         :on-change
+                         #(v/clerk-eval
+                           `(swap! ~var-name assoc
+                                   :size (Integer/parseInt ~(.. % -target -value))))}]]
+                      [:div {:id "mathbox"
+                             :style {:height "400px" :width "100%"}
+                             :ref
+                             (fn [el]
+                               (when el
+                                 (mb/sync!
+                                  el !ref value
+                                  (fn [mathbox]
+                                    (-> (mb/->cartesian-view mathbox)
+                                        (mb/add-volume! "volume" value))))))}]]))))}}
+(defonce box-state
+  (atom
+   {:width-rez 8,
+    :height-rez 5
+    :depth-rez 11
+    :size 20, :opacity 1.0}))
+
+@box-state

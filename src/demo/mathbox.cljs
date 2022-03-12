@@ -58,39 +58,54 @@
   (.log js/console "building!" )
   (mb/setup-scene box)
   (set! (.-mathboxView el) box))
-#_
-(def view
-  (-> mathbox
-      (.set (clj->js
-             {:scale 720
-              :focus 1}))
+
+(defn ->cartesian-view
+  "TODO allow options."
+  [box]
+  (-> box
+      (.set (clj->js {:scale 720 :focus 1}))
       (.cartesian
        (clj->js
         {:range [[0 1] [0 1] [0 1]]
          :scale [1 1 1]}))))
 
-#_
-(defn add-volume! [id rez size opacity]
+(defn add-volume!
+  "and make this function for adding
+  a volume which is a 3d data grid you
+  can attach things to..."
+  [view id {:keys [width-rez height-rez depth-rez
+                   size
+                   opacity]
+            :or {width-rez 4 height-rez 4 depth-rez 4
+                 size 30
+                 opacity 1.0}}]
   (doto view
     (.volume
      (clj->js
       {:id id
-       :width rez
-       :height rez
-       :depth rez
+       :width width-rez
+       :height height-rez
+       :depth depth-rez
        :items 1,
        :channels 4
        :live false
        :expr (fn [emit x y z]
                (emit x y z opacity))}))
+
+    ;; internally a point is added to each
+    ;; node in the volume.
     (.point
      (clj->js
-      {;; The neat trick: use the same data for position and for color! We
-       ;; don't actually need to specify the points source since we just
-       ;; defined them but it emphasizes what's going on.
+      {;; The neat trick: use the same data
+       ;; for position and for color! We
+       ;; don't actually need to specify the
+       ;; points source since we just
+       ;; defined them but it emphasizes
+       ;; what's going on.
        ;;
-       ;; The w component 1 is ignored as a position but used as opacity
-       ;; as a color.
+       ;; The w component 1 is ignored as a
+       ;; position but used as opacity as a
+       ;; color.
        :points (str "#" id)
        :colors (str "#" id)
        ;; Multiply every color component in [0..1] by 255

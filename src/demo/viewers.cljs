@@ -15,6 +15,8 @@
                               'orbit demo.mathbox/orbit
                               'setup-scene demo.mathbox/setup-scene
                               'initialize! demo.mathbox/initialize!
-                              'sync! demo.mathbox/sync!}}
+                              'sync! demo.mathbox/sync!
+                              '->cartesian-view demo.mathbox/->cartesian-view
+                              'add-volume! demo.mathbox/add-volume!}}
   :aliases {'ff 'demo.face
             'mb 'demo.mathbox}})
