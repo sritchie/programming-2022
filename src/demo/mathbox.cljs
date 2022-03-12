@@ -139,3 +139,76 @@
            :channels 2}))
         (.line #js {:color 0x3090ff :width 4})
         (.point #js {:color 0x3090ff :size 8}))))
+
+
+;; ## Polar
+
+(defn polar-setup [box]
+  (doto (.-three ^js box)
+    (-> .-renderer (.setClearColor (color 0xffffff) 1.0))))
+
+(defn polar-demo [box]
+  (let [view (-> box
+                 (.set #js {:focus 3})
+                 (.camera #js {:proxy true
+                               :position #js [0 0 3]})
+                 (.polar
+                  (clj->js
+                   {:bend 1
+                    :range [[(* -2 Math/PI)
+                             (* 2 Math/PI)]
+                            [0 1]
+                            [-1 1]]
+                    :scale [2 1 1]
+                    :helix 0.1})))]
+    (-> view
+        (.transform #js {:position [0 0.5 0]})
+        (.axis #js {:detail [256]})
+        (.scale #js {:divide 10 :unit Math/PI :base 2})
+        (.ticks #js {:width 2
+                     :classes #js ["foo", "bar"]})
+        (.ticks #js {:opacity 0.5
+                     :width 1
+                     :size 50
+                     :normal #js [0 1 0]
+                     :classes #js ["foo", "bar"]}))
+    #_(.axis view #js {:axis 2})
+
+    (-> view
+        (.transform #js {:position #js [(/ Math/PI 2) 0 0]})
+        (.axis #js {:axis 2}))
+
+    (-> view
+        (.interval #js {:id "sampler"
+                        :width 256
+                        :expr
+                        (fn [emit x _i t]
+                          (emit x (+ 0.5 (* 0.5 (Math/sin
+                                                 (* 3 (+ x t)))))))
+                        :channels 2})
+        (.line #js {:points "#sampler"
+                    :color 0x3090ff
+                    :width 5}))
+
+    (-> view
+        (.area #js {:width 256
+                    :height 2})
+        (.surface #js {:color "#fff"
+                       :opacity 0.75
+                       :zBias -10}))
+
+    (-> view
+        (.area #js {:width 256
+                    :height 2})
+        (.surface #js {:color "#fff"
+                       :opacity 0.75
+                       :zBias -10}))
+
+    (.grid view #js {:divideX 5
+                     :detailX 256
+                     :width 1
+                     :opacity 0.5
+                     :unitX Math/PI
+                     :baseX 2
+                     :zBias -5
+                     :zOrder -2})))

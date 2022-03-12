@@ -1,6 +1,5 @@
 (ns demo.viewers
-  (:require [demo.face]
-            [demo.mathbox]
+  (:require [demo.mathbox]
             [nextjournal.clerk.sci-viewer :as sv]
             [sci.core :as sci]))
 
@@ -9,17 +8,19 @@
 
 (swap! sv/!sci-ctx
        sci/merge-opts
-       {:namespaces {'demo.face {'square demo.face/square}
-                     'demo.mathbox {'build-mathbox demo.mathbox/build-mathbox
-                                    'color demo.mathbox/color
-                                    'orbit demo.mathbox/orbit
-                                    'setup-scene demo.mathbox/setup-scene
-                                    'initialize! demo.mathbox/initialize!
-                                    'sync! demo.mathbox/sync!
-                                    '->cartesian-view demo.mathbox/->cartesian-view
-                                    'add-volume! demo.mathbox/add-volume!
-                                    'sine-setup demo.mathbox/sine-setup
-                                    'sine-demo demo.mathbox/sine-demo}}
+       {:namespaces
+        {'demo.mathbox
+         {'build-mathbox demo.mathbox/build-mathbox
+          'color demo.mathbox/color
+          'orbit demo.mathbox/orbit
+          'setup-scene demo.mathbox/setup-scene
+          'initialize! demo.mathbox/initialize!
+          'sync! demo.mathbox/sync!
+          '->cartesian-view demo.mathbox/->cartesian-view
+          'add-volume! demo.mathbox/add-volume!
+          'sine-setup demo.mathbox/sine-setup
+          'sine-demo demo.mathbox/sine-demo
+          'polar-setup demo.mathbox/polar-setup
+          'polar-demo demo.mathbox/polar-demo}}
         :classes {'Math js/Math}
-        :aliases {'ff 'demo.face
-                  'mb 'demo.mathbox}})
+        :aliases {'mb 'demo.mathbox}})
