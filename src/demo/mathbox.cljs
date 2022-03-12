@@ -31,33 +31,22 @@
 
 (defn initialize!
   "Used."
-  [el]
+  [el setup-fn]
   (let [box (build-mathbox
              {:plugins  ["core" "controls" "cursor"]
               :controls {:klass orbit}
-              :element el
-              :camera  {}})]
-    (setup-scene box)
+              :element el})]
+    (setup-fn box)
     (set! (.-mathboxView ^js el) box)
     box))
 
-(defn sync! [el !state new f]
+(defn sync! [el !state new setup-fn f]
   (let [box (or (.-mathboxView ^js el)
-                (initialize! el))]
+                (initialize! el setup-fn))]
     (when-not (= @!state new)
       (reset! !state new)
       (.remove box "*")
       (f box))))
-
-#_
-(let [box (mb/build-mathbox
-           {:plugins  ["core" "controls" "cursor"]
-            :controls {:klass mb/orbit}
-            :element el
-            :camera  {}})]
-  (.log js/console "building!" )
-  (mb/setup-scene box)
-  (set! (.-mathboxView el) box))
 
 (defn ->cartesian-view
   "TODO allow options."
@@ -112,7 +101,41 @@
        :color 0xffffff
        :size size}))))
 
-#_
-(comment
-  (add-volume! "volume2" 4 30 1.0)
-  (add-volume! "volume3" 5 80 1.0))
+;; Sine Wave (generic fns?)
+
+(defn sine-setup [box]
+  (doto (.-three ^js box)
+    (-> .-camera .-position (.set 2.3 1 2))
+    (-> .-renderer (.setClearColor (color 0xffffff) 1.0))))
+
+(defn sine-demo [box {:keys [range scale samples f]}]
+  (let [f' (eval f)]
+    (-> box
+        (.cartesian
+         (clj->js
+          {:range range
+           :scale scale}))
+        (.axis #js {:axis 1 :width 3})
+        (.axis #js {:axis 2 :width 3})
+        (.axis #js {:axis 3 :width 3})
+        #_(.grid #js {:width 2 :divideX 20 :divideY 10})
+        (.interval
+         (clj->js
+          {:width samples
+           ;; one tick for each function.
+           :items 1
+           ;; Here, x is the sampled X coordinate,
+           ;; i is the array index (0-63), and
+           ;; t is clock time in seconds, starting from 0.
+           ;;
+           ;; The use of emit is similar to returning a value. It is used to allow
+           ;; multiple values to be emitted very efficiently.
+           :expr (fn [emit x _i time]
+                   (let [d (f' x time)]
+                     ;; so emit once for each function we want to log.
+                     (emit x d)))
+
+           ;; 2 channels == x, y values.
+           :channels 2}))
+        (.line #js {:color 0x3090ff :width 4})
+        (.point #js {:color 0x3090ff :size 8}))))

@@ -1,82 +1,8 @@
 ^{:nextjournal.clerk/visibility :hide-ns}
-(ns demo
-  (:refer-clojure
-   :exclude [+ - * / = zero? compare
-             numerator denominator ref partial])
-  (:require [clojure.pprint :as pp]
-            [nextjournal.clerk :as clerk]
-            [nextjournal.clerk.viewer :as viewer]
-            [sicmutils.env :as e]
-            [sicmutils.expression :as x]
-            [sicmutils.value :as v]))
-
-;; ## Hello
-;;
-;; Let's create an environment:
-
-(e/bootstrap-repl!)
-
-(+ 'x 'x 'x 'x 'x)
+(ns cube
+  (:require [nextjournal.clerk :as clerk]))
 
 ;; ##  Custom Viewers
-
-(defn ->pretty-str [expr]
-  (let [form (v/freeze expr)]
-    (with-out-str
-      (pp/pprint form))))
-
-(defn transform-literal [l]
-  (let [simple (simplify l)]
-    {:simplified     (clerk/code (->pretty-str simple))
-     :simplified_TeX (clerk/tex (->TeX simple))
-     :original       (clerk/code (->pretty-str l))
-     :TeX            (clerk/tex (->TeX l))}))
-
-(transform-literal
- (+ (square (sin 'x)) (square (cos 'x))))
-
-(defn literal-viewer [xform]
-  {:pred x/literal?
-   :fetch-fn viewer/fetch-all
-   :transform-fn xform
-   :render-fn
-   '(fn [x]
-      (v/html
-       (reagent/with-let [!sel (reagent/atom (key (first x)))]
-         [:<>
-          (into
-           [:div.flex.items-center.font-sans.text-xs.mb-3
-            [:span.text-slate-500.mr-2 "View as:"]]
-           (map (fn [[l _]]
-                  [:button.px-3.py-1.font-medium.hover:bg-indigo-50.rounded-full.hover:text-indigo-600.transition
-                   {:class (if (= @!sel l)
-                             "bg-indigo-100 text-indigo-600"
-                             "text-slate-500")
-                    :on-click #(reset! !sel l)}
-                   l])
-                x))
-          (get x @!sel)])))})
-
-(clerk/set-viewers! [(literal-viewer transform-literal)])
-
-;; ## Woohoo
-;;
-;; Now we have a multiviewer, SO nice.
-
-(+ (square (sin 'x))
-   (square (cos 'x)))
-
-;; How about the field equations?
-
-(/ (+ (* 'A 'C 'gMR (expt (sin 'theta) 2) (cos 'theta))
-      (* (/ 1 2) 'A (expt 'p_psi 2) (expt (sin 'theta) 2))
-      (* (/ 1 2) 'C (expt 'p_psi 2) (expt (cos 'theta) 2))
-      (* (/ 1 2) 'C (expt 'p_theta 2) (expt (sin 'theta) 2))
-      (* -1 'C 'p_phi 'p_psi (cos 'theta))
-      (* (/ 1 2) 'C (expt 'p_phi 2)))
-   (* 'A 'C (expt (sin 'theta) 2)))
-
-
 
 ;; This is a custom viewer for a cube rendered
 ;; with [Mathbox](https://gitgud.io/unconed/mathbox). Note that Mathbox isn't
@@ -106,7 +32,14 @@
 
 (def mathbox-cube
   {:fetch-fn (fn [_ x] x)
+
    :render-fn
+   ;; I was trying here to get some state where I could stash the mathbox
+   ;; instance, so I could reset it below when the inputs changed.
+   ;;
+   ;; But it seems that Clerk only reuses the render function if the value
+   ;; doesn't change. If it DOES change (the whole point of !ref) then the form
+   ;; is re-evaluated and `!ref` is nil again.
    '(fn [value]
       (v/html
        (reagent/with-let [!ref (reagent/atom nil)]
@@ -118,7 +51,6 @@
                     (when el
                       (mb/sync!
                        el !ref value
-                       mb/setup-scene
                        (fn [mathbox]
                          (-> (mb/->cartesian-view mathbox)
                              (mb/add-volume! "volume" value))))))}]))))})
@@ -180,7 +112,6 @@
                                  (when el
                                    (mb/sync!
                                     el !ref value
-                                    (fn [box] (mb/setup-scene box))
                                     (fn [mathbox]
                                       (-> (mb/->cartesian-view mathbox)
                                           (mb/add-volume! "volume" value))))))}]])))))}}
