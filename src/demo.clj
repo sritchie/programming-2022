@@ -146,55 +146,53 @@
                    {:var-name (symbol var-from-def)
                     :value @@var-from-def})
    :render-fn '(fn [{:keys [var-name value]}]
-                 (v/html
-                  (reagent/with-let [!ref (reagent/atom nil)]
-                    (v/html
-                     [:div
-                      [:div
-                       [:span "width: "]
-                       [:input
-                        {:type :range
-                         :value (:width-rez value)
-                         :on-change
-                         #(v/clerk-eval
-                           `(swap! ~var-name assoc :width-rez (Integer/parseInt ~(.. % -target -value))))}]
-                       [:span "height: "]
-                       [:input
-                        {:type :range
-                         :value (:height-rez value)
-                         :on-change
-                         #(v/clerk-eval
-                           `(swap! ~var-name assoc :height-rez (Integer/parseInt ~(.. % -target -value))))}]
-                       [:span "depth: "]
-                       [:input
-                        {:type :range
-                         :value (:depth-rez value)
-                         :on-change
-                         #(v/clerk-eval
-                           `(swap! ~var-name assoc :depth-rez (Integer/parseInt ~(.. % -target -value))))}]
-                       [:span "Size!!!"]
-                       [:input
-                        {:type :range
-                         :value (:size value)
-                         :on-change
-                         #(v/clerk-eval
-                           `(swap! ~var-name assoc
-                                   :size (Integer/parseInt ~(.. % -target -value))))}]]
-                      [:div {:id "mathbox"
-                             :style {:height "400px" :width "100%"}
-                             :ref
-                             (fn [el]
-                               (when el
-                                 (mb/sync!
-                                  el !ref value
-                                  (fn [mathbox]
-                                    (-> (mb/->cartesian-view mathbox)
-                                        (mb/add-volume! "volume" value))))))}]]))))}}
+                 (letfn [(elem [s k]
+                           [:div
+                            [:span s]
+                            [:input
+                             {:type :range
+                              :value (k value)
+                              :on-change
+                              #(v/clerk-eval
+                                `(swap! ~var-name assoc ~k (Integer/parseInt
+                                                            ~(.. % -target -value))))}]])]
+                   (v/html
+                    (reagent/with-let [!ref (reagent/atom nil)]
+                      (v/html
+                       [:div
+                        [:div
+                         (elem "width: " :width-rez)
+                         (elem "height: " :height-rez)
+                         (elem "depth: " :depth-rez)
+                         (elem "size: " :size)
+                         [:div
+                          [:span "Opacity: " ]
+                          [:input
+                           {:type :range
+                            :value (* 100.0 (:opacity value))
+                            :on-change
+                            #(v/clerk-eval
+                              `(swap! ~var-name assoc
+                                      :opacity
+                                      (-> (Double/parseDouble
+                                           ~(.. % -target -value))
+                                          (/ 100.0))))}]]]
+                        [:div {:id "mathbox"
+                               :style {:height "400px" :width "100%"}
+                               :ref
+                               (fn [el]
+                                 (when el
+                                   (mb/sync!
+                                    el !ref value
+                                    (fn [mathbox]
+                                      (-> (mb/->cartesian-view mathbox)
+                                          (mb/add-volume! "volume" value))))))}]])))))}}
 (defonce box-state
   (atom
    {:width-rez 8,
     :height-rez 5
     :depth-rez 11
-    :size 20, :opacity 1.0}))
+    :size 20
+    :opacity 1.0}))
 
 @box-state
