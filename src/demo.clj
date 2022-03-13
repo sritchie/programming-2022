@@ -27,10 +27,10 @@
 
 (defn transform-literal [l]
   (let [simple (simplify l)]
-    {:simplified     (clerk/code (->pretty-str simple))
-     :simplified_TeX (clerk/tex (->TeX simple))
-     :original       (clerk/code (->pretty-str l))
-     :TeX            (clerk/tex (->TeX l))}))
+    {:simplified_TeX (clerk/tex (->TeX simple))
+     :simplified     (clerk/code (->pretty-str simple))
+     :TeX            (clerk/tex (->TeX l))
+     :original       (clerk/code (->pretty-str l))}))
 
 (transform-literal
  (+ (square (sin 'x)) (square (cos 'x))))
@@ -97,8 +97,6 @@
 ;;
 ;; - presentation file:///Users/sritchie/code/js/mathbox/examples/test/present2.html
 ;; - another: file:///Users/sritchie/code/js/mathbox/examples/test/present.html
-;;
-;; - polar file:///Users/sritchie/code/js/mathbox/examples/test/polar.html
 ;;
 ;; - line, make pendulum with this abd dot file:///Users/sritchie/code/js/mathbox/examples/test/line.html
 ;;

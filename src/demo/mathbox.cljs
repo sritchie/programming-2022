@@ -1,5 +1,10 @@
 (ns demo.mathbox
   (:require ["mathbox" :as MathBox]
+            ["odex" :as o]
+            [sicmutils.env :as e]
+            [sicmutils.numerical.ode :as ode]
+            [sicmutils.structure :as struct]
+            [sicmutils.util :as u]
             ["three" :as THREE]
             ["three/examples/jsm/controls/OrbitControls.js"
              :as OrbitControls]))
@@ -140,18 +145,28 @@
         (.line #js {:color 0x3090ff :width 4})
         (.point #js {:color 0x3090ff :size 8}))))
 
-
 ;; ## Polar
 
 (defn polar-setup [box]
   (doto (.-three ^js box)
     (-> .-renderer (.setClearColor (color 0xffffff) 1.0))))
 
+;; TODO annotate this and add some options. Then get some equations of motion
+;; going...
 (defn polar-demo [box]
   (let [view (-> box
                  (.set #js {:focus 3})
                  (.camera #js {:proxy true
                                :position #js [0 0 3]})
+                 ;; this WOULD work and we can show it...
+                 #_(.cartesian
+                    (clj->js
+                     {:range [[(* -2 Math/PI)
+                               (* 2 Math/PI)]
+                              [0 1]
+                              [-1 1]]
+                      :scale [2 1 1]}))
+                 ;; But this is the point of that demo.
                  (.polar
                   (clj->js
                    {:bend 1
@@ -160,7 +175,7 @@
                             [0 1]
                             [-1 1]]
                     :scale [2 1 1]
-                    :helix 0.1})))]
+                    :helix 0.2})))]
     (-> view
         (.transform #js {:position [0 0.5 0]})
         (.axis #js {:detail [256]})
@@ -179,17 +194,19 @@
         (.axis #js {:axis 2}))
 
     (-> view
-        (.interval #js {:id "sampler"
-                        :width 256
-                        :expr
-                        (fn [emit x _i t]
-                          (emit x (+ 0.5 (* 0.5 (Math/sin
-                                                 (* 3 (+ x t)))))))
-                        :channels 2})
+        (.interval
+         #js {:id "sampler"
+              :width 256
+              :expr
+              (fn [emit x _i t]
+                (emit x (+ 0.5 (* 0.5 (Math/sin
+                                       (* 3 (+ x t)))))))
+              :channels 2})
         (.line #js {:points "#sampler"
                     :color 0x3090ff
                     :width 5}))
 
+    ;; This is the opaque surface where the grid lives.
     (-> view
         (.area #js {:width 256
                     :height 2})
@@ -197,13 +214,7 @@
                        :opacity 0.75
                        :zBias -10}))
 
-    (-> view
-        (.area #js {:width 256
-                    :height 2})
-        (.surface #js {:color "#fff"
-                       :opacity 0.75
-                       :zBias -10}))
-
+    ;; This puts the grid on, but the opaque surface is already there.
     (.grid view #js {:divideX 5
                      :detailX 256
                      :width 1
@@ -212,3 +223,119 @@
                      :baseX 2
                      :zBias -5
                      :zOrder -2})))
+
+
+;; ## Physics
+;;
+;; Here we need to pull in the integrator.
+
+(defn L-free-3d [m]
+  (fn [[_ _ qdot]]
+    (e/* (e// 1 2) m (e/square qdot))))
+
+(defn elliptical->rect [a b c]
+  (fn [[_ [theta phi] _]]
+    (e/up (e/* a (e/sin theta) (e/cos phi))
+          (e/* b (e/sin theta) (e/sin phi))
+          (e/* c (e/cos theta)))))
+
+;; TODO figure out the right way to thrash on state. Ask Chris...
+
+(def two-pi (* 2 Math/PI))
+
+(defn attach-ellipse [view a b c]
+  (-> (.area view
+             #js {:id "sampler"
+                  :width 64
+                  :height 64
+                  :rangeX #js [0 two-pi]
+                  :rangeY #js [0 two-pi]
+                  :axes #js [1, 3],
+                  :expr (fn [emit, theta phi _i _j _time]
+                          (let [sin-theta (Math/sin theta)
+                                cos-theta (Math/cos theta)]
+                            ;; x y z
+                            (emit (* a sin-theta (Math/cos phi))
+                                  (* c cos-theta)
+                                  (* b sin-theta (Math/sin phi)))))
+                  :items 1
+                  :channels 3})
+      (.surface #js {:shaded true
+                     :opacity 0.2
+                     :lineX true
+                     :lineY true
+                     :points "#sampler"
+                     :color 0xffffff
+                     :width 1})))
+
+(defn L-free-particle [m]
+  (fn [[_ _ v]]
+    (e/* (e// 1 2) m (e/square v))))
+
+(defn L-central-triaxial [m a b c]
+  (comp (L-free-particle m)
+        (e/F->C (elliptical->rect a b c))))
+
+(defn state-derivative [m a b c]
+  (e/Lagrangian->state-derivative
+   (L-central-triaxial m a b c)))
+
+(def ell-m 10)
+(def ell-a 3)
+(def ell-b 2)
+(def ell-c 1)
+
+(defn Lagrangian-updater
+  "hardcoded at first for this use case."
+  [initial-state]
+  (let [{:keys [integrator equations] :as m}
+        (ode/integration-opts state-derivative
+                              [ell-m ell-a ell-b ell-c]
+                              initial-state
+                              {:epsilon 1e-6
+                               :compile? true})]
+    (fn [[t :as state] t2]
+      (let [s (into-array (flatten state))
+            output (.solve integrator equations t s t2 nil)]
+        (struct/unflatten (.-y ^js output) state)))))
+
+;; bind just for fun.
+(def triaxial-state
+  (e/up 0 (e/up 0.1 0.1) (e/up 0.5 0.1)))
+
+;; updater!
+(def my-updater
+  (Lagrangian-updater triaxial-state))
+
+(defn physics-demo [box {:keys [range scale]} state]
+  (let [view (-> box
+                 (.cartesian
+                  (clj->js
+                   {:range range
+                    :scale scale})))]
+    (.axis view #js {:axis 1 :width 3})
+    (.axis view #js {:axis 2 :width 3})
+    (.axis view #js {:axis 3 :width 3})
+    (attach-ellipse view ell-a ell-b ell-c)
+    (-> (.interval view
+                   (clj->js
+                    {:width 1
+                     ;; one tick for each function.
+                     :items 1
+                     :expr
+                     (fn [emit _x _i t]
+                       (swap! state #(my-updater % t))
+                       (let [[_ [theta phi]] @state
+                             sin-theta (Math/sin theta)
+                             cos-theta (Math/cos theta)]
+                         ;; x z y, strangely.
+                         (emit
+                          (* ell-a sin-theta (Math/cos phi))
+                          (* ell-c cos-theta)
+                          (* ell-b sin-theta (Math/sin phi)))))
+
+                     ;; 3 channels == x, y, z values.
+                     :channels 3}))
+        (.point #js {:color 0x3090ff
+                     :size 20
+                     :zIndex 1}))))

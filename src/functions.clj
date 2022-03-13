@@ -118,4 +118,7 @@
 (clerk/with-viewer (d/literal-viewer d/transform-literal)
   (my-fn 'x 't))
 
-;; PHEW, okay, let's leave it here for now.
+;; PHEW, okay, let's leave it here for now. Next:
+;;
+;;
+;; polynomials, rational functions

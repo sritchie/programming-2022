@@ -18,9 +18,15 @@
           'sync! demo.mathbox/sync!
           '->cartesian-view demo.mathbox/->cartesian-view
           'add-volume! demo.mathbox/add-volume!
+
           'sine-setup demo.mathbox/sine-setup
           'sine-demo demo.mathbox/sine-demo
+
           'polar-setup demo.mathbox/polar-setup
-          'polar-demo demo.mathbox/polar-demo}}
+          'polar-demo demo.mathbox/polar-demo
+
+          'physics-demo demo.mathbox/physics-demo
+
+          'triaxial-state demo.mathbox/triaxial-state}}
         :classes {'Math js/Math}
         :aliases {'mb 'demo.mathbox}})

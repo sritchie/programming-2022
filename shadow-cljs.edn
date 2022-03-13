@@ -1,12 +1,10 @@
 {:deps true
- :compiler-options {:output-feature-set :es6}
  :builds {:sicm-browser
           {:asset-path "out"
            :compiler-options
            {:optimizations :advanced
             :output-wrapper false
-            :source-map false
-            :output-feature-set :es6}
+            :source-map false}
            :devtools {:http-root ".", :http-port 9000}
 
            :modules
