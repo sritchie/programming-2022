@@ -3,11 +3,10 @@
   (:refer-clojure
    :exclude [+ - * / = zero? compare
              numerator denominator ref partial])
-  (:require [clojure.walk :as w]
-            [demo :as d]
+  (:require [demo :as d]
+            [functions :as fs]
             [nextjournal.clerk :as clerk]
-            [sicmutils.env :as e :refer :all]
-            [sicmutils.expression.compile :as xc]))
+            [sicmutils.env :as e :refer :all]))
 
 ;; ## Physics Example
 
@@ -38,7 +37,9 @@
     (e/* (e// 1 2) m (e/square v))))
 
 (defn L-central-triaxial [m a b c]
-  (comp (L-free-particle m)
+  (comp (- (L-free-particle m)
+           (fn [[_ [_ _ z]]]
+             (* 9.8 m z)))
         (e/F->C (elliptical->rect a b c))))
 
 ;; Final Lagrangian:
@@ -84,13 +85,20 @@
 
 (def physics-viewer
   {:fetch-fn (fn [_ x] x)
+   :transform-fn
+   (fn [{:keys [degrees-of-freedom] :as m}]
+     (-> (update m :L (fn [L]
+                        (-> (e/Lagrangian->state-derivative L)
+                            (fs/state-fn->body degrees-of-freedom))))
+         (update :state->xyz #(fs/state-fn->body % degrees-of-freedom))))
+
    :render-fn
    '(fn [value]
       (v/html
-       (reagent/with-let [!ref  (reagent/atom nil)
-                          !phys (reagent/atom
-                                 ;; fill it with the initial state...
-                                 mb/triaxial-state)]
+       (reagent/with-let
+         [!ref   (reagent/atom nil)
+          !local (reagent/atom
+                  (:initial-state value))]
          (when value
            [:div {:id "mathbox"
                   :style {:height "400px" :width "100%"}
@@ -101,11 +109,19 @@
                        el !ref value
                        mb/sine-setup
                        (fn [mathbox]
-                         (mb/physics-demo mathbox value !phys)))))}]))))})
+                         (mb/physics-demo mathbox value !local)))))}]))))})
 
 (clerk/with-viewer physics-viewer
-  {:range [[-10, 10]
-           [-10, 10]
-           [-10, 10]]
-   :scale [3 3 3]
-   :state->xyz '(fn [_state] [0 0 0])})
+  (let [m 10, a 2, b 1, c 1]
+    {:degrees-of-freedom 2
+     :state->xyz (elliptical->rect a b c)
+
+     :L          (L-central-triaxial m a b c)
+
+     :initial-state [0 [0.1 0.1] [0 0 ]]
+     :ellipse {:a a :b b :c c}
+     :cartesian
+     {:range [[-10, 10]
+              [-10, 10]
+              [-10, 10]]
+      :scale [3 3 3]}}))

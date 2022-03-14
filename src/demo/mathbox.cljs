@@ -243,7 +243,7 @@
 
 (def two-pi (* 2 Math/PI))
 
-(defn attach-ellipse [view a b c]
+(defn attach-ellipse [view {:keys [a b c]}]
   (-> (.area view
              #js {:id "sampler"
                   :width 64
@@ -287,13 +287,13 @@
 
 (defn Lagrangian-updater
   "hardcoded at first for this use case."
-  [initial-state]
-  (let [{:keys [integrator equations] :as m}
-        (ode/integration-opts state-derivative
-                              [ell-m ell-a ell-b ell-c]
+  [state-derivative initial-state]
+  (let [{:keys [integrator equations]}
+        (ode/integration-opts (constantly state-derivative)
+                              []
                               initial-state
                               {:epsilon 1e-6
-                               :compile? true})]
+                               :compile? false})]
     (fn [[t :as state] t2]
       (let [s (into-array (flatten state))
             output (.solve integrator equations t s t2 nil)]
@@ -304,19 +304,16 @@
   (e/up 0 (e/up 0.1 0.1) (e/up 0.5 0.1)))
 
 ;; updater!
-(def my-updater
-  (Lagrangian-updater triaxial-state))
-
-(defn physics-demo [box {:keys [range scale]} state]
-  (let [view (-> box
-                 (.cartesian
-                  (clj->js
-                   {:range range
-                    :scale scale})))]
+(defn physics-demo
+  [box {:keys [cartesian state->xyz L ellipse]} state]
+  (let [render-fn   (eval state->xyz)
+        state-deriv (eval L)
+        my-updater  (Lagrangian-updater state-deriv @state)
+        view        (.cartesian box (clj->js cartesian))]
     (.axis view #js {:axis 1 :width 3})
     (.axis view #js {:axis 2 :width 3})
     (.axis view #js {:axis 3 :width 3})
-    (attach-ellipse view ell-a ell-b ell-c)
+    (attach-ellipse view ellipse)
     (-> (.interval view
                    (clj->js
                     {:width 1
@@ -325,14 +322,8 @@
                      :expr
                      (fn [emit _x _i t]
                        (swap! state #(my-updater % t))
-                       (let [[_ [theta phi]] @state
-                             sin-theta (Math/sin theta)
-                             cos-theta (Math/cos theta)]
-                         ;; x z y, strangely.
-                         (emit
-                          (* ell-a sin-theta (Math/cos phi))
-                          (* ell-c cos-theta)
-                          (* ell-b sin-theta (Math/sin phi)))))
+                       (let [[x y z] (render-fn @state)]
+                         (emit x z y)))
 
                      ;; 3 channels == x, y, z values.
                      :channels 3}))

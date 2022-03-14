@@ -34,6 +34,27 @@
        x))
    body))
 
+(def replacement-map
+  {'sin 'Math/sin
+   'cos 'Math/cos
+   'expt 'Math/pow
+   'sqrt 'Math/sqrt
+   'abs 'Math/abs
+   'log 'Math/log
+   'exp 'Math/exp
+   'tan 'Math/tan
+   'acos 'Math/acos
+   'asin 'Math/asin
+   'atan 'Math/atan
+   'cosh 'Math/cosh
+   'sinh 'Math/sinh
+   'tanh 'Math/tanh
+   'floor 'Math/floor
+   'ceiling 'Math/ceil
+
+   ;; temporary... should actually give a full namespace name.
+   'up 'vector})
+
 (defn fn->body
   ([f] (fn->body f (@#'xc/retrieve-arity f)))
   ([f n]
@@ -43,27 +64,26 @@
                 (simplify (apply f args))))
          body (apply-numeric-ops body)
          body (w/postwalk-replace
-               {'sin 'Math/sin
-                'cos 'Math/cos
-                'expt 'Math/pow
-                'sqrt 'Math/sqrt
-                'abs 'Math/abs
-                'log 'Math/log
-                'exp 'Math/exp
-                'tan 'Math/tan
-                'acos 'Math/acos
-                'asin 'Math/asin
-                'atan 'Math/atan
-                'cosh 'Math/cosh
-                'sinh 'Math/sinh
-                'tanh 'Math/tanh
-                'floor 'Math/floor
-                'ceiling 'Math/ceil
-                ;; TODO experiment to see if I can symbolically replace these in
-                ;; the FULL compiler, that would be faster.
-                }
+               replacement-map
                body)]
      `(fn [~@args] ~body))))
+
+(defn state-fn->body
+  ([f n]
+   (let [state [(gensym 't)
+                (into [] (repeatedly n #(gensym 'x)))
+                (into [] (repeatedly n #(gensym 'v)))]
+         body (xc/cse-form
+               ;; do we want numeric ops applied first? yes to skip a let
+               ;; binding?
+               (apply-numeric-ops
+                (freeze
+                 (simplify (f state)))))
+
+         body (w/postwalk-replace
+               replacement-map
+               body)]
+     `(fn [~state] ~body))))
 
 (def fn-viewer
   {:fetch-fn (fn [_ x] x)
