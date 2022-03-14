@@ -26,7 +26,6 @@
           'polar-demo demo.mathbox/polar-demo
 
           'physics-demo demo.mathbox/physics-demo
-
-          'triaxial-state demo.mathbox/triaxial-state}}
+          'double-physics-demo demo.mathbox/double-physics-demo}}
         :classes {'Math js/Math}
         :aliases {'mb 'demo.mathbox}})

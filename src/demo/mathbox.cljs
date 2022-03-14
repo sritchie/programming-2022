@@ -299,11 +299,6 @@
             output (.solve integrator equations t s t2 nil)]
         (struct/unflatten (.-y ^js output) state)))))
 
-;; bind just for fun.
-(def triaxial-state
-  (e/up 0 (e/up 0.1 0.1) (e/up 0.5 0.1)))
-
-;; updater!
 (defn physics-demo
   [box {:keys [cartesian state->xyz L ellipse]} state]
   (let [render-fn   (eval state->xyz)
@@ -327,6 +322,35 @@
 
                      ;; 3 channels == x, y, z values.
                      :channels 3}))
+        (.point #js {:color 0x3090ff
+                     :size 20
+                     :zIndex 1}))))
+
+(defn double-physics-demo
+  [box {:keys [cartesian state->xyz L ellipse]} state]
+  (let [render-fn   (eval state->xyz)
+        state-deriv (eval L)
+        my-updater  (Lagrangian-updater state-deriv @state)
+        view        (.cartesian box (clj->js cartesian))]
+    (.axis view #js {:axis 1 :width 3})
+    (.axis view #js {:axis 2 :width 3})
+    (.axis view #js {:axis 3 :width 3})
+    (attach-ellipse view ellipse)
+    (-> (.interval view
+                   (clj->js
+                    {:width 2
+                     ;; one tick for each function.
+                     :items 1
+                     :expr
+                     (fn [emit _x _i t]
+                       (swap! state #(my-updater % t))
+                       (let [[x1 y1 z1 x2 y2 z2] (render-fn @state)]
+                         (emit x1 z1 y1)
+                         (emit x2 z2 y2)))
+
+                     ;; 3 channels == x, y, z values.
+                     :channels 3}))
+        (.line #js {:color 0x3090ff :width 4})
         (.point #js {:color 0x3090ff
                      :size 20
                      :zIndex 1}))))
