@@ -3,8 +3,7 @@
   (:refer-clojure
    :exclude [+ - * / = zero? compare
              numerator denominator ref partial])
-  (:require [clojure.walk :as w]
-            [demo :as d]
+  (:require [demo :as d]
             [nextjournal.clerk :as clerk]
             [sicmutils.env :refer :all]
             [sicmutils.expression.compile :as xc]))
@@ -21,72 +20,13 @@
 - surface file:///Users/sritchie/code/js/mathbox/examples/test/surface.html
 - projection onto axes file:///Users/sritchie/code/js/mathbox/examples/test/sources.html"
 
-(defn apply-numeric-ops [body]
-  (w/postwalk
-   (fn [x]
-     (if-let
-         [op (and (sequential? x)
-                  (every?
-                   number?
-                   (rest x))
-                  (@#'xc/compiled-fn-whitelist (first x)))]
-       (double (apply op (rest x)))
-       x))
-   body))
-
-(def replacement-map
-  {'sin 'Math/sin
-   'cos 'Math/cos
-   'expt 'Math/pow
-   'sqrt 'Math/sqrt
-   'abs 'Math/abs
-   'log 'Math/log
-   'exp 'Math/exp
-   'tan 'Math/tan
-   'acos 'Math/acos
-   'asin 'Math/asin
-   'atan 'Math/atan
-   'cosh 'Math/cosh
-   'sinh 'Math/sinh
-   'tanh 'Math/tanh
-   'floor 'Math/floor
-   'ceiling 'Math/ceil
-
-   ;; temporary... should actually give a full namespace name.
-   'up 'vector})
-
-(defn fn->body
-  ([f] (fn->body f (@#'xc/retrieve-arity f)))
-  ([f n]
-   (let [args (repeatedly n #(gensym 'x))
-         body (xc/cse-form
-               (freeze
-                (simplify (apply f args))))
-         body (apply-numeric-ops body)
-         body (w/postwalk-replace
-               replacement-map
-               body)]
-     `(fn [~@args] ~body))))
-
-(defn state-fn->body
-  ([f n]
-   (let [state [(gensym 't)
-                (into [] (repeatedly n #(gensym 'x)))
-                (into [] (repeatedly n #(gensym 'v)))]
-         body (xc/cse-form
-               ;; do we want numeric ops applied first? yes to skip a let
-               ;; binding?
-               (apply-numeric-ops
-                (freeze
-                 (simplify (f state)))))
-
-         body (w/postwalk-replace
-               replacement-map
-               body)]
-     `(fn [~state] ~body))))
-
 (def fn-viewer
   {:fetch-fn (fn [_ x] x)
+
+   :transform-fn
+   #(binding [xc/*mode* :source]
+      (update % :f xc/compile-fn*))
+
    :render-fn
    '(fn [value]
       (v/html
@@ -103,27 +43,12 @@
                        (fn [mathbox]
                          (mb/sine-demo mathbox value)))))}]))))})
 
-(def compound-fn-viewer
-  (d/literal-viewer
-   (fn [{:keys [f args]}]
-     {:TeX     (clerk/tex (->TeX (simplify (apply f args))))
-      :mathbox (clerk/with-viewer fn-viewer
-                 {:range [[-6 6] [-1 1] [-1 1]]
-                  :scale [6 1 1]
-                  :samples 256
-                  :f (fn->body f)})})))
-
-#_
-(clerk/with-viewer compound-fn-viewer
-  {:f my-fn
-   :args ['x 't]})
-
 (defn ->mathbox [f]
   (clerk/with-viewer fn-viewer
     {:range [[-6 6] [-1 1] [-1 1]]
      :scale [6 1 1]
      :samples 256
-     :f (fn->body f)}))
+     :f f}))
 
 (defn my-fn [x t]
   (+ (square (sin x))
@@ -137,6 +62,18 @@
 
 (clerk/with-viewer (d/literal-viewer d/transform-literal)
   (my-fn 'x 't))
+
+;; or both:
+
+(def compound-fn-viewer
+  (d/literal-viewer
+   (fn [{:keys [f args]}]
+     {:TeX     (clerk/tex (->TeX (simplify (apply f args))))
+      :mathbox (->mathbox f)})))
+
+(clerk/with-viewer compound-fn-viewer
+  {:f my-fn
+   :args ['x 't]})
 
 ;; PHEW, okay, let's leave it here for now. Next:
 ;;

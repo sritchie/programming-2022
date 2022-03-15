@@ -2,6 +2,7 @@
   (:require ["mathbox" :as MathBox]
             ["odex" :as o]
             [sicmutils.env :as e]
+            [sicmutils.expression.compile :as xc]
             [sicmutils.numerical.ode :as ode]
             [sicmutils.structure :as struct]
             [sicmutils.util :as u]
@@ -114,7 +115,7 @@
     (-> .-renderer (.setClearColor (color 0xffffff) 1.0))))
 
 (defn sine-demo [box {:keys [range scale samples f]}]
-  (let [f' (eval f)]
+  (let [f' (xc/sci-eval f)]
     (-> box
         (.cartesian
          (clj->js
@@ -301,8 +302,8 @@
 
 (defn physics-demo
   [box {:keys [cartesian state->xyz L ellipse]} state]
-  (let [render-fn   (eval state->xyz)
-        state-deriv (eval L)
+  (let [render-fn   (xc/sci-eval state->xyz)
+        state-deriv (xc/sci-eval L)
         my-updater  (Lagrangian-updater state-deriv @state)
         view        (.cartesian box (clj->js cartesian))]
     (.axis view #js {:axis 1 :width 3})
@@ -321,15 +322,16 @@
                          (emit x z y)))
 
                      ;; 3 channels == x, y, z values.
-                     :channels 3}))
+                     :channels 3
+                     :history 10}))
         (.point #js {:color 0x3090ff
                      :size 20
                      :zIndex 1}))))
 
 (defn double-physics-demo
   [box {:keys [cartesian state->xyz L ellipse]} state]
-  (let [render-fn   (eval state->xyz)
-        state-deriv (eval L)
+  (let [render-fn   (xc/sci-eval state->xyz)
+        state-deriv (xc/sci-eval L)
         my-updater  (Lagrangian-updater state-deriv @state)
         view        (.cartesian box (clj->js cartesian))]
     (.axis view #js {:axis 1 :width 3})

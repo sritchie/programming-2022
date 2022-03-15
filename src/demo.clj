@@ -38,7 +38,7 @@
 (defn literal-viewer [xform]
   {:pred x/literal?
    :fetch-fn viewer/fetch-all
-   :transform-fn xform
+   :transform-fn (memoize xform)
    :render-fn
    '(fn [x]
       (v/html

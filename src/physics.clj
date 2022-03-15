@@ -4,9 +4,10 @@
    :exclude [+ - * / = zero? compare
              numerator denominator ref partial])
   (:require [demo :as d]
-            [functions :as fs]
             [nextjournal.clerk :as clerk]
-            [sicmutils.env :as e :refer :all]))
+            [pattern.rule :refer [template]]
+            [sicmutils.env :as e :refer :all]
+            [sicmutils.expression.compile :as xc]))
 
 ;; ## Physics Example
 
@@ -83,17 +84,32 @@
 ;;
 ;; Lucky us!! Let's do it!
 
-(def physics-viewer
+(defn dof->initial-state [n]
+  [(gensym 't)
+   (into [] (repeatedly n #(gensym 'x)))
+   (into [] (repeatedly n #(gensym 'v)))])
+
+(defn physics-viewer [mb-sym]
   {:fetch-fn (fn [_ x] x)
    :transform-fn
-   (fn [{:keys [degrees-of-freedom] :as m}]
-     (-> (update m :L (fn [L]
-                        (-> (e/Lagrangian->state-derivative L)
-                            (fs/state-fn->body degrees-of-freedom))))
-         (update :state->xyz #(fs/state-fn->body % degrees-of-freedom))))
+   (memoize
+    (fn [{:keys [degrees-of-freedom] :as m}]
+      (let [initial-state (dof->initial-state degrees-of-freedom)
+            compile #(binding [xc/*mode* :source]
+                       (xc/compile-state-fn*
+                        (fn [] %)
+                        []
+                        initial-state
+                        {:flatten? false
+                         :generic-params? false}))]
+        (-> (update m :L
+                    (fn [L]
+                      (compile (e/Lagrangian->state-derivative L))))
+            (update :state->xyz compile)))))
 
    :render-fn
-   '(fn [value]
+   (template
+    (fn [value]
       (v/html
        (reagent/with-let
          [!ref   (reagent/atom nil)
@@ -109,13 +125,13 @@
                        el !ref value
                        mb/sine-setup
                        (fn [mathbox]
-                         (mb/physics-demo mathbox value !local)))))}]))))})
+                         (~mb-sym mathbox value !local)))))}])))))})
 
-(clerk/with-viewer physics-viewer
-  (let [m 10000, a 1, b 1, c 1]
+(clerk/with-viewer (physics-viewer 'mb/physics-demo)
+  (let [m 10000, a 1, b 2, c 1.5]
     {:degrees-of-freedom 2
      :state->xyz (elliptical->rect a b c)
-     :L          (L-central-triaxial m a b c)
+     :L (L-central-triaxial m a b c)
      :initial-state [0 [0.1 0.1] [0.4 1]]
      :ellipse {:a a :b b :c c}
      :cartesian
