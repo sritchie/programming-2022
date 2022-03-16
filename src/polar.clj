@@ -27,7 +27,6 @@
                        el !ref value
                        mb/polar-setup
                        (fn [mathbox]
-                         (mb/polar-demo
-                          mathbox value)))))}]))))})
+                         (mb/polar-demo mathbox value)))))}]))))})
 
-(clerk/with-viewer polar-viewer {})
+(clerk/with-viewer polar-viewer {:offset 0.7})

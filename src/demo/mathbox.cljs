@@ -154,7 +154,7 @@
 
 ;; TODO annotate this and add some options. Then get some equations of motion
 ;; going...
-(defn polar-demo [box]
+(defn polar-demo [box {:keys [offset]}]
   (let [view (-> box
                  (.set #js {:focus 3})
                  (.camera #js {:proxy true
@@ -176,7 +176,7 @@
                             [0 1]
                             [-1 1]]
                     :scale [2 1 1]
-                    :helix 0.2})))]
+                    :helix 0.1})))]
     (-> view
         (.transform #js {:position [0 0.5 0]})
         (.axis #js {:detail [256]})
@@ -188,10 +188,11 @@
                      :size 50
                      :normal #js [0 1 0]
                      :classes #js ["foo", "bar"]}))
-    #_(.axis view #js {:axis 2})
+    (.axis view #js {:axis 2})
 
     (-> view
-        (.transform #js {:position #js [(/ Math/PI 2) 0 0]})
+        (.transform
+         #js {:position #js [(/ Math/PI 2) 0 0]})
         (.axis #js {:axis 2}))
 
     (-> view
@@ -200,8 +201,10 @@
               :width 256
               :expr
               (fn [emit x _i t]
-                (emit x (+ 0.5 (* 0.5 (Math/sin
-                                       (* 3 (+ x t)))))))
+                (emit
+                 x (+ offset
+                      (* 0.5 (Math/sin
+                              (* 3 (+ x t)))))))
               :channels 2})
         (.line #js {:points "#sampler"
                     :color 0x3090ff
