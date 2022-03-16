@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "serve": "gulp serve"
+  },
+  "engines": {
+    "npm": "6.14.8"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-connect": "^5.7.0",
+    "yargs": "^15.1.0"
+  }
+}
