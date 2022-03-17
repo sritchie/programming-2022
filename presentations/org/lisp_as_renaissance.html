@@ -26,14 +26,14 @@
     <div class="reveal">
       <div class="slides">
         <section>
-          <section id="slide-orgba0572a">
-            <h2 id="orgba0572a">Lisp as Renaissance Workshop</h2>
+          <section id="slide-org3656a61">
+            <h2 id="org3656a61">Lisp as Renaissance Workshop</h2>
             <p>A Lispy Tour through Mathematical Physics</p>
           </section>
         </section>
         <section>
-          <section id="slide-orgad20251">
-            <h2 id="orgad20251">Abstract</h2>
+          <section id="slide-orgbfda263">
+            <h2 id="orgbfda263">Abstract</h2>
             <aside class="notes">
               <p>
                 Lisp is an exquisite medium for the communication of
@@ -65,8 +65,61 @@
           </section>
         </section>
         <section>
-          <section id="slide-org6265b09">
-            <h2 id="org6265b09">Lagrange Equation</h2>
+          <section id="slide-org60c0c74">
+            <h2 id="org60c0c74">This talk is about:</h2>
+            <aside class="notes">
+              <p>
+                lots of problems, getting more complex. Solving them depends on
+                culture transmission.
+              </p>
+
+              <p>
+                that turns out to be getting harder, and if you don’t get in at
+                the beginning of this funnel&#x2026; Looking at our best tools,
+                we see impressionistic notation and insular groups.
+              </p>
+
+              <p>
+                And ALSO we see in a culture this suspicion and fear that has
+                people taking potshots at "science", because it is damned hard
+                and lives in people’s heads.
+              </p>
+            </aside>
+          </section>
+          <section id="slide-orgf314552">
+            <h3 id="orgf314552">We NEED models that can perform themselves!</h3>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgefc603f">
+            <h2 id="orgefc603f">Why code as comms?</h2>
+            <aside class="notes">
+              <p>The PROMISE!</p>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgf31fe27">
+            <h2 id="orgf31fe27">Personal History</h2>
+          </section>
+        </section>
+        <section>
+          <section id="slide-org64df72e">
+            <h2 id="org64df72e">Pre-Lagrange</h2>
+            <aside class="notes">
+              <p>
+                What is interesting here is this fundamentally amazing,
+                beautiful observation. What is less interesting is the
+                symbol-pushing and accounting <i>after</i> you've realized.
+              </p>
+
+              <p>integral T-V vs where you get&#x2026;</p>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section id="slide-org2663f09">
+            <h2 id="org2663f09">Lagrange Equation Demo</h2>
             <aside class="notes">
               <p>
                 This is a good section to talk about the Sussman pitch on Code
@@ -128,8 +181,8 @@
               {\dot{q}=\frac{d w(t)}{d t}}} }=0\]
             </p>
           </section>
-          <section id="slide-org0dc48bc">
-            <h3 id="org0dc48bc">Okay, Fine</h3>
+          <section id="slide-org0f5e5af">
+            <h3 id="org0f5e5af">Okay, Fine</h3>
             <aside class="notes">
               <p>Development now of the better notation.</p>
 
@@ -235,55 +288,88 @@
             </p>
           </section>
           <section>
-            <p>Face</p>
+            <aside class="notes">
+              <p>
+                Boom, we have F = ma, because F = ma has to be true. So we have
+                Hooke's law here.
+              </p>
+            </aside>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(let [L (L-harmonic 'm 'k)
+      w (literal-function 'w)]
+  (tex$$
+   (((Lagrange-equations L) w) 't)))
+</code></pre>
+            </div>
+
+            <p>\[k\,w\left(t\right) + m\,{D}^{2}w\left(t\right)\]</p>
+          </section>
+          <section>
+            <aside class="notes">
+              <p>
+                Actually you can look at the general form&#x2026; but the POINT
+                is that it's confusing!!!
+              </p>
+            </aside>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(let [L (- (comp (literal-function 'T) velocity)
+           (comp (literal-function 'V) coordinate))
+      w (literal-function 'w)]
+  (tex$$
+   (((Lagrange-equations L) w) 't)))
+</code></pre>
+            </div>
+
+            <p>
+              \[{D}^{2}w\left(t\right)\,{D}^{2}T\left(Dw\left(t\right)\right) +
+              DV\left(w\left(t\right)\right)\]
+            </p>
           </section>
         </section>
         <section>
-          <section id="slide-orgdbc577f">
-            <h2 id="orgdbc577f">Notes</h2>
-            <aside class="notes">nil</aside>
+          <section id="slide-org5252593">
+            <h2 id="org5252593">Was that clear?</h2>
+            <p>
+              That was not very clear! So let's convince ourselves that that is
+              true, by doing the spring demo in the browser.
+            </p>
           </section>
         </section>
         <section>
-          <section id="slide-org89eff78">
-            <h2 id="org89eff78">This talk is about:</h2>
+          <section id="slide-org95b6bf5">
+            <h2 id="org95b6bf5">Problems with Code as Comms</h2>
+            <p>I think you just saw it.</p>
           </section>
         </section>
         <section>
-          <section id="slide-orgf7487dc">
-            <h2 id="orgf7487dc">Why code as comms?</h2>
+          <section id="slide-org31e50e4">
+            <h2 id="org31e50e4">Books</h2>
+            <img height="500" src="../images/sicm.jpeg" />
+            <img height="500" src="../images/fdg.jpeg" />
           </section>
         </section>
         <section>
-          <section id="slide-orgb1c68bd">
-            <h2 id="orgb1c68bd">Personal History</h2>
+          <section id="slide-orgbd68c16">
+            <h2 id="orgbd68c16">Demo Time</h2>
           </section>
         </section>
         <section>
-          <section id="slide-orgbab3b39">
-            <h2 id="orgbab3b39">Problems with Code as Comms</h2>
-          </section>
-        </section>
-        <section>
-          <section id="slide-org28b71c9">
-            <h2 id="org28b71c9">
+          <section id="slide-org9fab246">
+            <h2 id="org9fab246">
               Dynamic Notebook ideas - problems with code as comms
             </h2>
           </section>
         </section>
         <section>
-          <section id="slide-orgb209835">
-            <h2 id="orgb209835">What to Amplify: textbooks</h2>
+          <section id="slide-org4eb3584">
+            <h2 id="org4eb3584">What to Amplify: textbooks</h2>
           </section>
         </section>
         <section>
-          <section id="slide-orgee7dcfc">
-            <h2 id="orgee7dcfc">Demo Time</h2>
-          </section>
-        </section>
-        <section>
-          <section id="slide-orgbb41ff3">
-            <h2 id="orgbb41ff3">Conclusion</h2>
+          <section id="slide-orgcc0aaff">
+            <h2 id="orgcc0aaff">Conclusion</h2>
             <p>
               Lisp, the computational fluid, is something eery and special. It’s
               not

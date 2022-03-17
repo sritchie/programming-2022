@@ -1,13 +1,6 @@
 ^{:nextjournal.clerk/visibility :hide-ns}
 (ns polar
-  (:refer-clojure
-   :exclude [+ - * / = zero? compare
-             numerator denominator ref partial])
-  (:require [clojure.walk :as w]
-            [demo :as d]
-            [nextjournal.clerk :as clerk]
-            [sicmutils.env :refer :all]
-            [sicmutils.expression.compile :as xc]))
+  (:require [nextjournal.clerk :as clerk]))
 
 ;; ## Polar Example
 

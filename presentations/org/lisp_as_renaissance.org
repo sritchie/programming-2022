@@ -49,9 +49,22 @@ potshots at "science", because it is damned hard and lives in people’s heads.
 * Why code as comms?
 #+begin_notes
 The PROMISE!
+
+But... if literate programming is so great, why isn't anyone doing it?
+
+Notebooks are not ideal.
 #+end_notes
 
 * Personal History
+
+* Pre-Lagrange
+#+begin_notes
+What is interesting here is this fundamentally amazing, beautiful observation.
+What is less interesting is the symbol-pushing and accounting /after/ you've
+realized.
+
+integral T-V vs where you get...
+#+end_notes
 
 * Lagrange Equation Demo
 #+begin_notes
@@ -197,8 +210,8 @@ $$- a\,m\,{\omega}^{2}\,\cos\left(\omega\,t + \phi\right) + a\,k\,\cos\left(\ome
 #+begin_notes
 Boom, we have F = ma, because F = ma has to be true. So we have Hooke's law
 here.
-
 #+end_notes
+
 #+begin_src clojure :results wrap :exports both :cache yes
 (let [L (L-harmonic 'm 'k)
       w (literal-function 'w)]
@@ -212,6 +225,25 @@ $$k\,w\left(t\right) + m\,{D}^{2}w\left(t\right)$$
 :end:
 
 
+#+reveal: split
+#+begin_notes
+Actually you can look at the general form... but the POINT is that it's
+confusing!!!
+#+end_notes
+
+#+begin_src clojure :results wrap :exports both :cache yes
+(let [L (- (comp (literal-function 'T) velocity)
+           (comp (literal-function 'V) coordinate))
+      w (literal-function 'w)]
+  (tex$$
+   (((Lagrange-equations L) w) 't)))
+#+end_src
+
+#+RESULTS[b86d9da391958ae3e17a47fae3d7a055e4c153b2]:
+:results:
+$${D}^{2}w\left(t\right)\,{D}^{2}T\left(Dw\left(t\right)\right) + DV\left(w\left(t\right)\right)$$
+:end:
+
 * Was that clear?
 
 That was not very clear! So let's convince ourselves that that is true, by doing
@@ -221,7 +253,17 @@ the spring demo in the browser.
 
 I think you just saw it.
 
+* Bibles
+#+begin_notes
+Notes about these?
+#+end_notes
+
+#+REVEAL_HTML: <img height="500" src="../images/sicm.jpeg">
+#+REVEAL_HTML: <img height="500" src="../images/fdg.jpeg">
+
 * Demo Time
+
+Get the clerk notebook gussed up to be the next part of the demo.
 
 * Dynamic Notebook ideas - problems with code as comms
 

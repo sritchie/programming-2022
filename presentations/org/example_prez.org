@@ -170,11 +170,13 @@ This slide has no image.
 The next slide demos a full screen image.
 
 # Totally great.
-#+REVEAL: split data-background="../images/clojure.svg"
-
+#+REVEAL: split data-background="../images/knuth_literate.jpg"
 
 * Image Embedding
 
 # This will get us an image that stretches correctly, but can't be exported.
 # Down the road figure out how to do this right.
 #+REVEAL_HTML: <img class="r-stretch" src="../images/clojure.svg">
+
+#+REVEAL: split
+#+REVEAL_HTML: <img class="r-stretch" src="../images/knuth_literate.jpg">

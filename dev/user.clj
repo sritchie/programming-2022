@@ -1,7 +1,13 @@
 (ns user
   (:require [nextjournal.clerk.config :as clerk-config]
             [nextjournal.clerk :as clerk]
-            [sicmutils.env]))
+            [sicmutils.env]
+            [sicmutils.expression.render :as xr]))
+
+;; Better rendering for slides.
+(alter-var-root
+ #'xr/*TeX-vertical-down-tuples*
+ (constantly true))
 
 (comment
   (swap! clerk-config/!resource->url

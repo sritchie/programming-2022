@@ -1,45 +1,14 @@
 ^{:nextjournal.clerk/visibility :hide-ns}
-(ns cube
+(ns cube-controls
   (:require [nextjournal.clerk :as clerk]))
 
 ;; ##  Custom Viewers
 
-;; This is a custom viewer for a cube rendered
-;; with [Mathbox](https://gitgud.io/unconed/mathbox). Note that Mathbox isn't
-;; bundled with Clerk but we use a component based
-;; on [d3-require](https://github.com/d3/d3-require) to load it at runtime.
-
-;; TODO next: push some of these functions back up into the viewer. Then get
-;; another demo going, one that can actually show some physical system evolving.
-
-;;
-;; demos to recreate:
-;;
-;; - sine wave: file:///Users/sritchie/code/js/mathbox/examples/test/xyzw.html
-;; - axes plus a function: file:///Users/sritchie/code/js/mathbox/examples/test/vertexcolor.html
-;; - surface file:///Users/sritchie/code/js/mathbox/examples/test/surface.html
-;;
-;; - projection onto axes file:///Users/sritchie/code/js/mathbox/examples/test/sources.html
-;;
-;; - presentation file:///Users/sritchie/code/js/mathbox/examples/test/present2.html
-;; - another: file:///Users/sritchie/code/js/mathbox/examples/test/present.html
-;;
-;; - polar file:///Users/sritchie/code/js/mathbox/examples/test/polar.html
-;;
-;; - line, make pendulum with this abd dot file:///Users/sritchie/code/js/mathbox/examples/test/line.html
-;;
-;; - history, I want this for the pendy path :file:///Users/sritchie/code/js/mathbox/examples/test/history.html
+;; This is a custom viewer for a cube rendered with [Mathbox](https://gitgud.io/unconed/mathbox).
 
 (def mathbox-cube
   {:fetch-fn (fn [_ x] x)
-
    :render-fn
-   ;; I was trying here to get some state where I could stash the mathbox
-   ;; instance, so I could reset it below when the inputs changed.
-   ;;
-   ;; But it seems that Clerk only reuses the render function if the value
-   ;; doesn't change. If it DOES change (the whole point of !ref) then the form
-   ;; is re-evaluated and `!ref` is nil again.
    '(fn [value]
       (v/html
        (reagent/with-let [!ref (reagent/atom nil)]
@@ -51,6 +20,7 @@
                     (when el
                       (mb/sync!
                        el !ref value
+                       mb/setup-scene
                        (fn [mathbox]
                          (-> (mb/->cartesian-view mathbox)
                              (mb/add-volume! "volume" value))))))}]))))})
@@ -112,6 +82,7 @@
                                  (when el
                                    (mb/sync!
                                     el !ref value
+                                    mb/setup-scene
                                     (fn [mathbox]
                                       (-> (mb/->cartesian-view mathbox)
                                           (mb/add-volume! "volume" value))))))}]])))))}}
