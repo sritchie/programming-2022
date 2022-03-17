@@ -31,6 +31,205 @@ parallels our human scientific history; hopefully tools like this will help us
 write the next chapter.
 #+end_notes
 
-* Notes
+* This talk is about:
 #+begin_notes
+lots of problems, getting more complex. Solving them depends on culture
+transmission.
+
+that turns out to be getting harder, and if you don’t get in at the beginning of
+this funnel... Looking at our best tools, we see impressionistic notation and
+insular groups.
+
+And ALSO we see in a culture this suspicion and fear that has people taking
+potshots at "science", because it is damned hard and lives in people’s heads.
 #+end_notes
+
+** We NEED models that can perform themselves!
+
+* Why code as comms?
+#+begin_notes
+The PROMISE!
+#+end_notes
+
+* Personal History
+
+* Lagrange Equation Demo
+#+begin_notes
+This is a good section to talk about the Sussman pitch on Code as Comms.
+
+Go from:
+
+- Lagrange equations, let's say WHAT WE MEAN
+- the expanded version
+- the clojure code
+- the animation
+
+This has pretty crappy flow now but I think this section is a pretty important
+one, to talk about what it MEANS to say that code can communicate.
+
+BY THE WAY, the way you derive this is just bananas, such a great way to THINK.
+
+- [ ] so add a slide about the integral of... something here.
+
+you'll find you might get sleepy for a few slides; but I will own it by saying
+that is kind of the point!
+#+end_notes
+
+#+ATTR_REVEAL: :frag t :frag_idx 2
+What could this expression possibly mean?
+#+ATTR_REVEAL: :frag t :frag_idx 1
+$${\frac{d}{d t} \frac{\partial L}{\partial \dot{q}}}-\frac{\partial L}{\partial q}=0$$
+
+#+REVEAL: split
+
+$${\frac{d}{d t} \frac{\partial L}{\partial \dot{q}}}-\frac{\partial L}{\partial q}=0$$
+
+#+ATTR_REVEAL: :frag t
+$$\frac{d}{d t}\left( \left.\frac{\partial L(t, q, \dot{q})}{\partial \dot{q}}
+  \right|_{\substack{ {q=w(t)} \\ {\dot{q}=\frac{d w(t)}{d t}} }}
+  \right)-\left.\frac{\partial L(t, q, \dot{q})}{\partial q}\right|_{ \substack{
+  q=w(t) \\ {\dot{q}=\frac{d w(t)}{d t}}} }=0$$
+
+** Okay, Fine
+#+begin_notes
+Development now of the better notation.
+
+Describe "expression derivatives" vs function derivatives.
+#+end_notes
+
+# Notice the trick I had to use to get alignment on the parentheses! On the
+# first line, I had to insert \left. and \right. so that I wouldn't be sticking
+# a & inside of a pair of delimeters. Ugh!
+\begin{align*}
+\frac{d}{d t} \left( \right. & \left. \left(\partial_{2} L\right)\left(t, w(t), \frac{d}{d t}
+w(t)\right)\right) \\
+ - & \left(\partial_{1} L\right)\left(t, w(t), \frac{d}{d t}
+w(t)\right) = 0
+\end{align*}
+
+#+REVEAL: split
+#+begin_notes
+So let’s get rid of the expression derivative $d/dt$ and replace it with an
+appropriate functional derivative. If $f$ is a function then we will write
+$Df$ as the new function that is the derivative of $f$
+#+end_notes
+
+$$(D f)(t)=\left.\frac{d}{d x} f(x)\right|_{x=t}$$
+
+#+REVEAL: split
+#+begin_notes
+To do this for the Lagrange equation we need to construct a function to take
+the derivative of.
+
+our friend Gamma...
+#+end_notes
+
+$$\Gamma[w](t)=\left(t, w(t), \frac{d}{d t} w(t)\right).$$
+
+#+REVEAL: split
+#+begin_notes
+That lets us simplify a bit more.
+Finally, let's get the explicit =t= out of there.
+then, program
+#+end_notes
+
+#+ATTR_REVEAL: :frag none :frag_idx 1
+$$\frac{d}{dt}\left(
+\left(\partial_{2} L\right) \left(\Gamma[w](t)\right)
+\right) - \left(\partial_{1} L\right) \left(\Gamma[w](t)\right)=0$$
+
+#+ATTR_REVEAL: :frag t :frag_idx 2
+$$D\left(\left(\partial_{2} L\right) \circ \left(\Gamma[w]\right)\right)
+   \\ -\left(\partial_{1} L\right) \circ \left(\Gamma[w]\right)=0$$
+
+#+ATTR_REVEAL: :frag t :frag_idx 3 :code_attribs data-line-numbers="1|2-4|3|4"
+#+begin_src clojure :eval none
+(defn Lagrange-equations [L]
+  (fn [w]
+    (- (D (comp ((partial 2) L) (Gamma w)))
+       (comp ((partial 1) L) (Gamma w)))))
+#+end_src
+
+#+RESULTS:
+: #'prez/Lagrange-equations
+
+#+REVEAL: split
+#+begin_notes
+Maybe cut this, I don't know if it's a good example.
+#+end_notes
+
+#+ATTR_REVEAL: :code_attribs data-line-numbers="7|8"
+#+begin_src clojure
+(defn L-harmonic
+  "Returns a Lagrangian of a simple harmonic oscillator (mass-spring system).
+
+  m is the mass and k is the spring constant used in Hooke's law."
+  [m k]
+  (fn [[_ q v]]
+    (- (* 1/2 m (square v))
+       (* 1/2 k (square q)))))
+#+end_src
+
+#+RESULTS:
+: #'prez/L-harmonic
+
+#+begin_src clojure
+(defn proposed-solution [t]
+  (* 'a (cos (+ (* 'omega t) 'phi))))
+#+end_src
+
+#+RESULTS:
+: #'prez/proposed-solution
+
+#+begin_src clojure :results wrap :exports both :cache yes
+(let [L (L-harmonic 'm 'k)
+      w proposed-solution]
+  (tex$$
+   (((Lagrange-equations L) w) 't)))
+#+end_src
+
+#+RESULTS[4f07f32c756dd28df70e0637cdf4042082d89a06]:
+:results:
+$$- a\,m\,{\omega}^{2}\,\cos\left(\omega\,t + \phi\right) + a\,k\,\cos\left(\omega\,t + \phi\right)$$
+:end:
+
+#+reveal: split
+#+begin_notes
+Boom, we have F = ma, because F = ma has to be true. So we have Hooke's law
+here.
+
+#+end_notes
+#+begin_src clojure :results wrap :exports both :cache yes
+(let [L (L-harmonic 'm 'k)
+      w (literal-function 'w)]
+  (tex$$
+   (((Lagrange-equations L) w) 't)))
+#+end_src
+
+#+RESULTS[35ef84f7fbbe4c6366a9279e07dd2dc9b0454a4b]:
+:results:
+$$k\,w\left(t\right) + m\,{D}^{2}w\left(t\right)$$
+:end:
+
+
+* Was that clear?
+
+That was not very clear! So let's convince ourselves that that is true, by doing
+the spring demo in the browser.
+
+* Problems with Code as Comms
+
+I think you just saw it.
+
+* Demo Time
+
+* Dynamic Notebook ideas - problems with code as comms
+
+* What to Amplify: textbooks
+
+* Conclusion
+
+Lisp, the computational fluid, is something eery and special. It’s not
+/everything/; remember, these are just models! But it’s a big deal.
+
+What’s next if you’re interested, how do you get involved

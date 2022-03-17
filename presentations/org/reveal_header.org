@@ -24,6 +24,10 @@
   (:require [sicmutils.env :as e :refer :all]
             [sicmutils.expression.render :as xr]))
 
+;; Quick and dirty talk prep, unmap this so I can redefine it.
+(ns-unmap *ns* 'Lagrange-equations)
+(ns-unmap *ns* 'L-harmonic)
+
 ;; Better rendering for slides.
 (alter-var-root
  #'xr/*TeX-vertical-down-tuples*

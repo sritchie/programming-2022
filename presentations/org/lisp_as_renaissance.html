@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Lisp as Renaissance Workshop</title>
+    <meta name="author" content="Sam Ritchie" />
+    <style type="text/css">
+      .underline {
+        text-decoration: underline;
+      }
+    </style>
+    <link rel="stylesheet" href="../reveal.js/dist/reveal.css" />
+
+    <link
+      rel="stylesheet"
+      href="../reveal.js/dist/theme/solarized.css"
+      id="theme"
+    />
+    <link rel="stylesheet" href="../reveal.js/plugin/highlight/zenburn.css" />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section id="slide-orgba0572a">
+            <h2 id="orgba0572a">Lisp as Renaissance Workshop</h2>
+            <p>A Lispy Tour through Mathematical Physics</p>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgad20251">
+            <h2 id="orgad20251">Abstract</h2>
+            <aside class="notes">
+              <p>
+                Lisp is an exquisite medium for the communication of
+                computational ideas. From our most accurate observations of
+                physical reality up through chemistry, biology, and cognition,
+                the universe seems to be computing itself; modeling and
+                simulating these systems in machines has led to incredible
+                technological wealth.
+              </p>
+
+              <p>
+                Deep principles and beautiful abstractions seem to drive these
+                systems, but they have always been hard to discover; and we are
+                floundering at the computational frontiers of intelligence,
+                synthetic biology and control systems for our climate. The only
+                way to push forward is to build powerful tools that can
+                communicate and teach.
+              </p>
+
+              <p>
+                This talk will take a tour through SICMUtils, a Lisp system
+                designed as a workshop for conducting serious work in
+                mathematical physics and sharing those explorations in a deeply
+                interactive, multiplayer way. The library’s growth parallels our
+                human scientific history; hopefully tools like this will help us
+                write the next chapter.
+              </p>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section id="slide-org6265b09">
+            <h2 id="org6265b09">Lagrange Equation</h2>
+            <aside class="notes">
+              <p>
+                This is a good section to talk about the Sussman pitch on Code
+                as Comms.
+              </p>
+
+              <p>Go from:</p>
+
+              <ul>
+                <li>Lagrange equations, let's say WHAT WE MEAN</li>
+                <li>the expanded version</li>
+                <li>the clojure code</li>
+                <li>the animation</li>
+              </ul>
+
+              <p>
+                This has pretty crappy flow now but I think this section is a
+                pretty important one, to talk about what it MEANS to say that
+                code can communicate.
+              </p>
+
+              <p>
+                BY THE WAY, the way you derive this is just bananas, such a
+                great way to THINK.
+              </p>
+
+              <ul>
+                <li class="off">
+                  <code>[&#xa0;]</code> so add a slide about the integral
+                  of&#x2026; something here.
+                </li>
+              </ul>
+
+              <p>
+                you'll find you might get sleepy for a few slides; but I will
+                own it by saying that is kind of the point!
+              </p>
+            </aside>
+
+            <p data-fragment-index="2" class="fragment roll-in">
+              What could this expression possibly mean?
+            </p>
+            <p data-fragment-index="1" class="fragment roll-in">
+              \[{\frac{d}{d t} \frac{\partial L}{\partial
+              \dot{q}}}-\frac{\partial L}{\partial q}=0\]
+            </p>
+          </section>
+          <section>
+            <p>
+              \[{\frac{d}{d t} \frac{\partial L}{\partial
+              \dot{q}}}-\frac{\partial L}{\partial q}=0\]
+            </p>
+
+            <p class="fragment roll-in">
+              \[\frac{d}{d t}\left( \left.\frac{\partial L(t, q,
+              \dot{q})}{\partial \dot{q}} \right|_{\substack{ {q=w(t)} \\
+              {\dot{q}=\frac{d w(t)}{d t}} }} \right)-\left.\frac{\partial L(t,
+              q, \dot{q})}{\partial q}\right|_{ \substack{ q=w(t) \\
+              {\dot{q}=\frac{d w(t)}{d t}}} }=0\]
+            </p>
+          </section>
+          <section id="slide-org0dc48bc">
+            <h3 id="org0dc48bc">Okay, Fine</h3>
+            <aside class="notes">
+              <p>Development now of the better notation.</p>
+
+              <p>Describe "expression derivatives" vs function derivatives.</p>
+            </aside>
+
+            <div>
+              \begin{align*} \frac{d}{d t} \left( \right. & \left.
+              \left(\partial_{2} L\right)\left(t, w(t), \frac{d}{d t}
+              w(t)\right)\right) \\ - & \left(\partial_{1} L\right)\left(t,
+              w(t), \frac{d}{d t} w(t)\right) = 0 \end{align*}
+            </div>
+          </section>
+          <section>
+            <aside class="notes">
+              <p>
+                So let’s get rid of the expression derivative \(d/dt\) and
+                replace it with an appropriate functional derivative. If \(f\)
+                is a function then we will write \(Df\) as the new function that
+                is the derivative of \(f\)
+              </p>
+            </aside>
+
+            <p>\[(D f)(t)=\left.\frac{d}{d x} f(x)\right|_{x=t}\]</p>
+          </section>
+          <section>
+            <aside class="notes">
+              <p>
+                To do this for the Lagrange equation we need to construct a
+                function to take the derivative of.
+              </p>
+
+              <p>our friend Gamma&#x2026;</p>
+            </aside>
+
+            <p>\[\Gamma[w](t)=\left(t, w(t), \frac{d}{d t} w(t)\right).\]</p>
+          </section>
+          <section>
+            <aside class="notes">
+              <p>
+                That lets us simplify a bit more. Finally, let's get the
+                explicit <code>t</code> out of there. then, program
+              </p>
+            </aside>
+
+            <p>
+              \[\frac{d}{dt}\left( \left(\partial_{2} L\right)
+              \left(\Gamma[w](t)\right) \right) - \left(\partial_{1} L\right)
+              \left(\Gamma[w](t)\right)=0\]
+            </p>
+
+            <p data-fragment-index="2" class="fragment roll-in">
+              \[D\left(\left(\partial_{2} L\right) \circ
+              \left(\Gamma[w]\right)\right) \\ -\left(\partial_{1} L\right)
+              \circ \left(\Gamma[w]\right)=0\]
+            </p>
+
+            <div class="org-src-container">
+              <pre
+                data-fragment-index="3"
+                class="fragment roll-in"
+              ><code class="clojure" data-line-numbers="1|2-4|3|4">(defn Lagrange-equations [L]
+  (fn [w]
+    (- (D (comp ((partial 2) L) (Gamma w)))
+       (comp ((partial 1) L) (Gamma w)))))
+</code></pre>
+            </div>
+          </section>
+          <section>
+            <aside class="notes">
+              <p>Maybe cut this, I don't know if it's a good example.</p>
+            </aside>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" data-line-numbers="7|8">(defn L-harmonic
+  "Returns a Lagrangian of a simple harmonic oscillator (mass-spring system).
+
+  m is the mass and k is the spring constant used in Hooke's law."
+  [m k]
+  (fn [[_ q v]]
+    (- (* 1/2 m (square v))
+       (* 1/2 k (square q)))))
+</code></pre>
+            </div>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(defn proposed-solution [t]
+  (* 'a (cos (+ (* 'omega t) 'phi))))
+</code></pre>
+            </div>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(let [L (L-harmonic 'm 'k)
+      w proposed-solution]
+  (tex$$
+   (((Lagrange-equations L) w) 't)))
+</code></pre>
+            </div>
+
+            <p>
+              \[- a\,m\,{\omega}^{2}\,\cos\left(\omega\,t + \phi\right) +
+              a\,k\,\cos\left(\omega\,t + \phi\right)\]
+            </p>
+          </section>
+          <section>
+            <p>Face</p>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgdbc577f">
+            <h2 id="orgdbc577f">Notes</h2>
+            <aside class="notes">nil</aside>
+          </section>
+        </section>
+        <section>
+          <section id="slide-org89eff78">
+            <h2 id="org89eff78">This talk is about:</h2>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgf7487dc">
+            <h2 id="orgf7487dc">Why code as comms?</h2>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgb1c68bd">
+            <h2 id="orgb1c68bd">Personal History</h2>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgbab3b39">
+            <h2 id="orgbab3b39">Problems with Code as Comms</h2>
+          </section>
+        </section>
+        <section>
+          <section id="slide-org28b71c9">
+            <h2 id="org28b71c9">
+              Dynamic Notebook ideas - problems with code as comms
+            </h2>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgb209835">
+            <h2 id="orgb209835">What to Amplify: textbooks</h2>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgee7dcfc">
+            <h2 id="orgee7dcfc">Demo Time</h2>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgbb41ff3">
+            <h2 id="orgbb41ff3">Conclusion</h2>
+            <p>
+              Lisp, the computational fluid, is something eery and special. It’s
+              not
+              <i>everything</i>; remember, these are just models! But it’s a big
+              deal.
+            </p>
+
+            <p>What’s next if you’re interested, how do you get involved</p>
+          </section>
+        </section>
+      </div>
+    </div>
+    <script src="../reveal.js/dist/reveal.js"></script>
+    <script src="../reveal.js/plugin/notes/notes.js"></script>
+    <script src="../reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../reveal.js/plugin/search/search.js"></script>
+    <script src="../reveal.js/plugin/zoom/zoom.js"></script>
+    <script>
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        slideNumber: "c",
+        rollingLinks: false,
+        keyboard: true,
+        mouseWheel: false,
+        fragmentInURL: false,
+        hashOneBasedIndex: false,
+        pdfSeparateFragments: true,
+        overview: true,
+
+        transition: "none",
+        transitionSpeed: "default",
+
+        // Plugins with reveal.js 4.x
+        plugins: [RevealNotes, RevealHighlight, RevealSearch, RevealZoom],
+
+        // Optional libraries used to extend reveal.js
+        dependencies: [],
+      });
+    </script>
+  </body>
+</html>
