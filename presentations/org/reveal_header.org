@@ -1,0 +1,34 @@
+# options shared between all three presentations.
+
+# NOTE: replace this with a local copy of MathJax once I figure that out.
+#+REVEAL_MATHJAX_URL: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+#+REVEAL_ROOT: ../reveal.js
+#+REVEAL_REVEAL_JS_VERSION: 4
+#+REVEAL_TRANS: none
+#+REVEAL_THEME: solarized
+#+REVEAL_PLUGINS: (notes highlight search zoom)
+#+REVEAL_HIGHLIGHT_CSS: ../reveal.js/plugin/highlight/zenburn.css
+#+REVEAL_DEFAULT_FRAG_STYLE: roll-in
+#+REVEAL_TITLE_SLIDE:
+
+#+Author: Sam Ritchie
+#+Email: sritchie09@gmail.com
+
+# Set up a namespace for Clojure evaluation.
+
+#+begin_src clojure :exports none
+(ns prez
+  (:refer-clojure :exclude [= + - * / compare zero? ref partial
+                            numerator denominator])
+  (:require [sicmutils.env :as e :refer :all]
+            [sicmutils.expression.render :as xr]))
+
+;; Better rendering for slides.
+(alter-var-root
+ #'xr/*TeX-vertical-down-tuples*
+ (constantly true))
+#+end_src
+
+#+RESULTS:
+: true

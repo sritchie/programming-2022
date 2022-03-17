@@ -1,0 +1,36 @@
+#+STARTUP: indent
+
+#+OPTIONS: num:nil toc:nil reveal_history:t
+#+PROPERTY: header-args :eval no-export
+
+#+include: reveal_header.org :minlevel 1
+
+#+Title: Lisp as Renaissance Workshop
+
+* Lisp as Renaissance Workshop
+
+A Lispy Tour through Mathematical Physics
+
+* Abstract
+#+begin_notes
+Lisp is an exquisite medium for the communication of computational ideas. From
+our most accurate observations of physical reality up through chemistry,
+biology, and cognition, the universe seems to be computing itself; modeling and
+simulating these systems in machines has led to incredible technological wealth.
+
+Deep principles and beautiful abstractions seem to drive these systems, but they
+have always been hard to discover; and we are floundering at the computational
+frontiers of intelligence, synthetic biology and control systems for our
+climate. The only way to push forward is to build powerful tools that can
+communicate and teach.
+
+This talk will take a tour through SICMUtils, a Lisp system designed as a
+workshop for conducting serious work in mathematical physics and sharing those
+explorations in a deeply interactive, multiplayer way. The library’s growth
+parallels our human scientific history; hopefully tools like this will help us
+write the next chapter.
+#+end_notes
+
+* Notes
+#+begin_notes
+#+end_notes

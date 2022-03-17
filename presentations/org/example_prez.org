@@ -1,49 +1,70 @@
 #+STARTUP: indent
+
 #+OPTIONS: num:nil toc:nil reveal_history:t
-#+REVEAL_HEAD_PREAMBLE: <meta name="description" content="Presentation.">
-#+REVEAL_POSTAMBLE: <p>Created by Sam Ritchie.</p>
-#+REVEAL_ROOT: ./reveal.js
-#+REVEAL_REVEAL_JS_VERSION: 4
-#+REVEAL_INIT_OPTIONS: slideNumber:false
-#+REVEAL_TRANS: none
-#+REVEAL_THEME: solarized
-#+REVEAL_PLUGINS: (notes highlight search zoom math)
-#+REVEAL_HIGHLIGHT_CSS: ./reveal.js/plugin/highlight/zenburn.css
-#+REVEAL_DEFAULT_FRAG_STYLE: roll-in
-#+REVEAL_TITLE_SLIDE:
+#+PROPERTY: header-args :eval no-export
 
-#+begin_comment
-Wow, so this actually comes from https://gitlab.com/oer/org-re-reveal, not the
-=org-reveal= you find by searching. Insane!
+# This pulls in shared options.
+#+include: reveal_header.org :minlevel 1
 
-It looks like [[https://gitlab.com/oer/emacs-reveal-howto][emacs-reveal]] is a thing too, and I should get a peek in down the
-road. But not now...
+#+Title: Org-Reveal Notebook Demo
 
-See [[https://oer.gitlab.io/org-re-reveal/Readme.html][example prezzy]].
-
-- =C-F= for searching slides.
-- =o= shows overview
-- =s= shows presenter notes.
-
-- [ ] download mathjax, set it up locally for airport
-
-Look into 'multiplexing' down the road.
-#+end_comment
-
-#+Title: Lisp as Renaissance Workshop
-#+Author: Sam Ritchie
-#+Email: sritchie09@gmail.com
-
-# This is the header slide, remember.
-* Lisp as Renaissance Workshop
+* Org-Reveal Notebook Demo
+#+ATTR_REVEAL: :data-markdown=true
 #+begin_notes
-Hello!
+Hello! Presenter notes!
 #+end_notes
 
-A Lispy Tour through Mathematical Physics
+Elements you Might Need
 
-#+ATTR_HTML: :class r-stretch
-[[./images/clojure.svg]]
+[[../images/clojure.svg]]
+
+* SICMUtils
+
+#+begin_src clojure
+(defn total-distance [x1 y1 x2 y2]
+  (fn [xp]
+    (+ (sqrt (+ (square (+ x1 xp))
+                (square y1)))
+       (sqrt (+ (square (- x2 (+ x1 xp)))
+                (square y2))))))
+#+end_src
+
+#+RESULTS:
+: #'prez/total-distance
+
+#+REVEAL: split
+
+#+begin_src clojure
+(defn F [x y]
+  (* (square x)
+     (cube y)))
+
+(defn G [x y]
+  (up (F x y) y))
+
+(defn H [x y]
+  (F (F x y) y))
+#+end_src
+
+#+RESULTS:
+| #'prez/F |
+| #'prez/G |
+| #'prez/H |
+
+#+reveal: split
+
+#+ATTR_REVEAL: :code_attribs data-line-numbers="1-2|3-4"
+#+begin_src clojure :results wrap :exports both :cache yes
+(let [f (down ((partial 0) F)
+              ((partial 1) F))]
+  (tex$$
+   (f 'x 'z)))
+#+end_src
+
+#+RESULTS[d2b97f55b40d5a34c0735c8851fbd8881c7eef17]:
+:results:
+$$\begin{bmatrix}\displaystyle{2\,x\,{z}^{3}} \cr \cr \displaystyle{3\,{x}^{2}\,{z}^{2}}\end{bmatrix}$$
+:end:
 
 * Big Block with Title
 
@@ -143,29 +164,17 @@ Pictures, tables and many other HTML elements can be fragmented.
 
 This slide has no image.
 
+- but we do
+- have a bulleted list
+
 The next slide demos a full screen image.
 
 # Totally great.
-#+REVEAL: split data-background="./images/clojure.svg"
+#+REVEAL: split data-background="../images/clojure.svg"
 
 
 * Image Embedding
 
 # This will get us an image that stretches correctly, but can't be exported.
 # Down the road figure out how to do this right.
-#+REVEAL_HTML: <img class="r-stretch" src="./images/clojure.svg">
-
-* Requirements and Installation
-#+BEGIN_NOTES
-Your note! Yes, this works!!!
-#+END_NOTES
-
-  - Reveal.js.
-  - Org-mode.
-  - ox-reveal.el.
-  - htmlize.el (optional, for syntax highlighting).
-  - And, of course, emacs!
-
-* Remaining Stuff from Roam
-
-Now we start migrating stuff in.
+#+REVEAL_HTML: <img class="r-stretch" src="../images/clojure.svg">

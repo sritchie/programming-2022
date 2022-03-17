@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Building SICMUtils, the Atelier of Abstractions</title>
+    <meta name="author" content="Sam Ritchie" />
+    <style type="text/css">
+      .underline {
+        text-decoration: underline;
+      }
+    </style>
+    <link rel="stylesheet" href="../reveal.js/dist/reveal.css" />
+
+    <link
+      rel="stylesheet"
+      href="../reveal.js/dist/theme/solarized.css"
+      id="theme"
+    />
+    <link rel="stylesheet" href="../reveal.js/plugin/highlight/zenburn.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section id="slide-org1ab9d62">
+            <h2 id="org1ab9d62">Building SICMUtils</h2>
+            <p>the Atelier of Abstractions</p>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgedb5f6d">
+            <h2 id="orgedb5f6d">Abstract</h2>
+            <aside class="notes">
+              <p>
+                SICMUtils is a Clojure library designed for interactive
+                exploration of mathematical physics. It is simultaneously a work
+                of persuasive writing, a collection of essays on functional
+                pearls and computational ideas, a stable of workhorse functional
+                abstractions, and a practical place to work and visualize
+                algorithms and physical systems, on a server or in the browser.
+              </p>
+
+              <p>
+                How do you build a library like this? This talk will go through
+                the architecture of SICMUtils, based on many of the ideas of
+                "additive programming" from Gerald Sussman and Chris Hanson's
+                latest book, Software Design for Flexibility. We'll look at
+                surprising examples of the system becoming easier to extend over
+                time. Clojure's embrace of its host platform lets us use the
+                best modern work in Javascript for visualization, while keeping
+                the horsepower of our servers for real work. Lisp's particular
+                elegance will shine throughout.
+              </p>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section id="slide-org5448168">
+            <h2 id="org5448168">Notes</h2>
+            <aside class="notes">nil</aside>
+          </section>
+        </section>
+      </div>
+    </div>
+    <script src="../reveal.js/dist/reveal.js"></script>
+    <script src="../reveal.js/plugin/notes/notes.js"></script>
+    <script src="../reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../reveal.js/plugin/search/search.js"></script>
+    <script src="../reveal.js/plugin/zoom/zoom.js"></script>
+    <script>
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        slideNumber: "c",
+        rollingLinks: false,
+        keyboard: true,
+        mouseWheel: false,
+        fragmentInURL: false,
+        hashOneBasedIndex: false,
+        pdfSeparateFragments: true,
+        overview: true,
+
+        transition: "none",
+        transitionSpeed: "default",
+
+        // Plugins with reveal.js 4.x
+        plugins: [RevealNotes, RevealHighlight, RevealSearch, RevealZoom],
+
+        // Optional libraries used to extend reveal.js
+        dependencies: [],
+      });
+    </script>
+  </body>
+</html>

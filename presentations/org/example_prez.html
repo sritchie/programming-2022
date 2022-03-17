@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Org-Reveal Notebook Demo</title>
+    <meta name="author" content="Sam Ritchie" />
+    <style type="text/css">
+      .underline {
+        text-decoration: underline;
+      }
+    </style>
+    <link rel="stylesheet" href="../reveal.js/dist/reveal.css" />
+
+    <link
+      rel="stylesheet"
+      href="../reveal.js/dist/theme/solarized.css"
+      id="theme"
+    />
+    <link rel="stylesheet" href="../reveal.js/plugin/highlight/zenburn.css" />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section id="slide-org69e8aab">
+            <h2 id="org69e8aab">Org-Reveal Notebook Demo</h2>
+            <aside class="notes">
+              <p>Hello! Presenter notes!</p>
+            </aside>
+
+            <p>Elements you Might Need</p>
+
+            <div id="orgbec9267" class="figure">
+              <p>
+                <object
+                  type="image/svg+xml"
+                  data="../images/clojure.svg"
+                  class="org-svg"
+                >
+                  Sorry, your browser does not support SVG.
+                </object>
+              </p>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgfb8a9e6">
+            <h2 id="orgfb8a9e6">SICMUtils</h2>
+            <div class="org-src-container">
+              <pre><code class="clojure" >(defn total-distance [x1 y1 x2 y2]
+  (fn [xp]
+    (+ (sqrt (+ (square (+ x1 xp))
+                (square y1)))
+       (sqrt (+ (square (- x2 (+ x1 xp)))
+                (square y2))))))
+</code></pre>
+            </div>
+          </section>
+          <section>
+            <div class="org-src-container">
+              <pre><code class="clojure" >(defn F [x y]
+  (* (square x)
+     (cube y)))
+
+(defn G [x y]
+  (up (F x y) y))
+
+(defn H [x y]
+  (F (F x y) y))
+</code></pre>
+            </div>
+          </section>
+          <section>
+            <div class="org-src-container">
+              <pre><code class="clojure" data-line-numbers="1-2|3-4">(let [f (down ((partial 0) F)
+              ((partial 1) F))]
+  (tex$$
+   (f 'x 'z)))
+</code></pre>
+            </div>
+
+            <p>
+              \[\begin{bmatrix}\displaystyle{2\,x\,{z}^{3}} \cr \cr
+              \displaystyle{3\,{x}^{2}\,{z}^{2}}\end{bmatrix}\]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgf7cc2f7">
+            <h2 id="orgf7cc2f7">Big Block with Title</h2>
+          </section>
+          <section>
+            <p>math:</p>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" data-line-numbers="1|3-6|7">(defn angles-&gt;rect [l1 l2]
+  (fn [[t [theta1 theta2]]]
+    (let [x1    (* l1 (sin theta1))
+          y1    (- (* l1 (cos theta1)))
+          x2 (+ x1 (* l2 (sin (+ theta1 theta2))))
+          y2 (- y1 (* l2 (cos (+ theta1 theta2))))]
+      (up x1 y1 x2 y2))))
+</code></pre>
+            </div>
+          </section>
+          <section>
+            <p>More code:</p>
+
+            <div class="org-src-container">
+              <pre><code class="html" data-line-numbers="3-5|8-10|13-15">&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Apples&lt;/td&gt;
+    &lt;td&gt;$1&lt;/td&gt;
+    &lt;td&gt;7&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Oranges&lt;/td&gt;
+    &lt;td&gt;$2&lt;/td&gt;
+    &lt;td&gt;18&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Kiwi&lt;/td&gt;
+    &lt;td&gt;$3&lt;/td&gt;
+    &lt;td&gt;1&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+            </div>
+          </section>
+          <section>
+            <p>And some \(\pi\) math:</p>
+
+            <p>
+              \[ f(x) = f(a)+\frac{Df(a)}{1!}(x-a)+ \\
+              \frac{D^2f(a)}{2!}(x-a)^{2}+\frac{D^3f(a)}{3!}(x-a)^{3}+\cdots \]
+            </p>
+          </section>
+          <section id="slide-org7088f0d">
+            <h3 id="org7088f0d">A List</h3>
+            <ul>
+              <li data-fragment-index="2" class="fragment roll-in">one</li>
+              <li data-fragment-index="3" class="fragment fade-out">two</li>
+              <li data-fragment-index="1" class="fragment highlight-red">
+                three
+              </li>
+            </ul>
+          </section>
+          <section>
+            <p>Another example:</p>
+            <ul>
+              <li class="fragment roll-in">one</li>
+              <li class="fragment roll-in">two</li>
+              <li class="fragment roll-in">three</li>
+            </ul>
+          </section>
+          <section id="slide-org56971ed">
+            <h3 id="org56971ed">Fragmented Contents</h3>
+            <p>
+              Make contents fragmented (show up one-by-one) by setting option
+              <code>ATTR_REVEAL</code>
+              with property ":frag frag-style", as illustrated below.
+            </p>
+
+            <p class="fragment zoom-in">Paragraphs can be fragmented.</p>
+
+            <ul class="fragment zoom-in">
+              <li>Lists can</li>
+              <li>be fragmented.</li>
+            </ul>
+
+            <p class="fragment zoom-in">
+              Pictures, tables and many other HTML elements can be fragmented.
+            </p>
+          </section>
+          <section id="slide-org58b399e" data-background="#123456">
+            <h3 id="org58b399e">Single Colored Background</h3>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgc8289fe">
+            <h2 id="orgc8289fe">Background Image with Tex!</h2>
+            <p>This slide has no image.</p>
+
+            <ul>
+              <li>but we do</li>
+              <li>have a bulleted list</li>
+            </ul>
+
+            <p>The next slide demos a full screen image.</p>
+          </section>
+          <section data-background="../images/clojure.svg"></section>
+        </section>
+        <section>
+          <section id="slide-orgd978d93">
+            <h2 id="orgd978d93">Image Embedding</h2>
+            <img class="r-stretch" src="../images/clojure.svg" />
+          </section>
+        </section>
+      </div>
+    </div>
+    <script src="../reveal.js/dist/reveal.js"></script>
+    <script src="../reveal.js/plugin/notes/notes.js"></script>
+    <script src="../reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../reveal.js/plugin/search/search.js"></script>
+    <script src="../reveal.js/plugin/zoom/zoom.js"></script>
+    <script>
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        slideNumber: "c",
+        rollingLinks: false,
+        keyboard: true,
+        mouseWheel: false,
+        fragmentInURL: false,
+        hashOneBasedIndex: false,
+        pdfSeparateFragments: true,
+        overview: true,
+
+        transition: "none",
+        transitionSpeed: "default",
+
+        // Plugins with reveal.js 4.x
+        plugins: [RevealNotes, RevealHighlight, RevealSearch, RevealZoom],
+
+        // Optional libraries used to extend reveal.js
+        dependencies: [],
+      });
+    </script>
+  </body>
+</html>

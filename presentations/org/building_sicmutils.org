@@ -1,0 +1,23 @@
+#+STARTUP: indent
+
+#+OPTIONS: num:nil toc:nil reveal_history:t
+#+PROPERTY: header-args :eval no-export
+
+#+include: reveal_header.org :minlevel 1
+
+#+Title: Building SICMUtils, the Atelier of Abstractions
+
+* Building SICMUtils
+
+The Atelier of Abstractions
+
+* Abstract
+#+begin_notes
+SICMUtils is a Clojure library designed for interactive exploration of mathematical physics. It is simultaneously a work of persuasive writing, a collection of essays on functional pearls and computational ideas, a stable of workhorse functional abstractions, and a practical place to work and visualize algorithms and physical systems, on a server or in the browser.
+
+How do you build a library like this? This talk will go through the architecture of SICMUtils, based on many of the ideas of "additive programming" from Gerald Sussman and Chris Hanson's latest book, Software Design for Flexibility. We'll look at surprising examples of the system becoming easier to extend over time. Clojure's embrace of its host platform lets us use the best modern work in Javascript for visualization, while keeping the horsepower of our servers for real work. Lisp's particular elegance will shine throughout.
+#+end_notes
+
+* Notes
+#+begin_notes
+#+end_notes

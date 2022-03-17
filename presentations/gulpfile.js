@@ -6,9 +6,11 @@ const root = yargs.argv.root || ".";
 const port = yargs.argv.port || 8000;
 const host = yargs.argv.host || "localhost";
 
-gulp.task("reload", () => gulp.src(["*.html", "*.md"]).pipe(connect.reload()));
+gulp.task("reload", () =>
+  gulp.src(["org/*.html", "*.md"]).pipe(connect.reload())
+);
 
-gulp.task("serve", () => {
+gulp.task("serve", async () => {
   connect.server({
     root: root,
     port: port,
@@ -16,5 +18,5 @@ gulp.task("serve", () => {
     livereload: true,
   });
 
-  gulp.watch(["*.html", "*.md"], gulp.series("reload"));
+  gulp.watch(["org/*.html", "*.md"], gulp.series("reload"));
 });

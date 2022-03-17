@@ -1,0 +1,38 @@
+#+STARTUP: indent
+
+#+OPTIONS: num:nil toc:nil reveal_history:t
+#+PROPERTY: header-args :eval no-export
+
+#+include: reveal_header.org :minlevel 1
+
+#+Title: The Road to Reality
+
+* The Road to Reality
+
+Interactive Physics from Eval to Einstein
+
+* Abstract
+#+begin_notes
+The story of our current best understanding of physical reality is a fascinating
+human tale. Over many centuries, intuitive physics and philosophical theories
+were subjected to the crucible of the scientific method, and the mathematical
+models and tools that survived are both eerily beautiful and unreasonably
+effective at predicting the evolution of the physical world.
+
+Unfortunately, understanding this story and its mathematical models typically
+requires years of mathematical training, and a special type of brain that's able
+to process dense abstraction with very few visual clues. This is a tragedy, as
+understanding these physical models at a deep level is a prerequisite to many of
+the solutions for the huge issues our world is facing.
+
+This talk will present SICMUtils, a Clojure system designed as a workshop for
+conducting serious work in mathematical physics and sharing those explorations
+in a deeply interactive, multiplayer way. The library is built as a "literate
+program" in a layered style that recapitulates the story of modern physics; a
+major goal is to rebuild a modern scientific computing stack out primitives as
+elegant and understandable as the models they implement.
+#+end_notes
+
+* Notes
+#+begin_notes
+#+end_notes
