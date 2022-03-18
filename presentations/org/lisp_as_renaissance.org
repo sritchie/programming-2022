@@ -42,6 +42,20 @@ insular groups.
 
 And ALSO we see in a culture this suspicion and fear that has people taking
 potshots at "science", because it is damned hard and lives in people’s heads.
+
+Because things are more complicated, we need ways to communicate the culture
+more clearly.
+
+So we have to port it all into the machine. Code is a better medium for
+communication! Self-documenting!
+
+SO how is that going?
+
+- [ ] show impenetrable code screenshot from my numerical methods talk
+
+It seems that code being so powerful at getting things done has gotten us off of
+the hook of consolidating complexity into the culture. If you __have__ to
+communicate it to other brains, you have an amazing creative constraint.
 #+end_notes
 
 ** We NEED models that can perform themselves!
@@ -50,9 +64,9 @@ potshots at "science", because it is damned hard and lives in people’s heads.
 #+begin_notes
 The PROMISE!
 
-But... if literate programming is so great, why isn't anyone doing it?
-
+LOGO, prior art here. There is great stuff.
 Notebooks are not ideal.
+But... if literate programming is so great, why isn't anyone doing it?
 #+end_notes
 
 * Personal History
@@ -256,6 +270,7 @@ I think you just saw it.
 * Bibles
 #+begin_notes
 Notes about these?
+SICMUtils going off in that direction, modeling a textbook.
 #+end_notes
 
 #+REVEAL_HTML: <img height="500" src="../images/sicm.jpeg">
@@ -266,8 +281,26 @@ Notes about these?
 Get the clerk notebook gussed up to be the next part of the demo.
 
 * Dynamic Notebook ideas - problems with code as comms
+#+begin_notes
+What are the components of this thing, and what sort of experience is it trying
+to get across?
+
+Basically we know the material is good — so how compelling AND SIMULTANEOUSLY
+USEFUL can we make the presentation?
+
+Next, https://www.inkandswitch.com/peritext/
+#+end_notes
 
 * What to Amplify: textbooks
+#+begin_notes
+What do I want this project to really embody? Self-referential storytelling
+thing, because it really is a distillation of the greatest hits.
+#+end_notes
+
+* How to get involved
+#+begin_notes
+so why is this interesting?
+#+end_notes
 
 * Conclusion
 
@@ -275,3 +308,228 @@ Lisp, the computational fluid, is something eery and special. It’s not
 /everything/; remember, these are just models! But it’s a big deal.
 
 What’s next if you’re interested, how do you get involved
+
+
+* Unfiled
+
+We have many problems left that this computational fluid seems quite useful for.
+
+not to mention that this is a beautiful THING we have figured out how to do,
+this sense that abstraction is all around. If it is true of the universe where
+we’re living, music, art, wow, better practice.
+
+The ability to do long term projects depends on the transmission of culture over
+long distances and times. With our current stuff, the harder the material gets,
+the more specialized the field gets, the more impressionistic the notation gets.
+
+We need something better. Intro to Code as Communication, GJS’s work. Why? code
+can perform itself.
+
+* First Take at this:
+
+** Outline
+
+** Why code as comms:
+
+Knowledge does not __live__in the symbols; it lives in the culture. It lives by
+being taught.
+
+Code is a medium to communicate. But it’s also a medium we use to __build__
+systems.
+
+To the extent that the system is self-describing, it also performs itself.
+
+*** What do we do now?
+
+A PROBLEM here is that these cultures are fairly insular now, because they are
+so well developed. So much of the communication occurs in this __shorthand__.
+
+And you can see it by trying to go function in a related world: [[Wikipedia]], for
+some abstract mathematical structure — oh, these are all technical definitions!
+
+There is so much __culture__. So the question is, how to, see [[Book: Future of
+Education]], transfer this element of the culture, to make tools that have some of
+the culture embodied in them?
+
+- [ ] get the future of education quote, bring that book
+
+*** We want breakouts. How do we get them?
+
+How do we get breakouts, links between fields?
+
+Because obviously it happens! Abstractions let people link fields.
+
+And it’s very powerful when it does. DNA using information theory, etc etc
+
+How does the way out of the climate crisis, issues like that not depend on
+developing a deep intuition around control systems, physical models, physical
+simulations and nonlinear feedback ?
+
+*** One way: GJS, Code as Comms
+
+One way to do it, pursued by GJS, is to champion “code is for communication”.
+But it’s obviously not JUST that.
+
+*** Problems with Code as Comms
+
+Something odd happens when the machine is involved. We GLEEFULLY abstain from
+ironing out and understanding it all, because the machine can perform the thing!
+Maybe that is like some old-timer in the lab who can work the fridge. But then
+we lose the knowledge.
+
+SO — and this is personal for me — I want to bring more of the teaching and
+explaining back into real software, into things you can use for real work in a
+lab.
+
+*** Does that exist? Weaknesses
+
+But a WEAKNESS with existing stuff is that it’s all geared toward presentations.
+3b1b style, for example. Brilliant! But it’s a presentation. It’s not a “viewer”
+where I can check out my own transformations, play, etc etc
+
+*** Other Takes
+
+Other Takes on this idea, beyond [[Literate Programming]]:
+
+[[Dynamicland]], [[Roam]], [[Tool for Thinking]] community. But tools for what __kinds__ of
+thoughts? What do we want to make here?
+
+** Personal History
+
+*** Why do I care?
+
+I started with Lisp, solvers, games: get the quote from Engelberg.
+
+#+begin_quote
+Just for grins, I've attached a snapshot of what I'm doing right now with
+Chocolate Fix in Clojure. If you've never worked with Lisp, you'll probably find
+the program to be completely inscrutable, but I assure you, it's an elegant
+thing of beauty :) . Anyway, this will at least give you a small taste of what
+the language looks like.
+#+end_quote
+
+Fascinated by writing, [[Literate Programming]], total sucker for that sort of
+thing.
+
+So I was a total sucker for [[SICP]] and then [[Book: SICM]], the bibles.
+
+Also a sucker for the [[Zettelkasten]] idea.
+
+*** Building developer tools — but wtf does that even mean?
+
+I want to get myself across from engineering to physics to making etc...
+
+** Problems with Code as Comms
+
+The problem with [[Literate Programming]] is that you really want a culture of
+literate programming, so that you can build on all of this stuff together. I’m
+imagining something like the AI memos, or email but where everyone is reading in
+emacs and you can just fire code around, save it etc. Before all of this version
+control nonsense.
+
+*** Real Science is Multiplayer
+
+Science is not just about communication. The progression of science has been
+inherently multiplayer; so the __nice__ thing about the PDF is you can print it
+out and sit in your chair and puzzle over what you’re seeing. And then make
+notes in the margins that potentially lead to the next brick in the wall.
+
+*** Dynamic == Too Seductive
+
+It is too seductive, people just want the code to __work__: but the alternative
+is what, thrashing around with python code?
+
+Thrashing around with python and build systems... that is NOT what folks finding
+the deep principles behind QM were doing, there is no way it is going to lead to
+discoveries here.
+
+** People Hate Tools
+
+Then we get to the Google gig. We have this __rot__ going on, where __tools for
+thought__ is championed outside the world — often by people that are very
+idealistic and thing that this is the way things __should work__ — inherently
+gifty, [[Gift Economy]] like.
+
+But then the folks using the tools despise the tools. And the toolmakers get
+heat for not using them, because it’s so tough. Rare exceptions.
+
+It is all ergonomically really bad.
+
+*** Why?
+
+Why? Well, we __know__ that there are certain __ways__ of writing programs that
+can be parallelized, for example. (Notes about how it __should__, or could,
+work.)
+
+same with autodiff, serialization… you can bake these into the tools. Clojure
+does this so well. And you just don’t have to think about these problems
+anymore.
+
+But we have __not__ been baking into research projects for ML, say, any sense of
+what you are trying to do with the code.
+
+
+** Dynamic Notebook Ideas
+#+begin_notes
+Reference stuff I talked about in that, and how at Google there is NO lab
+notebook even.
+
+Feel free to use
+https://roadtoreality.substack.com/p/the-dynamic-notebook?utm_source=url… this
+was such a good essay and basically needs to be the talk.
+#+end_notes
+
+Anyway, I love the thought that making the physical basis, the various stories
+you can tell about a piece of code - more salient, that it might break down
+barriers.
+
+I have a desire to __teach__ here! and not by taking notes.
+
+The dream environment is one where just playing in public leaves a record of
+what you did, and is shareable. See [[Zettelkasten]] for notes on what to do here.
+That was the beauty of the Roam promise.
+
+** How to Start?
+
+Physics and the [[Book: The Road to Reality]]. The textbook sort of is a starter
+pack. It’s a library already, it’s a nurse tree. It purports to tell you
+everything! And in principle it’s all computable and full of abstraction
+goodies.
+
+Physics and the [[Book: The Road to Reality]]. The textbook sort of is a starter
+pack. It’s a library already, it’s a nurse tree. It purports to tell you
+everything! And in principle it’s all computable and full of abstraction
+goodies.
+
+And THAT is the culture I want to soak up!
+
+the hard narrative work is done, for these particular stories.
+
+*** SICMUtils
+
+- Why sicmutils? Why play with physics?
+- We have this grand human tale, over thousands of years, of figuring out how
+  the world works. Of how to model reality.
+
+The library that lives in all of these environments, and is fissionable and extensible.
+
+The idea being that the textbook is explicitly about the subject; but actually a
+model of exposition, of scientific communication.
+
+And the __exercises__ are an invitation to publish your own original thoughts,
+to participate in the discovery process yourself. But often with no way to
+practice the publication part. (The discovery has already happened, so why are
+we only practicing getting the answer? The goal is to __share__ it in a way that
+ignores someone else.)
+
+
+And the PIECES the library kicks out are usable elsewhere.
+
+** Demos
+
+How to show off? Build up the Lagrangian example?
+
+And then show the actual library? But how does it fit into this narrative?
+
+
+** How can you Help, ie, conclusion, call to action.

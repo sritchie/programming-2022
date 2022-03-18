@@ -209,9 +209,19 @@
          #js {:id "sampler"
               :width 256
               :expr
-              (fn [emit x _i t]
+              (fn [emit theta _i t]
                 (emit
-                 x (+ offset
+                 ;; angle, r
+                 theta
+                 (let [theta (+ t theta)]
+                   (* 0.3
+                      (+ 1 (* 0.9 (Math/cos (* 8 theta))))
+                      (+ 1 (* 0.1 (Math/cos (* 24 theta))))
+                      (+ 0.9 (* 0.1 (Math/cos (* 200 theta))))
+                      (+ 1 (Math/sin theta))))
+
+                 ;; original
+                 #_(+ offset
                       (* 0.5 (Math/sin
                               (* 3 (+ x t)))))))
               :channels 2})
