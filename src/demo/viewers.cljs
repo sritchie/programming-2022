@@ -16,6 +16,7 @@
           'setup-scene demo.mathbox/setup-scene
           'initialize! demo.mathbox/initialize!
           'sync! demo.mathbox/sync!
+          'sync-once! demo.mathbox/sync-once!
           '->cartesian-view demo.mathbox/->cartesian-view
           'add-volume! demo.mathbox/add-volume!
 
@@ -26,6 +27,7 @@
           'polar-demo demo.mathbox/polar-demo
 
           'physics-demo demo.mathbox/physics-demo
-          'double-physics-demo demo.mathbox/double-physics-demo}}
+          'double-physics-demo demo.mathbox/double-physics-demo
+          'oscillator-demo demo.mathbox/oscillator-demo}}
         :classes {'Math js/Math}
         :aliases {'mb 'demo.mathbox}})

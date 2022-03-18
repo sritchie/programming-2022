@@ -1,11 +1,11 @@
 (ns demo.mathbox
   (:require ["mathbox" :as MathBox]
             ["odex" :as o]
+            [nextjournal.clerk.sci-viewer :as sv]
             [sicmutils.env :as e]
             [sicmutils.expression.compile :as xc]
             [sicmutils.numerical.ode :as ode]
             [sicmutils.structure :as struct]
-            [sicmutils.util :as u]
             ["three" :as THREE]
             ["three/examples/jsm/controls/OrbitControls.js"
              :as OrbitControls]))
@@ -45,6 +45,15 @@
     (setup-fn box)
     (set! (.-mathboxView ^js el) box)
     box))
+
+(defn sync-once! [el !state new setup-fn f]
+  (let [existing? (boolean (.-mathboxView ^js el))
+        box (or (.-mathboxView ^js el)
+                (initialize! el setup-fn))]
+    (when-not existing?
+      (reset! !state new)
+      (.remove box "*")
+      (f box))))
 
 (defn sync! [el !state new setup-fn f]
   (let [box (or (.-mathboxView ^js el)
@@ -200,9 +209,19 @@
          #js {:id "sampler"
               :width 256
               :expr
-              (fn [emit x _i t]
+              (fn [emit theta _i t]
                 (emit
-                 x (+ offset
+                 ;; angle, r
+                 theta
+                 (let [theta (+ t theta)]
+                   (* 0.3
+                      (+ 1 (* 0.9 (Math/cos (* 8 theta))))
+                      (+ 1 (* 0.1 (Math/cos (* 24 theta))))
+                      (+ 0.9 (* 0.1 (Math/cos (* 200 theta))))
+                      (+ 1 (Math/sin theta))))
+
+                 ;; original
+                 #_(+ offset
                       (* 0.5 (Math/sin
                               (* 3 (+ x t)))))))
               :channels 2})
@@ -356,6 +375,41 @@
                      ;; 3 channels == x, y, z values.
                      :channels 3}))
         (.line #js {:color 0x3090ff :width 4})
+        (.point #js {:color 0x3090ff
+                     :size 20
+                     :zIndex 1}))))
+
+(defn oscillator-demo
+  [box {:keys [cartesian state->xyz L]} state var-name]
+  (let [render-fn   (xc/sci-eval state->xyz)
+        state-deriv (xc/sci-eval L)
+        my-updater  (Lagrangian-updater state-deriv @state)
+        view        (.cartesian box (clj->js cartesian))]
+    (.axis view #js {:axis 1 :width 3})
+    (.axis view #js {:axis 2 :width 3})
+    (.axis view #js {:axis 3 :width 3})
+    (-> (.interval view
+                   (clj->js
+                    {:width 1
+                     :items 1
+                     :history 20
+                     :expr
+                     (fn [emit _x _i t]
+                       (swap! state #(my-updater % t))
+                       (when var-name
+                         (sv/clerk-eval
+                          (list 'clojure.core/reset!
+                                var-name
+                                (mapv (fn rec [x]
+                                        (if (sequential? x)
+                                          (mapv rec x)
+                                          x))
+                                      @state))))
+                       (let [[x1 y1 z1] (render-fn @state)]
+                         (emit x1 z1 y1)))
+
+                     ;; 3 channels == x, y, z values.
+                     :channels 3}))
         (.point #js {:color 0x3090ff
                      :size 20
                      :zIndex 1}))))

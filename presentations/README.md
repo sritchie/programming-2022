@@ -29,6 +29,16 @@ Some available options:
   element
 - `C-shift-f` will turn on a search dialogue, and `enter` repeatedly will scan
   through search results
+- `f` activates full screen mode
+- `v` will pause the presentation and get the screen to black.
+
+## Print as PDF
+
+If you would like a PDF of any of the talks:
+
+- open any of the `*/.html`  files with `?print-pdf` appended
+- Print as PDF from your browser, following the [instructions
+  here](https://revealjs.com/pdf-export/) to tune the print dialogue correctly.
 
 ## Developing
 
