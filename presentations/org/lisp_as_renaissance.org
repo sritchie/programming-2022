@@ -9,77 +9,336 @@
 #+Title: Lisp as Renaissance Workshop
 
 * Lisp as Renaissance Workshop
+#+begin_notes
+Hi, I'm Sam!
 
+Going to talk about sicmutils...
+
+- [ ] add my name etc toslides.
+#+end_notes
 A Lispy Tour through Mathematical Physics
 
-* Abstract
+
+* Talk's about SICMUtils
 #+begin_notes
-Lisp is an exquisite medium for the communication of computational ideas. From
-our most accurate observations of physical reality up through chemistry,
-biology, and cognition, the universe seems to be computing itself; modeling and
-simulating these systems in machines has led to incredible technological wealth.
-
-Deep principles and beautiful abstractions seem to drive these systems, but they
-have always been hard to discover; and we are floundering at the computational
-frontiers of intelligence, synthetic biology and control systems for our
-climate. The only way to push forward is to build powerful tools that can
-communicate and teach.
-
-This talk will take a tour through SICMUtils, a Lisp system designed as a
-workshop for conducting serious work in mathematical physics and sharing those
-explorations in a deeply interactive, multiplayer way. The library’s growth
-parallels our human scientific history; hopefully tools like this will help us
-write the next chapter.
+what is sicmutils? CAS...
 #+end_notes
 
-* This talk is about:
+* Based on scmutils by GJS
 #+begin_notes
-lots of problems, getting more complex. Solving them depends on culture
-transmission.
-
-that turns out to be getting harder, and if you don’t get in at the beginning of
-this funnel... Looking at our best tools, we see impressionistic notation and
-insular groups.
-
-And ALSO we see in a culture this suspicion and fear that has people taking
-potshots at "science", because it is damned hard and lives in people’s heads.
-
-Because things are more complicated, we need ways to communicate the culture
-more clearly.
-
-So we have to port it all into the machine. Code is a better medium for
-communication! Self-documenting!
-
-SO how is that going?
-
-- [ ] show impenetrable code screenshot from my numerical methods talk
-
-It seems that code being so powerful at getting things done has gotten us off of
-the hook of consolidating complexity into the culture. If you __have__ to
-communicate it to other brains, you have an amazing creative constraint.
+you know GJS, but he's been doing more... icebeg.
 #+end_notes
 
-** We NEED models that can perform themselves!
+"*programs must be written for people to read*, and only incidentally for
+machines to execute."
 
-* Why code as comms?
+~ Hal Abelson, /Structure and Interpretation of Computer Programs/
+
+* Why? Google X etc
 #+begin_notes
-The PROMISE!
-
-LOGO, prior art here. There is great stuff.
-Notebooks are not ideal.
-But... if literate programming is so great, why isn't anyone doing it?
+Really fired up on Bret Victor's work, explorable explanations; kill the PDF!
 #+end_notes
 
-* Personal History
-
-* Pre-Lagrange
+** Disappointment!
 #+begin_notes
-What is interesting here is this fundamentally amazing, beautiful observation.
-What is less interesting is the symbol-pushing and accounting /after/ you've
-realized.
-
-integral T-V vs where you get...
+really hard to steer the ship
 #+end_notes
+
+* 19th Century Scientific Communication
+#+begin_notes
+It didn't used to be this way!
+
+- [ ] vector analysis book
+#+end_notes
+
+* Numerical Computing Screenshots
+
+"We personally like Brent's algorithm for univariate minimization, as found on
+pages 79-80 of his book 'Algorithms for Minimization Without Derivatives'. It is
+pretty reliable and pretty fast, *but we cannot explain how it works*."
+
+~ scmutils, /refman.txt/
+
+#+REVEAL: split
+#+begin_notes
+As an example - Brent's algo for univariate minimization.
+
+I'm going to pick on this one function but scipy is all like this.
+
+Back to the [[https://maths-people.anu.edu.au/~brent/pub/pub011.html][original book]] from 1973: "Algorithms for Minimization without
+Derivatives".
+#+end_notes
+#+REVEAL_HTML: <img class="r-stretch" src="../images/brent.jpg">
+
+#+REVEAL: split
+#+begin_notes
+1986! [[http://phys.uri.edu/nigh/NumRec/bookfpdf/f10-2.pdf][Numerical Recipes]], pretty good
+#+end_notes
+#+REVEAL_HTML: <img class="r-stretch" src="../images/numerical_recipes.jpg">
+
+#+REVEAL: split
+#+begin_notes
+1986! [[http://phys.uri.edu/nigh/NumRec/bookfpdf/f10-2.pdf][Numerical Recipes]], pretty good
+#+end_notes
+#+REVEAL_HTML: <img class="r-stretch" src="../images/numerical_recipes.jpg">
+
+#+REVEAL: split
+#+begin_notes
+Notes!
+#+end_notes
+#+ATTR_REVEAL: :code_attribs data-line-numbers="37-41|47-52|56-60|90-98"
+#+begin_src cpp
+template <class F, class T>
+std::pair<T, T> brent_find_minima(F f, T min, T max, int bits, std::uintmax_t& max_iter)
+   noexcept(BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+{
+   BOOST_MATH_STD_USING
+   bits = (std::min)(policies::digits<T, policies::policy<> >() / 2, bits);
+   T tolerance = static_cast<T>(ldexp(1.0, 1-bits));
+   T x;  // minima so far
+   T w;  // second best point
+   T v;  // previous value of w
+   T u;  // most recent evaluation point
+   T delta;  // The distance moved in the last step
+   T delta2; // The distance moved in the step before last
+   T fu, fv, fw, fx;  // function evaluations at u, v, w, x
+   T mid; // midpoint of min and max
+   T fract1, fract2;  // minimal relative movement in x
+
+   static const T golden = 0.3819660f;  // golden ratio, don't need too much precision here!
+
+   x = w = v = max;
+   fw = fv = fx = f(x);
+   delta2 = delta = 0;
+
+   uintmax_t count = max_iter;
+
+   do{
+      // get midpoint
+      mid = (min + max) / 2;
+      // work out if we're done already:
+      fract1 = tolerance * fabs(x) + tolerance / 4;
+      fract2 = 2 * fract1;
+      if(fabs(x - mid) <= (fract2 - (max - min) / 2))
+         break;
+
+      if(fabs(delta2) > fract1)
+      {
+         // try and construct a parabolic fit:
+         T r = (x - w) * (fx - fv);
+         T q = (x - v) * (fx - fw);
+         T p = (x - v) * q - (x - w) * r;
+         q = 2 * (q - r);
+         if(q > 0)
+            p = -p;
+         q = fabs(q);
+         T td = delta2;
+         delta2 = delta;
+         // determine whether a parabolic step is acceptable or not:
+         if((fabs(p) >= fabs(q * td / 2)) || (p <= q * (min - x)) || (p >= q * (max - x)))
+         {
+            // nope, try golden section instead
+            delta2 = (x >= mid) ? min - x : max - x;
+            delta = golden * delta2;
+         }
+         else
+         {
+            // whew, parabolic fit:
+            delta = p / q;
+            u = x + delta;
+            if(((u - min) < fract2) || ((max- u) < fract2))
+               delta = (mid - x) < 0 ? (T)-fabs(fract1) : (T)fabs(fract1);
+         }
+      }
+      else
+      {
+         // golden section:
+         delta2 = (x >= mid) ? min - x : max - x;
+         delta = golden * delta2;
+      }
+      // update current position:
+      u = (fabs(delta) >= fract1) ? T(x + delta) : (delta > 0 ? T(x + fabs(fract1)) : T(x - fabs(fract1)));
+      fu = f(u);
+      if(fu <= fx)
+      {
+         // good new point is an improvement!
+         // update brackets:
+         if(u >= x)
+            min = x;
+         else
+            max = x;
+         // update control points:
+         v = w;
+         w = x;
+         x = u;
+         fv = fw;
+         fw = fx;
+         fx = fu;
+      }
+      else
+      {
+         // Oh dear, point u is worse than what we have already,
+         // even so it *must* be better than one of our endpoints:
+         if(u < x)
+            min = u;
+         else
+            max = u;
+         if((fu <= fw) || (w == x))
+         {
+            // however it is at least second best:
+            v = w;
+            w = u;
+            fv = fw;
+            fw = fu;
+         }
+         else if((fu <= fv) || (v == x) || (v == w))
+         {
+            // third best:
+            v = u;
+            fv = fu;
+         }
+      }
+
+   }while(--count);
+
+   max_iter -= count;
+
+   return std::make_pair(x, fx);
+}
+#+end_src
+
+#+REVEAL: split
+#+begin_notes
+#+end_notes
+
+2001? here’s the python version of Brent
+https://github.com/scipy/scipy/blob/v1.5.4/scipy/optimize/optimize.py#L2078
+
+And probably delete some of the previous...
+
+#+REVEAL: split
+#+begin_notes
+Scheme!
+#+end_notes
+#+ATTR_REVEAL: :code_attribs data-line-numbers="32-43"
+#+begin_src scheme
+;;; Brent's algorithm for univariate minimization -- transcribed from
+;;; pages 79-80 of his book "Algorithms for Minimization Without Derivatives"
+
+(define (brent-min f a b eps)
+  (let ((a (min a b)) (b (max a b))
+	(maxcount 100)
+	(small-bugger-factor *sqrt-machine-epsilon*)
+	(g (/ (- 3 (sqrt 5)) 2))
+	(d 0) (e 0) (old-e 0) (p 0) (q 0) (u 0) (fu 0))
+    (let* ((x (+ a (* g (- b a))))
+	   (fx (f x))
+	   (w x) (fw fx) (v x) (fv fx))
+      (let loop ((count 0))
+	(if (> count maxcount)
+	    (list 'maxcount x fx count) ;failed to converge
+	    (let* ((tol (+ (* eps (abs x)) small-bugger-factor))
+		   (2tol (* 2 tol))
+		   (m (/ (+ a b) 2)))
+	      ;; test for convergence
+	      (if (< (max (- x a) (- b x)) 2tol)
+		  (list x fx count)
+		  (begin
+		    (if (> (abs e) tol)
+			(let* ((t1 (* (- x w) (- fx fv)))
+			       (t2 (* (- x v) (- fx fw)))
+			       (t3 (- (* (- x v) t2) (* (- x w) t1)))
+			       (t4 (* 2 (- t2 t1))))
+			  (set! p (if (positive? t4) (- t3) t3))
+			  (set! q (abs t4))
+			  (set! old-e e)
+			  (set! e d)))
+		    (if (and (< (abs p) (abs (* 0.5 q old-e)))
+			     (> p (* q (- a x)))
+			     (< p (* q (- b x))))
+			;; parabolic step
+			(begin (set! d (/ p q))
+			       (set! u (+ x d))
+			       (if (< (min (- u a) (- b u)) 2tol)
+				   (set! d (if (< x m) tol (- tol)))))
+			;;else, golden section step
+			(begin (set! e (if (< x m) (- b x) (- a x)))
+			       (set! d (* g e))))
+		    (set! u (+ x (if (> (abs d) tol)
+				     d
+				     (if (positive? d) tol (- tol)))))
+		    (set! fu (f u))
+		    (if (<= fu fx)
+			(begin (if (< u x) (set! b x) (set! a x))
+			       (set! v w) (set! fv fw)
+			       (set! w x) (set! fw fx)
+			       (set! x u) (set! fx fu))
+			(begin (if (< u x) (set! a u) (set! b u))
+			       (if (or (<= fu fw) (= w x))
+				   (begin (set! v w) (set! fv fw)
+					  (set! w u) (set! fw fu))
+				   (if (or (<= fu fv) (= v x) (= v w))
+				       (begin (set! v u) (set! fv fu))))))
+		    (loop (+ count 1))))))))))
+#+end_src
+
+** Actual Goal
+#+begin_notes
+check in [[http://phys.uri.edu/nigh/NumRec/bookfpdf/f10-2.pdf][Numerical Recipes]], for what this is doing, make sure I can actually
+describe how this thing finds the minimum.
+
+But this image isn't tied to the code! There have been systems to do that...
+#+end_notes
+
+#+REVEAL_HTML: <img class="r-stretch" src="../images/brent_parabola.jpg">
+
+* Attempts! There are attempts!
+
+- Logo
+- Mathematica's notebooks
+- Notebooks!
+- Explorable Explanations
+- Literate Programming
+
+* Why aren't people doing this?
+
+If all this is software great, what are we doing?
+
+* Why does it matter?
+#+begin_notes
+These are the crown jewels!
+
+We have many problems left that this computational fluid seems quite useful for.
+
+not to mention that this is a beautiful THING we have figured out how to do,
+this sense that abstraction is all around. If it is true of the universe where
+we’re living, music, art, wow, better practice.
+
+The ability to do long term projects depends on the transmission of culture over
+long distances and times. With our current stuff, the harder the material gets,
+the more specialized the field gets, the more impressionistic the notation gets.
+#+end_notes
+
+* Explanation as Side Effect
+
+Zettelkasten. Then you go tidy it up for someone else.
+
+* What to make?
+#+begin_notes
+#+end_notes
+
+** SICM and FDG as clues
+
+these books had actually paved the way!
+
+Browser based, Clojure, Lisp, build on sicm
+
+#+REVEAL_HTML: <img height="500" src="../images/sicm.jpeg">
+#+REVEAL_HTML: <img height="500" src="../images/fdg.jpeg">
+
+** Textbook as Nurse Tree
+
+Get a picture of a nurse log...
 
 * Lagrange Equation Demo
 #+begin_notes
@@ -97,10 +356,14 @@ one, to talk about what it MEANS to say that code can communicate.
 
 BY THE WAY, the way you derive this is just bananas, such a great way to THINK.
 
-- [ ] so add a slide about the integral of... something here.
+- [ ] so add a slide about the integral T-V vs where you get...
 
 you'll find you might get sleepy for a few slides; but I will own it by saying
 that is kind of the point!
+
+What is interesting here is this fundamentally amazing, beautiful observation.
+What is less interesting is the symbol-pushing and accounting /after/ you've
+realized.
 #+end_notes
 
 #+ATTR_REVEAL: :frag t :frag_idx 2
@@ -259,49 +522,30 @@ confusing!!!
 $${D}^{2}w\left(t\right)\,{D}^{2}T\left(Dw\left(t\right)\right) + DV\left(w\left(t\right)\right)$$
 :end:
 
-* Was that clear?
+
+* Clerk Demo
 
 That was not very clear! So let's convince ourselves that that is true, by doing
 the spring demo in the browser.
 
-* Problems with Code as Comms
+Then I'll show you another one that is just bonkers.
 
-I think you just saw it.
+* Community
 
-* Bibles
-#+begin_notes
-Notes about these?
-SICMUtils going off in that direction, modeling a textbook.
-#+end_notes
+- Sussman! Wisdom!
+- Colin Smith, founded SICMUtils
+- Mentat Collective: Brad Feld and John Underkoffler
+- Clerk: Martin Kavalar, Jack Rusher, Nextjournal team
 
-#+REVEAL_HTML: <img height="500" src="../images/sicm.jpeg">
-#+REVEAL_HTML: <img height="500" src="../images/fdg.jpeg">
-
-* Demo Time
-
-Get the clerk notebook gussed up to be the next part of the demo.
-
-* Dynamic Notebook ideas - problems with code as comms
-#+begin_notes
-What are the components of this thing, and what sort of experience is it trying
-to get across?
-
-Basically we know the material is good — so how compelling AND SIMULTANEOUSLY
-USEFUL can we make the presentation?
-
-Next, https://www.inkandswitch.com/peritext/
-#+end_notes
-
-* What to Amplify: textbooks
-#+begin_notes
-What do I want this project to really embody? Self-referential storytelling
-thing, because it really is a distillation of the greatest hits.
-#+end_notes
-
-* How to get involved
+* How to get involved? What's Next?
 #+begin_notes
 so why is this interesting?
+
+Basically we know the material is good — so how compelling AND SIMULTANEOUSLY
+USEFUL can we make the presentation? Fascinating all the way down! the workshop!
 #+end_notes
+
+Next, https://www.inkandswitch.com/peritext/
 
 * Conclusion
 
@@ -311,24 +555,7 @@ Lisp, the computational fluid, is something eery and special. It’s not
 What’s next if you’re interested, how do you get involved
 
 
-* Unfiled
-
-We have many problems left that this computational fluid seems quite useful for.
-
-not to mention that this is a beautiful THING we have figured out how to do,
-this sense that abstraction is all around. If it is true of the universe where
-we’re living, music, art, wow, better practice.
-
-The ability to do long term projects depends on the transmission of culture over
-long distances and times. With our current stuff, the harder the material gets,
-the more specialized the field gets, the more impressionistic the notation gets.
-
-We need something better. Intro to Code as Communication, GJS’s work. Why? code
-can perform itself.
-
 * First Take at this:
-
-** Outline
 
 ** Why code as comms:
 
@@ -349,13 +576,13 @@ I'll be talking about:
 *** What do we do now?
 
 A PROBLEM here is that these cultures are fairly insular now, because they are
-so well developed. So much of the communication occurs in this __shorthand__.
+so well developed. So much of the communication occurs in this /shorthand/.
 
-And you can see it by trying to go function in a related world: [[Wikipedia]], for
+And you can see it by trying to go function in a related world: Wikipedia, for
 some abstract mathematical structure — oh, these are all technical definitions!
 
-There is so much __culture__. So the question is, how to, see [[Book: Future of
-Education]], transfer this element of the culture, to make tools that have some of
+There is so much /culture/. So the question is, how to, see Book: Future of
+Education, transfer this element of the culture, to make tools that have some of
 the culture embodied in them?
 
 - [ ] get the future of education quote, bring that book.
@@ -379,7 +606,7 @@ But it’s obviously not JUST that.
 
 *** Problems with Code as Comms
 
-The problem with [[Literate Programming]] is that you really want a culture of
+The problem with Literate Programming is that you really want a culture of
 literate programming, so that you can build on all of this stuff together. I’m
 imagining something like the AI memos, or email but where everyone is reading in
 emacs and you can just fire code around, save it etc. Before all of this version
@@ -422,9 +649,9 @@ where I can check out my own transformations, play, etc etc
 
 *** Other Takes
 
-Other Takes on this idea, beyond [[Literate Programming]]:
+Other Takes on this idea, beyond Literate Programming:
 
-[[Dynamicland]], [[Roam]], [[Tool for Thinking]] community. But tools for what __kinds__ of
+Dynamicland, Roam, Tool for Thinking community. But tools for what /kinds/ of
 thoughts? What do we want to make here?
 
 LOGO is a really good one. Get a picture of LOGO, of Turtle Geometry
@@ -449,12 +676,12 @@ thing of beauty :) . Anyway, this will at least give you a small taste of what
 the language looks like.
 #+end_quote
 
-Fascinated by writing, [[Literate Programming]], total sucker for that sort of
+Fascinated by writing, Literate Programming, total sucker for that sort of
 thing.
 
-So I was a total sucker for [[SICP]] and then [[Book: SICM]], the bibles.
+So I was a total sucker for SICP and then Book: SICM, the bibles.
 
-Also a sucker for the [[Zettelkasten]] idea.
+Also a sucker for the Zettelkasten idea.
 
 *** Building developer tools — but wtf does that even mean?
 
@@ -465,7 +692,7 @@ I want to get myself across from engineering to physics to making etc...
 Then we get to the Google gig. We have this __rot__ going on, where __tools for
 thought__ is championed outside the world — often by people that are very
 idealistic and thing that this is the way things __should work__ — inherently
-gifty, [[Gift Economy]] like.
+gifty, Gift Economy like.
 
 But then the folks using the tools despise the tools. And the toolmakers get
 heat for not using them, because it’s so tough. Rare exceptions.
@@ -507,7 +734,7 @@ barriers.
 I have a desire to __teach__ here! and not by taking notes.
 
 The dream environment is one where just playing in public leaves a record of
-what you did, and is shareable. See [[Zettelkasten]] for notes on what to do here.
+what you did, and is shareable. See Zettelkasten for notes on what to do here.
 That was the beauty of the Roam promise.
 
 *** What is SICMUtils? what's in it?
@@ -520,7 +747,7 @@ integrations with other people's stuff
 
 *** Explanatory Target - how to start?
 
-Physics and the [[Book: The Road to Reality]]. The textbook sort of is a starter
+Physics and the Book: The Road to Reality. The textbook sort of is a starter
 pack. It’s a library already, it’s a nurse tree. It purports to tell you
 everything! And in principle it’s all computable and full of abstraction
 goodies.
