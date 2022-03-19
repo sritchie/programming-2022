@@ -19,7 +19,30 @@
 
 (comment
   ;; call clerk/show on files to be rendered:
-  ;;
-  ;; TODO remove!
-  (clerk/show! "src/sicmutils/calculus/derivative.cljc")
-  (clerk/show! "src/sicmutils/differential.cljc"))
+
+  ;; intro:
+  (clerk/show! "src/demo.clj")
+
+  ;; Mathbox basics:
+  (clerk/show! "src/cube_controls.clj")
+
+  ;; functions:
+  (clerk/show! "src/functions.clj")
+  (clerk/show! "src/polar.clj")
+
+  ;; symbolic physics:
+  (clerk/show! "src/einstein.clj")
+
+  ;; vega, symbolic, double-pendulum
+  (clerk/show! "src/pendulum.clj")
+
+  ;; mathbox physics:
+  (clerk/show! "src/oscillator.clj")
+  (clerk/show! "src/ellipsoid.clj")
+  (clerk/show! "src/double_ellipsoid.clj")
+
+  ;; browser/client comms:
+  (clerk/show! "src/live_oscillator.clj")
+
+  ;; utility namespace:
+  (clerk/show! "src/physics_viewers.clj"))

@@ -10,9 +10,16 @@
 
 ;; ## Oscillator
 ;;
-;; Now we come to a different style of thing.
+;; This is the Lagrangian for a harmonic oscillator, continued on from the
+;; presentation.
 
-(defn L-harmonic [m k g]
+(defn L-harmonic [m k]
+  (fn [[_ q v]]
+    (- (* 1/2 m (square v))
+       (* 1/2 k (square q)))))
+
+#_
+(defn L-harmonic-gravity [m k g]
   (fn [[_ [_ _ z :as q] v]]
     (let [T (* 1/2 m (square v))
           U (+ (* 1/2 k (square q))
@@ -25,7 +32,7 @@
 
 (clerk/with-viewer (pv/physics-viewer 'mb/oscillator-demo)
   {:state->xyz coordinate
-   :L (L-harmonic m k g)
+   :L (L-harmonic m k)
    :initial-state [0
                    [1 2 0]
                    [2 0 4]]
@@ -37,8 +44,9 @@
 
 ;; ## Equations of Motion:
 
+^{::clerk/visibility :hide}
 (clerk/with-viewer (d/literal-viewer d/transform-literal)
-  (let [L (L-harmonic 'm 'k 'g)
+  (let [L (L-harmonic 'm 'k)
         x (e/literal-function 'x)
         y (e/literal-function 'y)
         z (e/literal-function 'z)]

@@ -8,9 +8,12 @@
             [physics-viewers :as pv]
             [sicmutils.env :as e :refer :all]))
 
-;; ## Oscillator
+;; ## Oscillator Communication btw Server, Client
 ;;
-;; Now we come to a different style of thing.
+;; This was a fun thing I thought would never work, but whipped up yesterday.
+;; Consider this a copy-paste clone of `oscillator.clj`.
+;;
+;; We have a Lagrangian:
 
 (defn L-harmonic [m k g]
   (fn [[_ [_ _ z :as q] v]]
@@ -19,11 +22,13 @@
                (* g m z))]
       (- T U))))
 
+;; And some settings:
+
 (def m 100)
 (def k 200)
 (def g 9.8)
 
-;; ## Live
+;; Here's the initial state of our simulation.
 
 (def init-state
   {:state->xyz coordinate
@@ -37,13 +42,24 @@
             [-10, 10]]
     :scale [3 3 3]}})
 
+;; Now we have the `interactive-physics-viewer`, which has a nice surprise for
+;; us.
+
 ^{::clerk/viewer (pv/interactive-physics-viewer
                   'mb/oscillator-demo
                   (pv/physics-xform init-state))}
 (defonce oscillator-state
   (atom init-state))
 
+;; Here's the state of the atom. Note that this will refresh every time the atom
+;; changes server-side. And the viewer above can do that!
+;;
+;; Every time the ODE solver updates the state on the browser side, the new
+;; state is sent back over the wire to the server.
+
 @oscillator-state
+
+;; Then, the simulation:
 
 ^{::clerk/visibility :hide}
 (clerk/with-viewer (d/literal-viewer d/transform-literal)

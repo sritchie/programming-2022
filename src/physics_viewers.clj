@@ -41,7 +41,7 @@
                     (when el
                       (mb/sync!
                        el !ref value
-                       mb/sine-setup
+                       mb/basic-setup
                        (fn [mathbox]
                          (~mb-sym mathbox value !local)))))}])))))})
 
@@ -72,7 +72,7 @@
                     (when el
                       (mb/sync-once!
                        el (atom ~init) ~init #_value
-                       mb/sine-setup
+                       mb/basic-setup
                        (fn [mathbox]
                          (~mb-sym
                           mathbox ~init !local var-name)))))}])))))})

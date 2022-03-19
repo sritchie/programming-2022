@@ -3,8 +3,7 @@
   (:refer-clojure
    :exclude [+ - * / = zero? compare
              numerator denominator ref partial])
-  (:require [demo :as d]
-            [nextjournal.clerk :as clerk]
+  (:require [nextjournal.clerk :as clerk]
             [ellipsoid :as ell]
             [physics-viewers :as pv]
             [sicmutils.env :as e :refer :all]))

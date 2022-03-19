@@ -2,11 +2,18 @@
 (ns cube-controls
   (:require [nextjournal.clerk :as clerk]))
 
-;; ##  Custom Viewers
+;; ## Hello World!
 
-;; This is a custom viewer for a cube rendered with [Mathbox](https://gitgud.io/unconed/mathbox).
+;; This first example shows off Clerk's extensibility. We'll take one of the
+;; hardcoded examples from the [Mathbox](https://gitgud.io/unconed/mathbox)
+;; repository and generate a version that we can
+;;
+;; - configure from our JVM source code
+;; - display in a browser window in all of its Javascripty Mathbox glory.
+;;
+;; ### Cube Viewer
 
-(def mathbox-cube
+(def cube-viewer
   {:fetch-fn (fn [_ x] x)
    :render-fn
    '(fn [value]
@@ -27,7 +34,7 @@
 
 ;; We can then use the above viewer using `with-viewer`:
 
-(clerk/with-viewer mathbox-cube
+(clerk/with-viewer cube-viewer
   {:width-rez 10
    :height-rez 10
    :depth-rez 10

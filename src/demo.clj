@@ -10,15 +10,35 @@
             [sicmutils.expression :as x]
             [sicmutils.value :as v]))
 
-;; ## Hello
+;; ## Hello, SICMUtils!
 ;;
-;; Let's create an environment:
+;; First we'll import the full environment:
 
 (e/bootstrap-repl!)
 
 (+ 'x 'x 'x 'x 'x)
 
 ;; ##  Custom Viewers
+;;
+;; Let's say we have an expression like:
+
+(+ (square (sin 'x))
+   (square (cos 'x)))
+
+;; We can convert this to LaTeX, but clerk won't know what to do with the string.
+
+(->TeX
+ (+ (square (sin 'x))
+    (square (cos 'x))))
+
+;; We can do better by composing `->TeX` with Clerk's `TeX` viewer:
+
+(clerk/with-viewer (comp clerk/tex ->TeX)
+  (+ (square (sin 'x))
+     (square (cos 'x))))
+
+;; And that's fine! Great for a built-in viewer. But now I've lost the original
+;; data structure!
 
 (defn ->pretty-str [expr]
   (let [form (v/freeze expr)]
@@ -31,6 +51,8 @@
      :simplified     (clerk/code (->pretty-str simple))
      :TeX            (clerk/tex (->TeX l))
      :original       (clerk/code (->pretty-str l))}))
+
+;; Try it out:
 
 (transform-literal
  (+ (square (sin 'x)) (square (cos 'x))))
@@ -57,16 +79,20 @@
                 x))
           (get x @!sel)])))})
 
-(clerk/set-viewers! [(literal-viewer transform-literal)])
+;; does it work?
 
-;; ## Woohoo
-;;
-;; Now we have a multiviewer, SO nice.
+(clerk/with-viewer (literal-viewer transform-literal)
+  (+ (square (sin 'x))
+     (square (cos 'x))))
+
+;; woohoo! We can set it as default for the namespace:
+
+(clerk/set-viewers! [(literal-viewer transform-literal)])
 
 (+ (square (sin 'x))
    (square (cos 'x)))
 
-;; How about the field equations?
+;; How about Einstein's Field Equations?
 
 (/ (+ (* 'A 'C 'gMR (expt (sin 'theta) 2) (cos 'theta))
       (* (/ 1 2) 'A (expt 'p_psi 2) (expt (sin 'theta) 2))

@@ -8,8 +8,10 @@
             [physics-viewers :as pv]
             [sicmutils.env :as e :refer :all]))
 
-;; ## Ellipsoid Particle
 
+
+;; ## Ellipsoid Particle
+;;
 ;; > A bead of mass $m$ moves without friction on a triaxial ellipsoidal
 ;; > surface. In rectangular coordinates the surface satisfies
 ;; >
@@ -19,7 +21,11 @@
 ;; >
 ;; > for some constants $a$, $b$, and $c$. Identify suitable generalized
 ;; > coordinates, formulate a Lagrangian, and find Lagrange's equations.
-;;
+
+;; First, prepare the viewers so that all literals render with the multiviewer:
+
+(clerk/set-viewers! [(d/literal-viewer d/transform-literal)])
+
 ;; The transformation to elliptical coordinates is very similar to the spherical
 ;; coordinate transformation, but with a fixed $a$, $b$ and $c$ coefficient for
 ;; each rectangular dimension, and no more radial degree of freedom:
@@ -37,19 +43,15 @@
     (* 1/2 m (square v))))
 
 (defn L-central-triaxial [m a b c]
-  (comp #_(L-free-particle m)
+  (comp (L-free-particle m)
 
         ;; with gravity:
-        (- (L-free-particle m)
-           (fn [[_ [_ _ z]]]
-             (* 9.8 m z)))
+        #_(- (L-free-particle m)
+             (fn [[_ [_ _ z]]]
+               (* 9.8 m z)))
         (F->C (elliptical->rect a b c))))
 
 ;; Final Lagrangian:
-
-(clerk/set-viewers!
- ;; in this namespace.
- [(d/literal-viewer d/transform-literal)])
 
 (let [local (up 't
                 (up 'theta 'phi)
@@ -65,7 +67,7 @@
 
 ;; I'm sure there's some simplification in there for us. But why?
 ;;
-;; Lagrange equations of motion:
+;; Lagrange equations of motion for the ellipsoid:
 
 (clerk/with-viewer (d/literal-viewer d/transform-literal)
   (let [L (L-central-triaxial 'm 'a 'b 'c)
@@ -74,7 +76,7 @@
     (((Lagrange-equations L) (up theta phi))
      't)))
 
-;; if we were back in sphere land:
+;; And for the sphere:
 
 (clerk/with-viewer (d/literal-viewer d/transform-literal)
   (let [L (L-central-triaxial 'm 'r 'r 'r)

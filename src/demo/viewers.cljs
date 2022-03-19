@@ -20,8 +20,8 @@
           '->cartesian-view demo.mathbox/->cartesian-view
           'add-volume! demo.mathbox/add-volume!
 
-          'sine-setup demo.mathbox/sine-setup
-          'sine-demo demo.mathbox/sine-demo
+          'basic-setup demo.mathbox/basic-setup
+          'function-demo demo.mathbox/function-demo
 
           'polar-setup demo.mathbox/polar-setup
           'polar-demo demo.mathbox/polar-demo

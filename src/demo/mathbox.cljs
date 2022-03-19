@@ -116,14 +116,14 @@
        :color 0xffffff
        :size size}))))
 
-;; Sine Wave (generic fns?)
+;; Function Renderer
 
-(defn sine-setup [box]
+(defn basic-setup [box]
   (doto (.-three ^js box)
     (-> .-camera .-position (.set 2.3 1 2))
     (-> .-renderer (.setClearColor (color 0xffffff) 1.0))))
 
-(defn sine-demo [box {:keys [range scale samples f]}]
+(defn function-demo [box {:keys [range scale samples f]}]
   (let [f' (xc/sci-eval f)]
     (-> box
         (.cartesian

@@ -5,19 +5,17 @@
   (:require [sicmutils.calculus.form-field :as ff]
             [sicmutils.calculus.indexed :as ci]
             [sicmutils.calculus.vector-field :as vf]
-            [sicmutils.env :as e :refer [define-coordinates
-                                         let-coordinates
-                                         with-literal-functions]]))
+            [sicmutils.env :as e :refer :all]))
 
-(e/bootstrap-repl!)
+;; ## Einstein's Field Equations
 
 (defn Einstein [coordinate-system metric-tensor]
-  (let [basis      (e/coordinate-system->basis coordinate-system)
-        connection (e/Christoffel->Cartan
-                    (e/metric->Christoffel-2 metric-tensor basis))
-        nabla      (e/covariant-derivative connection)
-        Ricci-tensor (e/Ricci nabla basis)
-        Ricci-scalar ((e/trace2down metric-tensor basis) Ricci-tensor)]
+  (let [basis      (coordinate-system->basis coordinate-system)
+        connection (Christoffel->Cartan
+                    (metric->Christoffel-2 metric-tensor basis))
+        nabla      (covariant-derivative connection)
+        Ricci-tensor (Ricci nabla basis)
+        Ricci-scalar ((trace2down metric-tensor basis) Ricci-tensor)]
     (-> (fn Einstein-tensor [v1 v2]
           (- (Ricci-tensor v1 v2)
              (* (/ 1 2)
@@ -92,8 +90,8 @@
 ;; Note that these are (2,0) tensors.
 
 (defn Tperfect-fluid [rho p c metric]
-  (let [basis (e/coordinate-system->basis spacetime-sphere)
-        inverse-metric (e/metric:invert metric basis)
+  (let [basis (coordinate-system->basis spacetime-sphere)
+        inverse-metric (metric:invert metric basis)
         T (fn [w1 w2]
             (+ (* (+ (compose rho t)
                      (/ (compose p t)
@@ -108,10 +106,10 @@
        ::ff/oneform-field])))
 
 (with-literal-functions [R rho p]
-  (let [basis  (e/coordinate-system->basis spacetime-sphere)
+  (let [basis  (coordinate-system->basis spacetime-sphere)
         g      (FLRW-metric 'c 'k R)
-        T_ij   ((e/drop2 g basis) (Tperfect-fluid rho p 'c g))
-        [d:dt d:dr] (e/coordinate-system->vector-basis spacetime-sphere)
+        T_ij   ((drop2 g basis) (Tperfect-fluid rho p 'c g))
+        [d:dt d:dr] (coordinate-system->vector-basis spacetime-sphere)
         K (/ (* 8 'pi 'G) (expt 'c 4))]
     [((((Einstein-field-equation spacetime-sphere K)
         g 'Lambda T_ij)
@@ -126,16 +124,16 @@
 
 (with-literal-functions [R p rho]
   (let [metric (FLRW-metric 'c 'k R)
-        basis (e/coordinate-system->basis spacetime-sphere)
-        nabla (e/covariant-derivative
-               (e/Christoffel->Cartan
-                (e/metric->Christoffel-2 metric basis)))
-        es (e/basis->vector-basis basis)]
+        basis (coordinate-system->basis spacetime-sphere)
+        nabla (covariant-derivative
+               (Christoffel->Cartan
+                (metric->Christoffel-2 metric basis)))
+        es (basis->vector-basis basis)]
     (map (fn [i]
-           ((e/contract
+           ((contract
              (fn [ej wj]
                (* (metric ej (nth es i))
-                  (e/contract
+                  (contract
                    (fn [ei wi]
                      (((nabla ei)
                        (Tperfect-fluid rho p 'c metric))
@@ -148,13 +146,13 @@
 
 (with-literal-functions [R p rho]
   (let [metric (FLRW-metric 'c 'k R)
-        basis (e/coordinate-system->basis spacetime-sphere)
-        nabla (e/covariant-derivative
-               (e/Christoffel->Cartan
-                (e/metric->Christoffel-2 metric basis)))
-        ws    (e/basis->oneform-basis basis)]
+        basis (coordinate-system->basis spacetime-sphere)
+        nabla (covariant-derivative
+               (Christoffel->Cartan
+                (metric->Christoffel-2 metric basis)))
+        ws    (basis->oneform-basis basis)]
     (map (fn [i]
-           ((e/contract
+           ((contract
              (fn [ei wi]
                (((nabla ei)
                  (Tperfect-fluid rho p 'c metric))

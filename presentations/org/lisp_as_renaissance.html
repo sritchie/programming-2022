@@ -26,35 +26,58 @@
     <div class="reveal">
       <div class="slides">
         <section>
-          <section id="slide-orgdff490c">
-            <h2 id="orgdff490c">Lisp as Renaissance Workshop</h2>
+          <section id="slide-org2b4ac2e">
+            <h2 id="org2b4ac2e">Lisp as Renaissance Workshop</h2>
             <aside class="notes">
               <p>Hi, I'm Sam!</p>
 
-              <p>Going to talk about sicmutils&#x2026;</p>
+              <p>Going to talk about sicmutils.</p>
 
-              <ul>
-                <li class="off">
-                  <code>[&#xa0;]</code> add my name etc toslides.
-                </li>
-              </ul>
+              <p>
+                And this idea that CODE can be a fantastic medium for
+                communication. There is so much promise:
+              </p>
+
+              <p>
+                Code is a medium to communicate. But it’s also a medium we use
+                to <i>build</i>
+                systems.
+              </p>
+
+              <p>
+                To the extent that the system is self-describing, it also
+                performs itself. So there is huge promise for the idea of code
+                as communication, and lots of champions!
+              </p>
             </aside>
+
             <p>A Lispy Tour through Mathematical Physics</p>
+
+            <p>Sam Ritchie, Mentat Collective</p>
+
+            <p>
+              <a href="https://twitter.com/sritchie">@sritchie</a>
+            </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-org3e13ea9">
-            <h2 id="org3e13ea9">Talk's about SICMUtils</h2>
+          <section id="slide-orgd16f024">
+            <h2 id="orgd16f024">Talk's about SICMUtils</h2>
             <aside class="notes">
               <p>what is sicmutils? CAS&#x2026;</p>
             </aside>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-orgbb21bbc">
-            <h2 id="orgbb21bbc">Based on scmutils by GJS</h2>
+          <section id="slide-org75d6b42">
+            <h2 id="org75d6b42">Based on scmutils by GJS</h2>
             <aside class="notes">
-              <p>you know GJS, but he's been doing more&#x2026; icebeg.</p>
+              <p>
+                you know GJS, but he's been doing more&#x2026; tip of the
+                iceberg.
+              </p>
             </aside>
 
             <p>
@@ -66,40 +89,53 @@
               ~ Hal Abelson,
               <i>Structure and Interpretation of Computer Programs</i>
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-orgaf66fa1">
-            <h2 id="orgaf66fa1">Why? Google X etc</h2>
+          <section id="slide-orgdb4b5fc">
+            <h2 id="orgdb4b5fc">Why? Google X etc</h2>
             <aside class="notes">
               <p>
                 Really fired up on Bret Victor's work, explorable explanations;
                 kill the PDF!
               </p>
             </aside>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org6c2af55">
-            <h3 id="org6c2af55">Disappointment!</h3>
+          <section id="slide-orgb47775b">
+            <h3 id="orgb47775b">Disappointment!</h3>
             <aside class="notes">
               <p>really hard to steer the ship</p>
             </aside>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-orgbcac3c1">
-            <h2 id="orgbcac3c1">19th Century Scientific Communication</h2>
+          <section id="slide-org7750015">
+            <h2 id="org7750015">19th Century Scientific Communication</h2>
             <aside class="notes">
               <p>It didn't used to be this way!</p>
 
               <ul>
-                <li class="off"><code>[&#xa0;]</code> vector analysis book</li>
+                <li class="off">
+                  <code>[&#xa0;]</code>
+                  <p>vector analysis book, lispp</p>
+
+                  <p>
+                    It's important that these ideas are in the air, that we're
+                    proud of them as ideas we can take and <i>use</i>, not
+                    just&#x2026; oh, tech vibes.
+                  </p>
+                </li>
               </ul>
             </aside>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-org76d1267">
-            <h2 id="org76d1267">Numerical Computing Screenshots</h2>
+          <section id="slide-orgf544e36">
+            <h2 id="orgf544e36">Numerical Computing Screenshots</h2>
             <p>
               "We personally like Brent's algorithm for univariate minimization,
               as found on pages 79-80 of his book 'Algorithms for Minimization
@@ -108,6 +144,8 @@
             </p>
 
             <p>~ scmutils, <i>refman.txt</i></p>
+
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
           <section>
             <aside class="notes">
@@ -127,6 +165,8 @@
               </p>
             </aside>
             <img class="r-stretch" src="../images/brent.jpg" />
+
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
           <section>
             <aside class="notes">
@@ -138,6 +178,8 @@
               </p>
             </aside>
             <img class="r-stretch" src="../images/numerical_recipes.jpg" />
+
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
           <section>
             <aside class="notes">
@@ -149,6 +191,8 @@
               </p>
             </aside>
             <img class="r-stretch" src="../images/numerical_recipes.jpg" />
+
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
           <section>
             <aside class="notes">
@@ -274,6 +318,8 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
 }
 </code></pre>
             </div>
+
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
           <section>
             <aside class="notes">nil</aside>
@@ -287,6 +333,8 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
             </p>
 
             <p>And probably delete some of the previous&#x2026;</p>
+
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
           <section>
             <aside class="notes">
@@ -353,9 +401,10 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
 		    (loop (+ count 1))))))))))
 </code></pre>
             </div>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-orga3e6b91">
-            <h3 id="orga3e6b91">Actual Goal</h3>
+          <section id="slide-org499a580">
+            <h3 id="org499a580">Actual Goal</h3>
             <aside class="notes">
               <p>
                 check in
@@ -372,55 +421,89 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
             </aside>
 
             <img class="r-stretch" src="../images/brent_parabola.jpg" />
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-org5879d80">
-            <h2 id="org5879d80">Attempts! There are attempts!</h2>
+          <section id="slide-org55cbe74">
+            <h2 id="org55cbe74">Attempts! There are attempts!</h2>
             <ul>
               <li>Logo</li>
               <li>Mathematica's notebooks</li>
+              <li>Notebooks!</li>
               <li>Explorable Explanations</li>
               <li>Literate Programming</li>
             </ul>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-org705472b">
-            <h2 id="org705472b">Why aren't people doing this?</h2>
+          <section id="slide-org6198807">
+            <h2 id="org6198807">Why aren't people doing this?</h2>
+            <p>If all this is software great, what are we doing?</p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-orgd315b46">
-            <h2 id="orgd315b46">Why does it matter?</h2>
-            <p>These are the crown jewels!</p>
+          <section id="slide-org40f2d76">
+            <h2 id="org40f2d76">Why does it matter?</h2>
+            <aside class="notes">
+              <p>These are the crown jewels!</p>
+
+              <p>
+                We have many problems left that this computational fluid seems
+                quite useful for.
+              </p>
+
+              <p>
+                not to mention that this is a beautiful THING we have figured
+                out how to do, this sense that abstraction is all around. If it
+                is true of the universe where we’re living, music, art, wow,
+                better practice.
+              </p>
+
+              <p>
+                The ability to do long term projects depends on the transmission
+                of culture over long distances and times. With our current
+                stuff, the harder the material gets, the more specialized the
+                field gets, the more impressionistic the notation gets.
+              </p>
+            </aside>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-orgc9b91ba">
-            <h2 id="orgc9b91ba">Explanation as Side Effect</h2>
+          <section id="slide-org34994ab">
+            <h2 id="org34994ab">Explanation as Side Effect</h2>
             <p>Zettelkasten. Then you go tidy it up for someone else.</p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-org437bdc0">
-            <h2 id="org437bdc0">What to make?</h2>
-            <div class="outline-text-2" id="text-org437bdc0"></div>
+          <section id="slide-orgce3c3e9">
+            <h2 id="orgce3c3e9">What to make?</h2>
+            <aside class="notes">nil</aside>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org74b4a1e">
-            <h3 id="org74b4a1e">SICM and FDG as clues</h3>
+          <section id="slide-orgc645d62">
+            <h3 id="orgc645d62">SICM and FDG as clues</h3>
             <p>these books had actually paved the way!</p>
 
             <p>Browser based, Clojure, Lisp, build on sicm</p>
+
+            <img height="500" src="../images/sicm.jpeg" />
+            <img height="500" src="../images/fdg.jpeg" />
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org16ea278">
-            <h3 id="org16ea278">Textbook as Nurse Tree</h3>
+          <section id="slide-org0e04987">
+            <h3 id="org0e04987">Textbook as Nurse Tree</h3>
             <p>Get a picture of a nurse log&#x2026;</p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-orgf7753bc">
-            <h2 id="orgf7753bc">Lagrange Equation Demo</h2>
+          <section id="slide-org19c28af">
+            <h2 id="org19c28af">Lagrange Equation Demo</h2>
             <aside class="notes">
               <p>
                 This is a good section to talk about the Sussman pitch on Code
@@ -449,14 +532,20 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
 
               <ul>
                 <li class="off">
-                  <code>[&#xa0;]</code> so add a slide about the integral
-                  of&#x2026; something here.
+                  <code>[&#xa0;]</code> so add a slide about the integral T-V vs
+                  where you get&#x2026;
                 </li>
               </ul>
 
               <p>
                 you'll find you might get sleepy for a few slides; but I will
                 own it by saying that is kind of the point!
+              </p>
+
+              <p>
+                What is interesting here is this fundamentally amazing,
+                beautiful observation. What is less interesting is the
+                symbol-pushing and accounting <i>after</i> you've realized.
               </p>
             </aside>
 
@@ -467,6 +556,8 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               \[{\frac{d}{d t} \frac{\partial L}{\partial
               \dot{q}}}-\frac{\partial L}{\partial q}=0\]
             </p>
+
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
           <section>
             <p>
@@ -481,9 +572,10 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               q, \dot{q})}{\partial q}\right|_{ \substack{ q=w(t) \\
               {\dot{q}=\frac{d w(t)}{d t}}} }=0\]
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-orged9989b">
-            <h3 id="orged9989b">Okay, Fine</h3>
+          <section id="slide-org6d55547">
+            <h3 id="org6d55547">Okay, Fine</h3>
             <aside class="notes">
               <p>Development now of the better notation.</p>
 
@@ -496,6 +588,8 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               w(t)\right)\right) \\ - & \left(\partial_{1} L\right)\left(t,
               w(t), \frac{d}{d t} w(t)\right) = 0 \end{align*}
             </div>
+
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
           <section>
             <aside class="notes">
@@ -508,6 +602,8 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
             </aside>
 
             <p>\[(D f)(t)=\left.\frac{d}{d x} f(x)\right|_{x=t}\]</p>
+
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
           <section>
             <aside class="notes">
@@ -520,6 +616,8 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
             </aside>
 
             <p>\[\Gamma[w](t)=\left(t, w(t), \frac{d}{d t} w(t)\right).\]</p>
+
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
           <section>
             <aside class="notes">
@@ -551,6 +649,8 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
        (comp ((partial 1) L) (Gamma w)))))
 </code></pre>
             </div>
+
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
           <section>
             <aside class="notes">
@@ -587,6 +687,8 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               \[- a\,m\,{\omega}^{2}\,\cos\left(\omega\,t + \phi\right) +
               a\,k\,\cos\left(\omega\,t + \phi\right)\]
             </p>
+
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
           <section>
             <aside class="notes">
@@ -605,6 +707,8 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
             </div>
 
             <p>\[k\,w\left(t\right) + m\,{D}^{2}w\left(t\right)\]</p>
+
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
           <section>
             <aside class="notes">
@@ -627,41 +731,85 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               \[{D}^{2}w\left(t\right)\,{D}^{2}T\left(Dw\left(t\right)\right) +
               DV\left(w\left(t\right)\right)\]
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-orgc609552">
-            <h2 id="orgc609552">Clerk Demo</h2>
+          <section id="slide-orge42c972">
+            <h2 id="orge42c972">SICMUtils / Clerk Demo</h2>
             <p>
               That was not very clear! So let's convince ourselves that that is
               true, by doing the spring demo in the browser.
             </p>
 
+            <ul>
+              <li>spring demo</li>
+              <li>the physics examples</li>
+              <li>function examples</li>
+              <li>John video?</li>
+              <li>
+                THE LIBRARY ITSELF is written
+                <ul>
+                  <li>show autodiff, numerical methods</li>
+                </ul>
+              </li>
+              <li>the slides themselves have math generated by sicmutils</li>
+              <li>Nextjournal environment</li>
+              <li>Double Pendulum style essay&#x2026;</li>
+              <li>einstein's field equations, pre-load that into the system</li>
+            </ul>
+
             <p>Then I'll show you another one that is just bonkers.</p>
+
+            <ul>
+              <li>
+                the library itself is written up as a series of computational
+                essays that render in the browser.
+              </li>
+            </ul>
+
+            <p>SO, these "essays" are also little libraries!</p>
+
+            <p>You can publish them as little "research papers"</p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-orgc795446">
-            <h2 id="orgc795446">Community</h2>
+          <section id="slide-orgb430a88">
+            <h2 id="orgb430a88">Community</h2>
             <ul>
               <li>Sussman! Wisdom!</li>
               <li>Colin Smith, founded SICMUtils</li>
               <li>Mentat Collective: Brad Feld and John Underkoffler</li>
               <li>Clerk: Martin Kavalar, Jack Rusher, Nextjournal team</li>
             </ul>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-org64d91fe">
-            <h2 id="org64d91fe">How to get involved</h2>
+          <section id="slide-orge1d62b3">
+            <h2 id="orge1d62b3">How to get involved? What's Next?</h2>
             <aside class="notes">
               <p>so why is this interesting?</p>
+
+              <p>
+                Basically we know the material is good — so how compelling AND
+                SIMULTANEOUSLY USEFUL can we make the presentation? Fascinating
+                all the way down! the workshop!
+              </p>
             </aside>
+
+            <ul>
+              <li>Collaborative editing, simulation</li>
+              <li>Full library as essays</li>
+              <li>Steal the pieces!</li>
+            </ul>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-org1aac163">
-            <h2 id="org1aac163">Conclusion</h2>
+          <section id="slide-org9968f2d">
+            <h2 id="org9968f2d">Conclusion</h2>
             <p>
               Lisp, the computational fluid, is something eery and special. It’s
               not
@@ -669,195 +817,30 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               deal.
             </p>
 
-            <p>What’s next if you’re interested, how do you get involved</p>
-          </section>
-        </section>
-        <section>
-          <section id="slide-org5b7ab1a">
-            <h2 id="org5b7ab1a">This talk is about:</h2>
-            <aside class="notes">
-              <p>
-                lots of problems, getting more complex. Solving them depends on
-                culture transmission.
-              </p>
+            <p>What are we going to do with it?</p>
 
-              <p>
-                that turns out to be getting harder, and if you don’t get in at
-                the beginning of this funnel&#x2026; Looking at our best tools,
-                we see impressionistic notation and insular groups.
-              </p>
-
-              <p>
-                And ALSO we see in a culture this suspicion and fear that has
-                people taking potshots at "science", because it is damned hard
-                and lives in people’s heads.
-              </p>
-
-              <p>
-                Because things are more complicated, we need ways to communicate
-                the culture more clearly.
-              </p>
-
-              <p>
-                So we have to port it all into the machine. Code is a better
-                medium for communication! Self-documenting!
-              </p>
-
-              <p>SO how is that going?</p>
-
-              <ul>
-                <li class="off">
-                  <code>[&#xa0;]</code> show impenetrable code screenshot from
-                  my numerical methods talk
-                </li>
-              </ul>
-
-              <p>
-                It seems that code being so powerful at getting things done has
-                gotten us off of the hook of consolidating complexity into the
-                culture. If you
-                <span class="underline"
-                  ><span class="underline">have</span></span
-                >
-                to communicate it to other brains, you have an amazing creative
-                constraint.
-              </p>
-            </aside>
-          </section>
-          <section id="slide-org17dc441">
-            <h3 id="org17dc441">We NEED models that can perform themselves!</h3>
-          </section>
-        </section>
-        <section>
-          <section id="slide-org80b142f">
-            <h2 id="org80b142f">Why code as comms?</h2>
-            <aside class="notes">
-              <p>The PROMISE!</p>
-
-              <p>
-                LOGO, prior art here. There is great stuff. Notebooks are not
-                ideal. But&#x2026; if literate programming is so great, why
-                isn't anyone doing it?
-              </p>
-            </aside>
-          </section>
-        </section>
-        <section>
-          <section id="slide-org43b88d8">
-            <h2 id="org43b88d8">Personal History</h2>
-          </section>
-        </section>
-        <section>
-          <section id="slide-org83a1447">
-            <h2 id="org83a1447">Pre-Lagrange</h2>
-            <aside class="notes">
-              <p>
-                What is interesting here is this fundamentally amazing,
-                beautiful observation. What is less interesting is the
-                symbol-pushing and accounting <i>after</i> you've realized.
-              </p>
-
-              <p>integral T-V vs where you get&#x2026;</p>
-            </aside>
-          </section>
-        </section>
-        <section>
-          <section id="slide-orga8cf6d1">
-            <h2 id="orga8cf6d1">SICM and FDG</h2>
-            <aside class="notes">
-              <p>
-                Notes about these? SICMUtils going off in that direction,
-                modeling a textbook.
-              </p>
-            </aside>
-
-            <img height="500" src="../images/sicm.jpeg" />
-            <img height="500" src="../images/fdg.jpeg" />
-          </section>
-        </section>
-        <section>
-          <section id="slide-org9ecf0fa">
-            <h2 id="org9ecf0fa">Demo Time</h2>
             <p>
-              Get the clerk notebook gussed up to be the next part of the demo.
-            </p>
-          </section>
-        </section>
-        <section>
-          <section id="slide-org9416eb4">
-            <h2 id="org9416eb4">
-              Dynamic Notebook ideas - problems with code as comms
-            </h2>
-            <aside class="notes">
-              <p>
-                What are the components of this thing, and what sort of
-                experience is it trying to get across?
-              </p>
-
-              <p>
-                Basically we know the material is good — so how compelling AND
-                SIMULTANEOUSLY USEFUL can we make the presentation?
-              </p>
-
-              <p>
-                Next,
-                <a href="https://www.inkandswitch.com/peritext/"
-                  >https://www.inkandswitch.com/peritext/</a
-                >
-              </p>
-            </aside>
-          </section>
-        </section>
-        <section>
-          <section id="slide-orgbf70d8a">
-            <h2 id="orgbf70d8a">What to Amplify: textbooks</h2>
-            <aside class="notes">
-              <p>
-                What do I want this project to really embody? Self-referential
-                storytelling thing, because it really is a distillation of the
-                greatest hits.
-              </p>
-            </aside>
-          </section>
-        </section>
-        <section>
-          <section id="slide-org790c365">
-            <h2 id="org790c365">Unfiled</h2>
-            <p>
-              We have many problems left that this computational fluid seems
-              quite useful for.
+              the whole industry is so frothy, money, excitement, gleefully
+              jettisoning the original values. Which is all great, of course,
+              except it seems like it’s not
+              <i>allowed</i> to go work on inspiring stuff, even though there is
+              far more money.
             </p>
 
             <p>
-              not to mention that this is a beautiful THING we have figured out
-              how to do, this sense that abstraction is all around. If it is
-              true of the universe where we’re living, music, art, wow, better
-              practice.
+              At the same time, what, we’re gonna change the world by working on
+              developer tools?
             </p>
-
-            <p>
-              The ability to do long term projects depends on the transmission
-              of culture over long distances and times. With our current stuff,
-              the harder the material gets, the more specialized the field gets,
-              the more impressionistic the notation gets.
-            </p>
-
-            <p>
-              We need something better. Intro to Code as Communication, GJS’s
-              work. Why? code can perform itself.
-            </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
         <section>
-          <section id="slide-orgb0efc61">
-            <h2 id="orgb0efc61">First Take at this:</h2>
-            <div class="outline-text-2" id="text-orgb0efc61"></div>
+          <section id="slide-org5b787e3">
+            <h2 id="org5b787e3">First Take at this:</h2>
+            <div class="outline-text-2" id="text-org5b787e3"></div>
           </section>
-          <section id="slide-org630c208">
-            <h3 id="org630c208">Outline</h3>
-          </section>
-          <section id="slide-orgf5297e5">
-            <h3 id="orgf5297e5">Why code as comms:</h3>
+          <section id="slide-orga2e5a7f">
+            <h3 id="orga2e5a7f">Why code as comms:</h3>
             <p>
               Knowledge does not _<sub>live</sub>_<sub>in</sub> the symbols; it
               lives in the culture. It lives by being taught.
@@ -865,9 +848,7 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
 
             <p>
               Code is a medium to communicate. But it’s also a medium we use to
-              <span class="underline"
-                ><span class="underline">build</span></span
-              >
+              <i>build</i>
               systems.
             </p>
 
@@ -880,9 +861,10 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
             <p>SICP slide, SICP quote from my other keynote.</p>
 
             <p>I'll be talking about:</p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org9893e24">
-            <h4 id="org9893e24">What do we do now?</h4>
+          <section id="slide-org9caeb85">
+            <h4 id="org9caeb85">What do we do now?</h4>
             <p>
               A PROBLEM here is that these cultures are fairly insular now,
               because they are so well developed. So much of the communication
@@ -907,9 +889,10 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
                 that book.
               </li>
             </ul>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-orgc61f819">
-            <h4 id="orgc61f819">We want breakouts. How do we get them?</h4>
+          <section id="slide-orgef4942f">
+            <h4 id="orgef4942f">We want breakouts. How do we get them?</h4>
             <p>How do we get breakouts, links between fields?</p>
 
             <p>
@@ -926,16 +909,18 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               depend on developing a deep intuition around control systems,
               physical models, physical simulations and nonlinear feedback ?
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org562901a">
-            <h3 id="org562901a">One way: GJS, Code as Comms</h3>
+          <section id="slide-org1f46a33">
+            <h3 id="org1f46a33">One way: GJS, Code as Comms</h3>
             <p>
               One way to do it, pursued by GJS, is to champion “code is for
               communication”. But it’s obviously not JUST that.
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-orgbbbf958">
-            <h4 id="orgbbbf958">Problems with Code as Comms</h4>
+          <section id="slide-orgf0e0daf">
+            <h4 id="orgf0e0daf">Problems with Code as Comms</h4>
             <p>
               The problem with Literate Programming is that you really want a
               culture of literate programming, so that you can build on all of
@@ -944,9 +929,10 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               code around, save it etc. Before all of this version control
               nonsense.
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-orgf901826">
-            <h4 id="orgf901826">Real Science is Multiplayer</h4>
+          <section id="slide-orgd685e90">
+            <h4 id="orgd685e90">Real Science is Multiplayer</h4>
             <p>
               Science is not just about communication. The progression of
               science has been inherently multiplayer; so the
@@ -955,9 +941,10 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               and puzzle over what you’re seeing. And then make notes in the
               margins that potentially lead to the next brick in the wall.
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org0b1d770">
-            <h4 id="org0b1d770">Dynamic == Too Seductive</h4>
+          <section id="slide-org6f7ea84">
+            <h4 id="org6f7ea84">Dynamic == Too Seductive</h4>
             <p>
               It is too seductive, people just want the code to
               <span class="underline"><span class="underline">work</span></span
@@ -971,9 +958,10 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               in the lab who can work the fridge. But then we lose the
               knowledge.
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-orgec82158">
-            <h4 id="orgec82158">Literate is One Way</h4>
+          <section id="slide-orgc4839f8">
+            <h4 id="orgc4839f8">Literate is One Way</h4>
             <p>
               ALSO: as a reader, I can't participate in the cultural thing that
               created the document!
@@ -991,18 +979,20 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               teaching and explaining back into real software, into things you
               can use for real work in a lab.
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org5749d7d">
-            <h4 id="org5749d7d">Does that exist? Weaknesses</h4>
+          <section id="slide-orgd3483e4">
+            <h4 id="orgd3483e4">Does that exist? Weaknesses</h4>
             <p>
               But a WEAKNESS with existing stuff is that it’s all geared toward
               presentations. 3b1b style, for example. Brilliant! But it’s a
               presentation. It’s not a “viewer” where I can check out my own
               transformations, play, etc etc
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-orgef6cd5d">
-            <h4 id="orgef6cd5d">Other Takes</h4>
+          <section id="slide-org8509b3c">
+            <h4 id="org8509b3c">Other Takes</h4>
             <p>Other Takes on this idea, beyond Literate Programming:</p>
 
             <p>
@@ -1015,7 +1005,7 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               Geometry
             </p>
 
-            <div id="org683ecf6" class="figure">
+            <div id="org2aed09c" class="figure">
               <p>
                 <img
                   src="../images/turtle_geometry.jpeg"
@@ -1023,22 +1013,24 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
                 />
               </p>
             </div>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org99a6780">
-            <h4 id="org99a6780">
+          <section id="slide-orgc8bb651">
+            <h4 id="orgc8bb651">
               People are not doing "real work" in these systems
             </h4>
             <p>
               Same with LOGO, with Notebooks. you have to bail out at some
               point.
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-orge8d7092">
-            <h3 id="orge8d7092">Personal History</h3>
-            <div class="outline-text-3" id="text-orge8d7092"></div>
+          <section id="slide-org2b27538">
+            <h3 id="org2b27538">Personal History</h3>
+            <div class="outline-text-3" id="text-org2b27538"></div>
           </section>
-          <section id="slide-orgc6bc2e0">
-            <h4 id="orgc6bc2e0">Why do I care?</h4>
+          <section id="slide-orgeae9ab5">
+            <h4 id="orgeae9ab5">Why do I care?</h4>
             <p>
               I started with Lisp, solvers, games: get the quote from Engelberg.
             </p>
@@ -1064,18 +1056,20 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
             </p>
 
             <p>Also a sucker for the Zettelkasten idea.</p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org9e6a6f9">
-            <h4 id="org9e6a6f9">
+          <section id="slide-org5c1b35b">
+            <h4 id="org5c1b35b">
               Building developer tools — but wtf does that even mean?
             </h4>
             <p>
               I want to get myself across from engineering to physics to making
               etc&#x2026;
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org7edb7cb">
-            <h3 id="org7edb7cb">People Hate Tools</h3>
+          <section id="slide-orgfb52022">
+            <h3 id="orgfb52022">People Hate Tools</h3>
             <p>
               Then we get to the Google gig. We have this
               <span class="underline"><span class="underline">rot</span></span>
@@ -1104,9 +1098,10 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
             </p>
 
             <p>It is all ergonomically really bad.</p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-orgeb9f7ab">
-            <h4 id="orgeb9f7ab">Why?</h4>
+          <section id="slide-org4f4ffc6">
+            <h4 id="org4f4ffc6">Why?</h4>
             <p>
               Why? Well, we
               <span class="underline"><span class="underline">know</span></span>
@@ -1131,9 +1126,10 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               been baking into research projects for ML, say, any sense of what
               you are trying to do with the code.
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org53b028d">
-            <h3 id="org53b028d">Dynamic Notebook, SICMUtils</h3>
+          <section id="slide-org56043f1">
+            <h3 id="org56043f1">Dynamic Notebook, SICMUtils</h3>
             <aside class="notes">
               <p></p>
 
@@ -1171,17 +1167,19 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
               record of what you did, and is shareable. See Zettelkasten for
               notes on what to do here. That was the beauty of the Roam promise.
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org0a4a03f">
-            <h4 id="org0a4a03f">What is SICMUtils? what's in it?</h4>
+          <section id="slide-orgf0b9e57">
+            <h4 id="orgf0b9e57">What is SICMUtils? what's in it?</h4>
             <p>Okay, so my take on this problem is SICMUtils.</p>
 
             <p>Big computer algebra system, get the full list of stuff.</p>
 
             <p>integrations with other people's stuff</p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-orgfabadf6">
-            <h4 id="orgfabadf6">Explanatory Target - how to start?</h4>
+          <section id="slide-orgb6b69ef">
+            <h4 id="orgb6b69ef">Explanatory Target - how to start?</h4>
             <p>
               Physics and the Book: The Road to Reality. The textbook sort of is
               a starter pack. It’s a library already, it’s a nurse tree. It
@@ -1194,9 +1192,10 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
             <p>
               the hard narrative work is done, for these particular stories.
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org6fcf962">
-            <h4 id="org6fcf962">Why Textbooks, why physics?</h4>
+          <section id="slide-orgff6047b">
+            <h4 id="orgff6047b">Why Textbooks, why physics?</h4>
             <ul>
               <li>Why sicmutils? Why play with physics?</li>
               <li>
@@ -1232,9 +1231,10 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
             </p>
 
             <p>And the PIECES the library kicks out are usable elsewhere.</p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-orgdad7e24">
-            <h4 id="orgdad7e24">Community Involvement</h4>
+          <section id="slide-org3058071">
+            <h4 id="org3058071">Community Involvement</h4>
             <ul>
               <li>Nextjournal's Clerk</li>
 
@@ -1244,21 +1244,24 @@ std::pair&lt;T, T&gt; brent_find_minima(F f, T min, T max, int bits, std::uintma
 
               <li>Mathbox</li>
             </ul>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-orgc82c677">
-            <h3 id="orgc82c677">Demos</h3>
+          <section id="slide-org57c3e92">
+            <h3 id="org57c3e92">Demos</h3>
             <p>How to show off? Build up the Lagrangian example?</p>
 
             <p>
               And then show the actual library? But how does it fit into this
               narrative?
             </p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
-          <section id="slide-org40707ee">
-            <h3 id="org40707ee">
+          <section id="slide-orged5b8ff">
+            <h3 id="orged5b8ff">
               How can you Help, ie, conclusion, call to action.
             </h3>
             <p>Build stuff like this!</p>
+            <div class="slide-footer"><strong>Sam Ritchie</strong></div>
           </section>
         </section>
       </div>

@@ -36,3 +36,59 @@ elegant and understandable as the models they implement.
 * Notes
 #+begin_notes
 #+end_notes
+
+
+Missing from either talk:
+
+- the library
+
+* Project Intro
+
+SICMUtils, modeled after Road to Reality...
+
+The narrative structure of that books is the story of humans coming to terms
+with the fact that physical reality can be modeled.
+
+The signs were all around, since that’s what language does for us; we can make,
+we have a model in our heads; but we don’t think of that as abstraction.
+
+* What is Physics?
+
+What is physics? Classical Mechanics is Geometry + algebra; I see thins; I can
+turn the algebraic crank — and the numbers reflect the /new/ reality out there.
+
+**So something computational seems to be happening.**
+
+* Following Elegance leads to Results
+
+* Buildup to Complex Numbers
+
+Example of simple things having complex results.
+
+* Autodiff, Dual Numbers
+
+* Quaternions
+
+give up commutative property...
+
+* Aesthetics lead the game
+
+Then you go from the above to a sort of all in trust of the aesthetic sense!
+Following the math, Dirac, etc... Cool.
+
+* NOT so with scientific computing!
+
+And what has NOT seemingly happened is that we’ve decomposed scientific
+computing into elegant primitives that we can apply.
+
+(LEAD IN to stuff from the other talks?)
+
+* On the other side, Mathbox
+
+Explorables!
+
+* Short Version of Lagrange Example...
+
+* THEN THINK on what should come next.
+
+Probably the "why is this important" needs to happen here too.
