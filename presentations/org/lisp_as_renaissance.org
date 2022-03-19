@@ -1,10 +1,11 @@
-#+STARTUP: indent
+#+Startup: indent
 
 #+OPTIONS: num:nil toc:nil reveal_history:t
 #+PROPERTY: header-args :eval no-export
 
 #+include: reveal_header.org :minlevel 1
 
+# 1 hour total.
 #+Title: Lisp as Renaissance Workshop
 
 * Lisp as Renaissance Workshop
@@ -337,7 +338,13 @@ being taught.
 Code is a medium to communicate. But it’s also a medium we use to __build__
 systems.
 
-To the extent that the system is self-describing, it also performs itself.
+To the extent that the system is self-describing, it also performs itself. So
+there is huge promise for the idea of code as communication, and lots of
+champions!
+
+SICP slide, SICP quote from my other keynote.
+
+I'll be talking about:
 
 *** What do we do now?
 
@@ -351,7 +358,7 @@ There is so much __culture__. So the question is, how to, see [[Book: Future of
 Education]], transfer this element of the culture, to make tools that have some of
 the culture embodied in them?
 
-- [ ] get the future of education quote, bring that book
+- [ ] get the future of education quote, bring that book.
 
 *** We want breakouts. How do we get them?
 
@@ -365,17 +372,43 @@ How does the way out of the climate crisis, issues like that not depend on
 developing a deep intuition around control systems, physical models, physical
 simulations and nonlinear feedback ?
 
-*** One way: GJS, Code as Comms
+** One way: GJS, Code as Comms
 
 One way to do it, pursued by GJS, is to champion “code is for communication”.
 But it’s obviously not JUST that.
 
 *** Problems with Code as Comms
 
+The problem with [[Literate Programming]] is that you really want a culture of
+literate programming, so that you can build on all of this stuff together. I’m
+imagining something like the AI memos, or email but where everyone is reading in
+emacs and you can just fire code around, save it etc. Before all of this version
+control nonsense.
+
+*** Real Science is Multiplayer
+
+Science is not just about communication. The progression of science has been
+inherently multiplayer; so the __nice__ thing about the PDF is you can print it
+out and sit in your chair and puzzle over what you’re seeing. And then make
+notes in the margins that potentially lead to the next brick in the wall.
+
+*** Dynamic == Too Seductive
+
+It is too seductive, people just want the code to __work__: but the alternative
+is what, thrashing around with python code?
+
 Something odd happens when the machine is involved. We GLEEFULLY abstain from
 ironing out and understanding it all, because the machine can perform the thing!
 Maybe that is like some old-timer in the lab who can work the fridge. But then
 we lose the knowledge.
+
+*** Literate is One Way
+ALSO: as a reader, I can't participate in the cultural thing that created the
+document!
+
+This is also the problem with notebooks. They are often so dependent on the
+user's local environment... I read the thing but it was not designed to be
+shared. Yes, I know about Docker etc...
 
 SO — and this is personal for me — I want to bring more of the teaching and
 explaining back into real software, into things you can use for real work in a
@@ -393,6 +426,14 @@ Other Takes on this idea, beyond [[Literate Programming]]:
 
 [[Dynamicland]], [[Roam]], [[Tool for Thinking]] community. But tools for what __kinds__ of
 thoughts? What do we want to make here?
+
+LOGO is a really good one. Get a picture of LOGO, of Turtle Geometry
+
+[[../images/turtle_geometry.jpeg]]
+
+*** People are not doing "real work" in these systems
+
+Same with LOGO, with Notebooks. you have to bail out at some point.
 
 ** Personal History
 
@@ -419,30 +460,6 @@ Also a sucker for the [[Zettelkasten]] idea.
 
 I want to get myself across from engineering to physics to making etc...
 
-** Problems with Code as Comms
-
-The problem with [[Literate Programming]] is that you really want a culture of
-literate programming, so that you can build on all of this stuff together. I’m
-imagining something like the AI memos, or email but where everyone is reading in
-emacs and you can just fire code around, save it etc. Before all of this version
-control nonsense.
-
-*** Real Science is Multiplayer
-
-Science is not just about communication. The progression of science has been
-inherently multiplayer; so the __nice__ thing about the PDF is you can print it
-out and sit in your chair and puzzle over what you’re seeing. And then make
-notes in the margins that potentially lead to the next brick in the wall.
-
-*** Dynamic == Too Seductive
-
-It is too seductive, people just want the code to __work__: but the alternative
-is what, thrashing around with python code?
-
-Thrashing around with python and build systems... that is NOT what folks finding
-the deep principles behind QM were doing, there is no way it is going to lead to
-discoveries here.
-
 ** People Hate Tools
 
 Then we get to the Google gig. We have this __rot__ going on, where __tools for
@@ -452,6 +469,10 @@ gifty, [[Gift Economy]] like.
 
 But then the folks using the tools despise the tools. And the toolmakers get
 heat for not using them, because it’s so tough. Rare exceptions.
+
+Thrashing around with python and build systems... that is NOT what folks finding
+the deep principles behind QM were doing, there is no way it is going to lead to
+discoveries here.
 
 It is all ergonomically really bad.
 
@@ -468,9 +489,9 @@ anymore.
 But we have __not__ been baking into research projects for ML, say, any sense of
 what you are trying to do with the code.
 
-
-** Dynamic Notebook Ideas
+** Dynamic Notebook, SICMUtils
 #+begin_notes
+
 Reference stuff I talked about in that, and how at Google there is NO lab
 notebook even.
 
@@ -489,12 +510,15 @@ The dream environment is one where just playing in public leaves a record of
 what you did, and is shareable. See [[Zettelkasten]] for notes on what to do here.
 That was the beauty of the Roam promise.
 
-** How to Start?
+*** What is SICMUtils? what's in it?
 
-Physics and the [[Book: The Road to Reality]]. The textbook sort of is a starter
-pack. It’s a library already, it’s a nurse tree. It purports to tell you
-everything! And in principle it’s all computable and full of abstraction
-goodies.
+Okay, so my take on this problem is SICMUtils.
+
+Big computer algebra system, get the full list of stuff.
+
+integrations with other people's stuff
+
+*** Explanatory Target - how to start?
 
 Physics and the [[Book: The Road to Reality]]. The textbook sort of is a starter
 pack. It’s a library already, it’s a nurse tree. It purports to tell you
@@ -505,7 +529,7 @@ And THAT is the culture I want to soak up!
 
 the hard narrative work is done, for these particular stories.
 
-*** SICMUtils
+*** Why Textbooks, why physics?
 
 - Why sicmutils? Why play with physics?
 - We have this grand human tale, over thousands of years, of figuring out how
@@ -522,8 +546,17 @@ practice the publication part. (The discovery has already happened, so why are
 we only practicing getting the answer? The goal is to __share__ it in a way that
 ignores someone else.)
 
-
 And the PIECES the library kicks out are usable elsewhere.
+
+*** Community Involvement
+
+- Nextjournal's Clerk
+
+- Clojurescript, CLojure
+
+- SCI
+
+- Mathbox
 
 ** Demos
 
@@ -531,5 +564,6 @@ How to show off? Build up the Lagrangian example?
 
 And then show the actual library? But how does it fit into this narrative?
 
-
 ** How can you Help, ie, conclusion, call to action.
+
+Build stuff like this!

@@ -5,6 +5,7 @@
 
 #+include: reveal_header.org :minlevel 1
 
+# 1 hour slot, but should be short with time for questions
 #+Title: Building SICMUtils, the Atelier of Abstractions
 
 * Building SICMUtils
@@ -13,11 +14,422 @@ The Atelier of Abstractions
 
 * Abstract
 #+begin_notes
-SICMUtils is a Clojure library designed for interactive exploration of mathematical physics. It is simultaneously a work of persuasive writing, a collection of essays on functional pearls and computational ideas, a stable of workhorse functional abstractions, and a practical place to work and visualize algorithms and physical systems, on a server or in the browser.
+SICMUtils is a Clojure library designed for interactive exploration of
+mathematical physics. It is simultaneously a work of persuasive writing, a
+collection of essays on functional pearls and computational ideas, a stable of
+workhorse functional abstractions, and a practical place to work and visualize
+algorithms and physical systems, on a server or in the browser.
 
-How do you build a library like this? This talk will go through the architecture of SICMUtils, based on many of the ideas of "additive programming" from Gerald Sussman and Chris Hanson's latest book, Software Design for Flexibility. We'll look at surprising examples of the system becoming easier to extend over time. Clojure's embrace of its host platform lets us use the best modern work in Javascript for visualization, while keeping the horsepower of our servers for real work. Lisp's particular elegance will shine throughout.
+How do you build a library like this? This talk will go through the architecture
+of SICMUtils, based on many of the ideas of "additive programming" from Gerald
+Sussman and Chris Hanson's latest book, Software Design for Flexibility. We'll
+look at surprising examples of the system becoming easier to extend over time.
+Clojure's embrace of its host platform lets us use the best modern work in
+Javascript for visualization, while keeping the horsepower of our servers for
+real work. Lisp's particular elegance will shine throughout.
 #+end_notes
 
-* Notes
+* What is SICMUtils?
+
+Computer algebra system, previewed during the keynote. Based on work by GJS and
+many others, and thanks to Colin Smith for starting the project!
+
+Started due to exercises...
+
+* Thanks to Gerald Sussman
 #+begin_notes
+Noteskies
 #+end_notes
+
+(and many others!)
+
+#+REVEAL_HTML: <img height="500" src="../images/gjs.jpg">
+#+REVEAL_HTML: <img height="500" src="../images/sdf.jpeg">
+
+* Why build a thing like this?
+
+- Reference "building robust systems"
+
+** Goals
+
+Trying to be the BASE for a literate programming style experience, a sort of
+"atelier" or studio where you can be playful etc... but I'm aiming at textbook
+writing to start.
+
+** Written as Literate Programming
+
+Can you make the library its own target? What is __hard__ about that, and a
+challenge for most literate programming, is that there are lots of stories to
+tell about a particular abstraction or piece of code. So what story do you make
+the obvious one in the library? probably the [[Discovery Fiction]] style one.
+
+* scmutils
+
+Astonishingly there is still a lot to go. It's this amazing archive, many have
+bashed their heads against it.
+
+* What's in the library?
+
+** Numerics
+
+First, flesh out the numeric tower beyond javascript's Number.
+- BigInt support (a built-in JS type, luckily
+
+- Complex numbers (I wrapped https://github.com/infusion/Complex.js/, but a
+  better version would be generic in the real and imaginary slots so you could
+  easily get Gaussian integers etc...)
+
+  - To be really generic and pro, you'd build your Complex implementation by
+    implementing the the Cayley-Dickson construction, which would give you
+    quaternions, octonions etc for free.
+
+- Rational numbers (I wrapped https://github.com/infusion/Fraction.js/,
+  specifically the version built on BigInt, which you'll need. A better version
+  would be generic in its numerator and denominator types, so that you could
+  reuse the same code for rational functions)
+
+- Quaternions!
+
+- Flex your muscles and show off the extensibility of the numeric tower by
+  building a [[https://en.wikipedia.org/wiki/Modular_arithmetic][Modular Arithmetic]] data type.
+
+
+** Generic Operators
+
+- Next, implement the ability to define generic, extensible functions with open
+  dispatch, using the prescription in "Software Design for Flexibility".
+
+- Define +, -, /, *, all the trig operations, and a bunch more like real-part,
+  imag-part, modulo, remainder, gcd; basically you are making a full generic
+  numeric tower.
+
+- Install function generics too! functions operate on the RANGE of input
+  functions, for example, ((square +) 1 2) => 9.
+
+** "Compound" Data Types
+
+- Okay, fine, Complex and Quaternion are "compound" already... but let's keep
+  going.
+
+- MAKE SURE all of these can take generic types for their elements! let vectors,
+  matrices etc hold whatever they want. You can "constrain" them by only
+  installing certain types into the arithmetic dispatch, knowing that someone
+  else can extend the arithmetic further than the "batteries included"
+  functions.
+
+- Vector; you can reuse the "array" datatype by implementing all the arithmetic
+  operators. (But what does multiply mean? The door is open already to many
+  branches of physics... so implement scalar*vector, ie, treat "vector" as
+  "element of a vector space in some basis"...
+
+- Matrix; I won't list out the full set of functions for all of these, but
+  here's the Clojure API for fun.
+
+- Polynomials!
+
+- Power Series, the infinite version of polynomials. You can get by with
+  univariate, but multivariate is best. Lots of lovely prior art here;
+
+  - You'll need to implement lazy sequences, or streams, to do this right; you
+    get those from SICP.
+
+- Rational Function. If you did "fractions" above well, you can reuse much of
+  that code by passing in polynomials instead of integers!
+You are going to need to implement "GCD" as well. This is HARD and there are
+lots of tricks here. This is a huge project, but very important for algebraic
+simplification later.
+
+- Up and Down "structures", a powerful abstraction introduced by Jerry and Jack
+  in SICM.
+
+- Differential, the data structure that powers forward-mode automatic
+  differentiation. Similar to complex numbers, but e^2 == 0, plus a bunch of
+  wackiness required to handle nesting of derivatives. A big project and very
+  fun! Also described in "Software Design for Flexibility".
+
+** "Literals", ie, symbolic-like things:
+
+- Literal numbers: in Clojure and Scheme, "symbols" are treated as literal
+  (complex) numbers, but you'll need to make an explicit "symbol" type in JS.
+  The easiest way to implement all of the arithmetic on these is to build up
+  compound symbolic expressions, like `(+ x y)`, which MAINTAIN a type of
+  "literal number" (important for dispatch). In practice, the scmutils
+  implementation applies some "constructor simplifications", like making
+  multiplication by 1 a no-op etc... there is a lot of "subtlety" here that
+  could probably be banished by a solid think on the relationship of these
+  "generic implementations" for literal numbers and the simplifier we'll discuss
+  later.
+
+- Make this idea better by allowing literal numbers to be constrained to literal
+  integers, naturals, ratios, etc... this will help the simplifier.
+
+- Literal Functions: =((literal-function 'f) 'x) => (f x)=. Okay, fine. But
+  later we'll implement differentiation for these...
+
+- Literal vectors, matrices, up, down, literal versions of everything above.
+  This is bonus! But what do you really need to make a "literal" thing?
+
+  - Implementations of ALLOWED generics for it, =+=, =-=, etc
+
+  - Some printable representation
+
+  - A simplifier! Which you can build out of components; now we are straying
+    into abstract algebra...
+
+** Pattern Matching DSL
+
+We'll need this for the simplifier. This is described in SDF, and also proudly
+implemented in https://github.com/sicmutils/sicmutils/tree/main/src/pattern.
+This lets you implement a simplifier using patterns like
+
+#+begin_src clojure
+(rule (/ (* ??u ?x ??v) (sqrt ?x)) => (* ??u (sqrt ?x) ??v))
+#+end_src
+
+This is a big project to get right, and to feel good! And you can go WAY past
+what's needed for this library too.
+
+** Simplification
+
+Now it's time to write the simplifier for all of these types.
+
+- Implement the massive batch of simplification rules in the library.
+
+- Implement the ability to walk through algebraic expressions and simplify from
+  the top up, bottom down, the same but memoized , etc etc
+
+- You get a simplifier "for free" by implementing conversion to and from both
+  polynomials and rational functions. By absorbing an expression into a
+  polynomial, then "emitting" the expression back out, you force it into a
+  canonical form.
+
+  - To do this you need to write code to replace all subexpressions with invalid
+    (non-Ring, for example) operations BEFORE conversion to polynomial, then sub
+    them all back in afterward.
+
+** Renderers
+
+This is quite similar to simplification and function compilation, discussed next.
+
+- Make a renderer from literal number => LaTeX
+
+- For bonus points, make the renderer extensible, so you can extend it to new operations
+
+- Write a ->infix renderer! (Or maybe ->prefix, since JS will presumably do
+  infix by default :) So maybe you need this to print expressions at all.
+
+- For bonus points, make a => graphviz renderer.
+
+** Function Compilation
+
+Many of the library functions are going to be built out of the basic generics.
+But that is not going to be fast; so we want the ability to "compile" a
+function. That works like this:
+
+- For a function from R^n => R, Instead of a number, pass in n symbols. Get out
+  a big tree of symbolic expressions.
+
+- Run the simplifier on the tree.
+
+- Implement common subexpression extraction, and extract all of those;
+
+- emit a code form that binds all of the common subexpressions using `const`,
+  with a function body consisting of the simplified form with subexpressions
+  replaced with const variables (gensymmed).
+
+- Walk and replace all supported operations like +, -, abs, sin, cos etc etc
+  with their JS forms
+
+- "eval" this into a proper, smoking fast function.
+
+IN THEORY, I haven't done this yet, but you can make compilers for matrix
+operations etc for which you have very fast native operations. This is now being
+called [[https://en.wikipedia.org/wiki/Multi-stage_programming]["multi-stage programming"]].
+
+With a literal type, concrete type and a simplifier, you now have an extensible
+staged programming system.
+
+* Continued, Physics
+
+Now, our goal is to do physics; the previous batch gave us the ability to
+describe and manipulate states of models of physical space (and transformations,
+of course, through the geometry + algebra eery connections everywhere).
+
+This is a pretty terse description of a ton of work, but it's basically correct:
+
+** Numerical Methods
+
+But next we'll need a numerical computing stack. I did a MONSTER project here
+that I am proud of, so I will present my "Functional Numerical Methods" literate
+export as a template here: https://samritchie.io/functional-numerical-methods/
+
+But basically you'll need:
+
+
+- Univariate and multivariate minimization routines
+
+- Polynomial and rational function interpolation, including the special case of
+  Richardson interpolation
+
+- Numerical differentiation and integration. You're aiming for the full
+  Bulirsch-Stoer integrator, described and implemented in the essay.
+
+- An ODE solver, for taking differential equations and evolving simulations.
+  This is very tough, but Colin Smith implemented the state of the art version
+  (Bulirsch-Stoer) as a JS library called [[https://github.com/littleredcomputer/odex-js][odex.js]]. Doing it in functional style
+  using the primitives from "Functional Numerical Methods", plus a new
+  functional error estimator, is a gold star bonus project, never done, as far
+  as I can tell.
+
+** Automatic Differentiation
+
+- You have all the pieces for forward-mode from the "Differential"
+  implementation before. Create a generic "partial-derivative" function,
+  implement the "D" operator and extend the former to as many types as possible
+  (power series, functions, matrices, polynomials etc)
+
+- you can immutably implement reverse-mode too! This is important for ML, for
+  functions from many many variables => a small # of variables (the opposite is
+  true for forward mode). Here is a template:
+  https://github.com/sicmutils/sicmutils/pull/226
+
+With these two in hand you can implement various mixed forward and reverse mode
+functions, like very fast Hessian-vector products.
+
+** Mechanics
+
+The meat of SICM; lagrangian mechanics, hamiltonian mechanics, etc etc, with
+lots of examples and simulations
+
+** Differential Geometry
+
+Build a "manifold" and "coordinate system" abstraction and implement many of
+these (there are more abstractions but my fingers are aching!) Everything in
+this folder, basically:
+https://github.com/sicmutils/sicmutils/tree/main/src/sicmutils/calculus
+
+** Animations / Graphing
+
+Now we are into the meat of my project. Build hooks into projects like
+https://jsxgraph.org/, Mathbox etc for letting users interact with, define and
+graph symbolic expressions outside of the library's representation.
+
+# Two namespace pictures
+#+REVEAL: split data-background="../images/sicmutils_ns.png"
+#+REVEAL: split data-background="../images/quad_island.png"
+
+
+* ❤️ Open Source ❤️
+
+https://github.com/sicmutils/sicmutils
+#+REVEAL_HTML: <img width="100%" src="../images/sicmutils.png">
+
+* Many Environments
+
+The idea is that this is just a thing you can /reach for/... and then down the
+road, extend.
+
+- Nextjournal
+- org-mode, these slides
+- Clojure, Clojurescript
+- https://www.texmacs.org/tmweb/home/welcome.en.html
+- Zeugma... show a demo at the end of John's stuff, or leave for the other talk?
+- Roam Research or Obsidian, etc
+
+* Techniques
+
+It has gotten EASIER to add to it as it's gone! How?
+
+- And Clojure is such a good base
+- Combinators
+- DSLs, Pattern Matching
+- Generic Programming
+
+* Clojure is Pragmatic
+#+begin_notes
+Interfaces, Clojure has these protocols everywhere that you can extend to custom
+types. Stick with Clojure’s “everything looks very similar” philosophy.
+
+So all of the types I've added try to masquerade as core types.
+
+But the open predicate dispatch comes in with rendering; to tex, infix, visual
+too. And that has to all be open, so you can play, but also so you can take it
+with you when you go.
+#+end_notes
+
+- Different Environments, CLJS
+- Small # of core data structures
+- immutability everywhere
+
+* Combinators
+
+- pattern matching
+- many of the arithmetic types have this built in
+- numerical methods work too!
+
+* DSLs
+
+- Pattern Matching DSLs
+- show examples
+- show the operator example:
+
+  #+begin_src clojure
+(def simplify-operator-name
+  (rule-simplifier
+   (rules/associative '+ '*)
+   rules/exponent-contract
+   (rules/unary-elimination '+ '*)))
+  #+end_src
+
+* Generic Programming
+
+- Show this off in the context of one of the physics demos.
+
+** Multi-Stage Programming
+#+begin_notes
+I sort of gleefully don’t care about overoptimizing, because all of this stuff
+is so damned fast. And if you __need__ it a touch faster (which I do in some
+places), the proper way is to have multiple implementations. That is more of a
+storytelling thing, but also you get tests for free. More narrative patterns.
+#+end_notes
+
+- just as easily you could be sending operations off to matrix library... there
+  is no reason to prefer Python etc.
+
+  Everything fast there is staged down to FORTRAN etc.
+
+* Community!
+
+It has gotten EASIER to add to it as it's gone.
+
+- Nextjournal, Clerk, Jack Rusher, Martin Kavalar etc
+- Maria
+- SCI
+- clj-kondo
+
+* What's Coming?
+
+What counts as complete here?
+
+Teaching off of this, or able to build out something like Roam or Dynamic
+Wikipedia in theory. Not necessary that it actually be the final choice. I ahve
+actually been avoiding the big ergonomic problems.
+
+Built in viewers for everything, examples of best practices here
+
+make it easy to get into as many environments as possible with no pain.
+
+** Rewrite the textbooks
+
+#+REVEAL_HTML: <img height="500" src="../images/sicm.jpeg">
+#+REVEAL_HTML: <img height="500" src="../images/fdg.jpeg">
+
+
+* Questions?
+
+* Bonus Material
+
+- Self-description… the glimmers are there, but this really is the key to code
+  is data. Can I ask the system for its multimethod graph, what types are
+  compatible by inspecting the open dispatch system? yes, not even really hard,
+  more ergonomic. Waht do you want the system to tell you?
