@@ -148,7 +148,7 @@
 ;; And here's the equation:
 
 ^{::clerk/visibility :hide}
-(clerk/with-viewer (d/literal-viewer d/transform-literal)
+(clerk/with-viewer d/multiviewer
   (my-fn 'x 't))
 
 ;; I used Clerk's `:hide` visibility to only show the result.

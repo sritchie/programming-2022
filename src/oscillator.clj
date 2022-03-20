@@ -16,14 +16,13 @@
 (defn L-harmonic [m k]
   (fn [[_ q v]]
     (- (* 1/2 m (square v))
-       (* 1/2 k (square q)))))
+       (* 1/2 k (square q))))
 
-#_
-(defn L-harmonic-gravity [m k g]
+  #_
   (fn [[_ [_ _ z :as q] v]]
     (let [T (* 1/2 m (square v))
           U (+ (* 1/2 k (square q))
-               (* g m z))]
+               (* 9.8 m z))]
       (- T U))))
 
 (def m 100)
@@ -45,7 +44,7 @@
 ;; ## Equations of Motion:
 
 ^{::clerk/visibility :hide}
-(clerk/with-viewer (d/literal-viewer d/transform-literal)
+(clerk/with-viewer d/multiviewer
   (let [L (L-harmonic 'm 'k)
         x (e/literal-function 'x)
         y (e/literal-function 'y)

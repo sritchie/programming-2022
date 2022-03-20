@@ -24,7 +24,7 @@
 
 ;; First, prepare the viewers so that all literals render with the multiviewer:
 
-(clerk/set-viewers! [(d/literal-viewer d/transform-literal)])
+(clerk/set-viewers! [d/multiviewer])
 
 ;; The transformation to elliptical coordinates is very similar to the spherical
 ;; coordinate transformation, but with a fixed $a$, $b$ and $c$ coefficient for
@@ -69,7 +69,7 @@
 ;;
 ;; Lagrange equations of motion for the ellipsoid:
 
-(clerk/with-viewer (d/literal-viewer d/transform-literal)
+(clerk/with-viewer d/multiviewer
   (let [L (L-central-triaxial 'm 'a 'b 'c)
         theta (literal-function 'theta)
         phi (literal-function 'phi)]
@@ -78,7 +78,7 @@
 
 ;; And for the sphere:
 
-(clerk/with-viewer (d/literal-viewer d/transform-literal)
+(clerk/with-viewer d/multiviewer
   (let [L (L-central-triaxial 'm 'r 'r 'r)
         theta (literal-function 'theta)
         phi (literal-function 'phi)]
@@ -106,7 +106,7 @@
 ;; ## Equations of Motion:
 
 ^{::clerk/visibility :hide}
-(clerk/with-viewer (d/literal-viewer d/transform-literal)
+(clerk/with-viewer d/multiviewer
   (let [L (L-central-triaxial 'm 'a 'b 'c)
         theta (literal-function 'theta)
         phi (literal-function 'phi)]

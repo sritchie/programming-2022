@@ -89,7 +89,10 @@
 
 ;; woohoo! We can set it as default for the namespace:
 
-(clerk/set-viewers! [(literal-viewer transform-literal)])
+(def multiviewer
+  (literal-viewer transform-literal))
+
+(clerk/set-viewers! [multiviewer])
 
 (+ (square (sin 'x))
    (square (cos 'x)))

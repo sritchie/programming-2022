@@ -16,23 +16,16 @@ Here you'll find:
 ## Links
 
 - [SICMUtils repository][SICMUTILS]
-
 - The [Road to Reality Newsletter](https://roadtoreality.substack.com/)
-
 - [Road to Reality Discord
   Server](https://roadtoreality.substack.com/p/road-to-reality-discord-server?s=w)
-
 - [Clerk][CLERK], the notebook rendering engine used by SICMUtils
-
 - [In-progress executable version](https://github.com/sicmutils/fdg-book) of
   _Functional Differential Geometry_ ([book link][FDG])
-
 - [In-progress executable version](https://github.com/sicmutils/sicm-book) of
   Sussman and Wisdom's _Structure and Interpretation of Classical Mechanics_
   ([book link][SICM])
-
 - [Mathbox](https://gitgud.io/unconed/mathbox) by @unconed
-
 - [mathbox-react](https://github.com/ChristopherChudzicki/mathbox-react) by
   @ChristopherChudzicki
 
@@ -42,11 +35,9 @@ The demos include both Clojure and Clojurescript code. Two environments means
 two build tools, so you'll need to have these installed:
 
 - [clj](https://clojure.org/guides/getting_started), for running the JVM side
-
 - [shadow-cljs](https://shadow-cljs.github.io/docs/UsersGuide.html#_installation)
   for building the JS bundle used by the demos. This is a lovely system that
   will automatically rebuild the bundle any time you save a cljs file.
-
   - You'll also need [node.js](https://nodejs.org/en/download/package-manager/)
     installed, to install the initial `npm` dependencies.
 

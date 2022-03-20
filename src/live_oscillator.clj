@@ -15,7 +15,7 @@
 ;;
 ;; We have a Lagrangian:
 
-(defn L-harmonic [m k g]
+(defn L-harmonic-gravity [m k g]
   (fn [[_ [_ _ z :as q] v]]
     (let [T (* 1/2 m (square v))
           U (+ (* 1/2 k (square q))
@@ -32,7 +32,7 @@
 
 (def init-state
   {:state->xyz coordinate
-   :L (L-harmonic m k g)
+   :L (L-harmonic-gravity m k g)
    :initial-state [0
                    [1 2 0]
                    [2 0 4]]
@@ -62,8 +62,8 @@
 ;; Then, the simulation:
 
 ^{::clerk/visibility :hide}
-(clerk/with-viewer (d/literal-viewer d/transform-literal)
-  (let [L (L-harmonic 'm 'k 'g)
+(clerk/with-viewer d/multiviewer
+  (let [L (L-harmonic-gravity 'm 'k 'g)
         x (e/literal-function 'x)
         y (e/literal-function 'y)
         z (e/literal-function 'z)]

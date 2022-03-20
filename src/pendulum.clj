@@ -79,8 +79,6 @@
 ;; Better yet, let's render it as LaTeX, and create a helper function,
 ;; `render-eq` to make it easier to render simplified equations:
 
-(clerk/set-viewers! [(d/literal-viewer d/transform-literal)])
-
 (def render-eq
   (comp clerk/tex ->TeX simplify))
 
@@ -178,7 +176,8 @@
 
 ;; Looks good:
 
-(peek raw-chaotic-data)
+(clerk/with-viewer d/multiviewer
+  (peek raw-chaotic-data))
 
 ;; Next, the regular initial condition:
 
@@ -187,7 +186,8 @@
 
 ;; Peek at the final state:
 
-(peek raw-regular-data)
+(clerk/with-viewer d/multiviewer
+  (peek raw-regular-data))
 
 ;; ## Measurements, Data Transformation
 
@@ -489,7 +489,8 @@
 
 ;; Looks good:
 
-(peek raw-dd-chaotic-data)
+(clerk/with-viewer d/multiviewer
+  (peek raw-dd-chaotic-data))
 
 ;; Next, the regular initial condition:
 
@@ -498,4 +499,5 @@
 
 ;; Peek at the final state:
 
-(peek raw-dd-regular-data)
+(clerk/with-viewer d/multiviewer
+  (peek raw-dd-regular-data))
