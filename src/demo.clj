@@ -31,11 +31,13 @@
  (+ (square (sin 'x))
     (square (cos 'x))))
 
-;; We can do better by composing `->TeX` with Clerk's `TeX` viewer:
+;; We can do better by invoking `clerk/tex` to tell Clerk to interpret this
+;; string as TeX:
 
-(clerk/with-viewer (comp clerk/tex ->TeX)
+(clerk/tex
+ (->TeX
   (+ (square (sin 'x))
-     (square (cos 'x))))
+     (square (cos 'x)))))
 
 ;; And that's fine! Great for a built-in viewer. But now I've lost the original
 ;; data structure!
@@ -92,7 +94,7 @@
 (+ (square (sin 'x))
    (square (cos 'x)))
 
-;; How about Einstein's Field Equations?
+;; How about something more complicated?
 
 (/ (+ (* 'A 'C 'gMR (expt (sin 'theta) 2) (cos 'theta))
       (* (/ 1 2) 'A (expt 'p_psi 2) (expt (sin 'theta) 2))

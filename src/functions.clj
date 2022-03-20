@@ -6,7 +6,8 @@
   (:require [demo :as d]
             [nextjournal.clerk :as clerk]
             [sicmutils.env :refer :all]
-            [sicmutils.expression.compile :as xc]))
+            [sicmutils.expression.compile :as xc]
+            [sicmutils.polynomial :as poly]))
 
 ;; ## Function Viewer
 ;;
@@ -29,12 +30,12 @@
 
 (defn- fn-transform [m]
   (binding [xc/*mode* :source]
-    (update m :f xc/compile-fn*)))
+    (update m :f #(xc/compile-fn* % 2))))
 
 ;; Let's try it:
 
 (fn-transform
- {:f (fn [x]
+ {:f (fn [x _]
        (+ (square x)
           (cube x)))})
 
@@ -44,7 +45,7 @@
 
 (clerk/code
  (:f (fn-transform
-      {:f (fn [x]
+      {:f (fn [x _]
             (+ (square x)
                (cube x)))})))
 
@@ -171,5 +172,16 @@
 ;;
 ;; ## Polynomials
 ;;
-;; I think this can work out of the box for a SICMUtils Polynomial. Well,
-;; almost... those have to ignore `t`.
+;; I think this can work out of the box for a SICMUtils Polynomial.
+
+(def my-poly
+  (let [x (poly/identity 2)]
+    ((+ (- x)
+        (square x)
+        (cube x)))))
+
+(clerk/with-viewer fn-viewer
+  {:range [[-6 6] [-1 1] [-1 1]]
+   :scale [6 1 1]
+   :samples 256
+   :f my-poly})

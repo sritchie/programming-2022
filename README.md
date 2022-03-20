@@ -17,9 +17,10 @@ Here you'll find:
 
 - [SICMUtils repository][SICMUTILS]
 
-- The Road to Reality Newsletter
+- The [Road to Reality Newsletter](https://roadtoreality.substack.com/)
 
-- Road to Reality Discord
+- [Road to Reality Discord
+  Server](https://roadtoreality.substack.com/p/road-to-reality-discord-server?s=w)
 
 - [Clerk][CLERK], the notebook rendering engine used by SICMUtils
 
@@ -30,7 +31,7 @@ Here you'll find:
   Sussman and Wisdom's _Structure and Interpretation of Classical Mechanics_
   ([book link][SICM])
 
-- [mathbox](https://gitgud.io/unconed/mathbox) by @unconed
+- [Mathbox](https://gitgud.io/unconed/mathbox) by @unconed
 
 - [mathbox-react](https://github.com/ChristopherChudzicki/mathbox-react) by
   @ChristopherChudzicki
@@ -40,24 +41,45 @@ Here you'll find:
 The demos include both Clojure and Clojurescript code. Two environments means
 two build tools, so you'll need to have these installed:
 
-- [clj](), for running the JVM side
+- [clj](https://clojure.org/guides/getting_started), for running the JVM side
 
-- [shadow-cljs]() for building the JS bundle used by the demos. This is a lovely
-  system that will automatically rebuild the bundle any time you save a cljs
-  file.
+- [shadow-cljs](https://shadow-cljs.github.io/docs/UsersGuide.html#_installation)
+  for building the JS bundle used by the demos. This is a lovely system that
+  will automatically rebuild the bundle any time you save a cljs file.
 
-  - You'll also need node.js installed, to install the initial `npm`
-    dependencies.
+  - You'll also need [node.js](https://nodejs.org/en/download/package-manager/)
+    installed, to install the initial `npm` dependencies.
 
-When those are all set, generate the JS bundle for the demos by running the
-following commands in one terminal window:
+When those are all set (the links include installation instructions),
+
+Clone the repository:
+
+```bash
+git clone git@github.com:sritchie/programming-2022.git
+cd programming-2022
+```
+
+Generate the JS bundle for the demos by running the following commands in one
+terminal window:
 
 ```bash
 npm install
 shadow-cljs watch sicm-browser
 ```
 
-Then start a Clojure repl with `clj`, and execute the following commands to start Clerk, the literate programming viewer:
+In another tab, start a Clojure repl with `clj`. This REPL has the full
+[SICMUtils
+API](https://cljdoc.org/d/sicmutils/sicmutils/CURRENT/api/sicmutils.env)
+available, so run some tests for fun:
+
+```clojure
+(->infix (((exp D) (literal-function 'f)) 'x))
+;;=> "f(x) + Df(x) + 1/2 D²f(x) + 1/6 D³f(x) + ..."
+```
+
+As a side effect, `clj` will automatically trigger the following commands,
+defined in `dev/user.clj`: and start a webserver for Clerk, the literate
+programming viewer:
 
 ```clojure
 ;; point Clerk at our newly-generated JS bundle instead of its default:
@@ -71,7 +93,34 @@ Then start a Clojure repl with `clj`, and execute the following commands to star
  {:browse? true :port 7777})
 ```
 
-Now run `(clerk/show! <path/to/file.clj>)` to run any of the demos.
+Now run `(clerk/show! <path/to/file.clj>)` to run any of the demos. Some
+examples to try:
+
+```clojure
+;; intro:
+(clerk/show! "src/demo.clj")
+
+;; Mathbox basics:
+(clerk/show! "src/cube_controls.clj")
+
+;; functions:
+(clerk/show! "src/functions.clj")
+(clerk/show! "src/polar.clj")
+
+;; symbolic physics:
+(clerk/show! "src/einstein.clj")
+
+;; vega, symbolic, double-pendulum
+(clerk/show! "src/pendulum.clj")
+
+;; mathbox physics:
+(clerk/show! "src/oscillator.clj")
+(clerk/show! "src/ellipsoid.clj")
+(clerk/show! "src/double_ellipsoid.clj")
+
+;; browser/client comms:
+(clerk/show! "src/live_oscillator.clj")
+```
 
 > NOTE: Clojure is far more pleasant if you can get a REPL running from inside
 > of your favorite code editor. I'll update this repo with links to a good

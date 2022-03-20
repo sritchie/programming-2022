@@ -2,9 +2,10 @@
  :deps {org.clojure/clojurescript {:mvn/version "1.10.914"}
         thheller/shadow-cljs {:mvn/version "2.16.12"}
 
-        ;; SICM utils numerical and physics routines
-        ;; sicmutils/sicmutils {:mvn/version "0.21.1"}
-        sicmutils/sicmutils {:local/root "../sicmutils"}
+        ;; SICMUtils computer algebra system!
+        sicmutils/sicmutils
+        {:mvn/version "0.22.0"}
+        #_{:local/root "../clerk"}
 
         io.github.nextjournal/clerk
         {:git/sha "d08c26043efe19a92fe33dd9eb4499e304e4cff7"}
@@ -17,37 +18,14 @@
         io.github.babashka/sci-configs
         {:git/sha "fd6a3332f358e56b96b5a791f75f97573e018580"}
 
-        applied-science/js-interop  {:mvn/version "0.3.0"}
+        applied-science/js-interop {:mvn/version "0.3.0"}
         org.babashka/sci {:mvn/version "0.3.2"}
-        reagent/reagent {:mvn/version "1.1.0"}
-
-        ;; input various external data formats
-        com.github.seancorfield/next.jdbc  {:mvn/version "1.2.659"}
-        meta-csv/meta-csv                  {:mvn/version "0.1.0"}
-        org.xerial/sqlite-jdbc             {:mvn/version "3.34.0"}
-        dk.ative/docjure                   {:mvn/version "1.16.0"}
-        clojusc/wordnet                    {:mvn/version "1.2.0"}
-
-        ;; some statistical routines
-        kixi/stats {:mvn/version "0.5.4"}
-
-        ;; semantic web goodies and box/arrow graphs
-        jackrusher/mundaneum
-        {:git/url "https://github.com/jackrusher/mundaneum/"
-         :git/sha "84476918ee47b66a2d6128e1a90780e52fd2ae44"}
-        arrowic/arrowic
-        {:mvn/version "0.1.1"}}
+        reagent/reagent {:mvn/version "1.1.0"}}
 
  :aliases
  {:nextjournal/clerk
-  {:extra-paths ["datasets"]
-   :exec-fn nextjournal.clerk/build-static-app!
+  {:exec-fn nextjournal.clerk/build-static-app!
    ;; notebooks to be built, accepts globs patterns
    :exec-args {:bundle? false
                :paths ["index.md"
-                       "notebooks/introduction.clj"
-                       "notebooks/data_science.clj"
-                       "notebooks/images.clj"
-                       "notebooks/semantic.clj"
-                       "notebooks/sicmutils.clj"
-                       "notebooks/rule_30.clj"]}}}}
+                       "src/demo.clj"]}}}}

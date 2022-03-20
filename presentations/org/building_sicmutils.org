@@ -341,6 +341,7 @@ road, extend.
 It has gotten EASIER to add to it as it's gone! How?
 
 - And Clojure is such a good base
+- Code is Data
 - Combinators
 - DSLs, Pattern Matching
 - Generic Programming
@@ -365,13 +366,43 @@ with you when you go.
 
 - pattern matching
 - many of the arithmetic types have this built in
-- numerical methods work too!
+- numerical methods work too, we had the =infinite= combinator.
 
 * DSLs
 
-- Pattern Matching DSLs
-- show examples
-- show the operator example:
+** Pattern matching example:
+
+#+begin_src clojure
+(require '[pattern.rule :as r :refer [ruleset =>]])
+
+(defn unary-elimination [& ops]
+  (let [op-set (into #{} ops)]
+    (ruleset
+     ((? _ op-set) ?x) => ?x)))
+
+(defn constant-elimination [op constant]
+  (letfn [(filter-constants [{xs '??xs}]
+            (remove #{constant} xs))]
+    (ruleset
+     (~op ??xs) => (~op (?? ~filter-constants)))))
+
+(defn constant-promotion [op constant]
+  (ruleset
+   (~op _ ~constant) => ~constant
+   (~op ~constant _) => ~constant))
+
+(def my-simplify
+  (r/rule-simplifier
+   (unary-elimination '+ '*)
+   (constant-elimination '+ 0)
+   (constant-elimination '* 1)
+   (constant-promotion '* 0)))
+
+(my-simplify
+ '(cos (+ 0 (+ 0 12 0) (* 1 x))))
+#+end_src
+
+** Operator Example from the codebase
 
   #+begin_src clojure
 (def simplify-operator-name
