@@ -118,8 +118,9 @@ examples to try:
 > and I'll get you sorted.
 
 If you're running a REPL from inside your editor, see the [Clerk
-homepage][CLERK] for instructions on how to trigger `clerk-show!` with a key
-command, making dynamic interaction much more fun.
+homepage](https://github.com/nextjournal/clerk#editor-workflow) for instructions
+on how to trigger `clerk-show!` with a key command, making dynamic interaction
+much more fun.
 
 ## Presentations
 

@@ -1,3 +1,6 @@
+:PROPERTIES:
+:Effort:   10
+:END:
 #+Startup: indent
 
 #+OPTIONS: num:nil reveal_global_footer:t toc:nil reveal_history:t
@@ -5,20 +8,23 @@
 
 #+include: reveal_header.org :minlevel 1
 
-# 1 hour total.
 #+Title: Lisp as Renaissance Workshop
+#+Subtitle: A Lispy Tour through Mathematical Physics
 
 #+begin_comment
+
 Tasks:
 
-- [ ] merge remaining notes from below?
-- [ ] add my name etc toslides.
-- [ ] set a tiny slide footer
-- [ ] vector analysis quote
-- [ ] future of education thing?
-- [ ] tidy up the text inside each of the demos.
+- [ ] future of education quote, get this from the book
+- [ ] zettelkasten, get a picture
+- [ ] get the action formula, brush up on that for the beginning idea
+
+for demos:
+- [ ] tidy up the text inside each of the demos. (DONE I think?)
 
 #+end_comment
+
+
 * Lisp as Renaissance Workshop
 #+begin_notes
 Hi, I'm Sam!
@@ -34,14 +40,11 @@ systems.
 To the extent that the system is self-describing, it also performs itself. So
 there is huge promise for the idea of code as communication, and lots of
 champions!
-
 #+end_notes
 
 A Lispy Tour through Mathematical Physics
 
-Sam Ritchie, Mentat Collective
-
-[[https://twitter.com/sritchie][@sritchie]]
+[[https://samritchie.io/][Sam Ritchie]], Mentat Collective
 
 * Talk's about SICMUtils
 #+begin_notes
@@ -53,30 +56,69 @@ what is sicmutils? CAS...
 you know GJS, but he's been doing more... tip of the iceberg.
 #+end_notes
 
+#+REVEAL_HTML: <img class="r-stretch" src="../images/gjs.jpg">
+
+#+REVEAL: split
+
 "*programs must be written for people to read*, and only incidentally for
 machines to execute."
 
-~ Hal Abelson, /Structure and Interpretation of Computer Programs/
+#+REVEAL_HTML: <small>~ Hal Abelson, Structure and Interpretation of Computer Programs</small>
+#+REVEAL_HTML: <br><img height="300px" src="../images/sicp.jpeg">
 
-* Why? Google X etc
+* Motivation? Google X etc
 #+begin_notes
 Really fired up on Bret Victor's work, explorable explanations; kill the PDF!
 #+end_notes
 
 ** Disappointment!
 #+begin_notes
-really hard to steer the ship
+Then we get to the Google gig. We have this __rot__ going on, where __tools for
+thought__ is championed outside the world — often by people that are very
+idealistic and thing that this is the way things __should work__ — inherently
+gifty, Gift Economy like.
+
+But then the folks using the tools despise the tools. And the toolmakers get
+heat for not using them, because it’s so tough. Rare exceptions.
+
+Thrashing around with python and build systems... that is NOT what folks finding
+the deep principles behind QM were doing, there is no way it is going to lead to
+discoveries here.
+
+No one uses any analogue of lab notebook. Best is snippets pasted into Google
+Chat.
 #+end_notes
 
 * 19th Century Scientific Communication
 #+begin_notes
 It didn't used to be this way!
 
-- [ ] vector analysis book, lispp
-
   It's important that these ideas are in the air, that we're proud of them as
   ideas we can take and /use/, not just... oh, tech vibes.
 #+end_notes
+
+** History of Vector Analysis
+#+begin_notes
+Quaternions, Clifford algebra, the battle for representations,
+
+Different than programming language battles, I think.
+#+end_notes
+
+#+REVEAL_HTML: <img class="r-stretch" src="../images/vector_analysis.jpeg">
+
+#+REVEAL: split
+#+begin_notes
+Reminded me of
+#+end_notes
+#+REVEAL_HTML: <img class="r-stretch" src="../images/lisp_xkcd.jpeg">
+
+* Code as Communication
+#+begin_notes
+One way to do it, pursued by GJS, is to champion "code is for communication".
+But it’s obviously not JUST that.
+#+end_notes
+
+So code should have carried on this legacy, right?
 
 * Numerical Computing Screenshots
 
@@ -96,12 +138,6 @@ Back to the [[https://maths-people.anu.edu.au/~brent/pub/pub011.html][original b
 Derivatives".
 #+end_notes
 #+REVEAL_HTML: <img class="r-stretch" src="../images/brent.jpg">
-
-#+REVEAL: split
-#+begin_notes
-1986! [[http://phys.uri.edu/nigh/NumRec/bookfpdf/f10-2.pdf][Numerical Recipes]], pretty good
-#+end_notes
-#+REVEAL_HTML: <img class="r-stretch" src="../images/numerical_recipes.jpg">
 
 #+REVEAL: split
 #+begin_notes
@@ -311,31 +347,107 @@ Scheme!
 
 ** Actual Goal
 #+begin_notes
-check in [[http://phys.uri.edu/nigh/NumRec/bookfpdf/f10-2.pdf][Numerical Recipes]], for what this is doing, make sure I can actually
-describe how this thing finds the minimum.
+But this image isn't tied to the code! There have been systems to do that... and
+the picture is slightly wrong. you really want to watch it proceed.
 
-But this image isn't tied to the code! There have been systems to do that...
+MEME from Clean Code...
 #+end_notes
 
-#+REVEAL_HTML: <img class="r-stretch" src="../images/brent_parabola.jpg">
+#+REVEAL_HTML: <img class="r-stretch" src="../images/brent_parabola.png">
 
-* Attempts! There are attempts!
+** Why Care?
+#+begin_notes
+Because these methods are conceptually not that tough, and this is an
+improvement on another conceptually easy method. Lots of these are visually very
+easy!
+#+end_notes
 
-- Logo
-- Mathematica's notebooks
-- Notebooks!
-- Explorable Explanations
-- Literate Programming
+* Existing Work
+
+#+REVEAL: split data-background="../images/knuth_literate.jpeg"
+#+begin_notes
+Literate programming, of course
+#+end_notes
+
+** LOGO
+
+#+REVEAL_HTML: <img class="r-stretch" src="../images/papert.jpeg">
+
+#+REVEAL: split
+#+REVEAL_HTML: <img class="r-stretch" src="../images/turtle_geometry.jpeg">
+
+** Mathematica, Notebooks
+#+begin_notes
+Mention notebooks here too
+#+end_notes
+#+REVEAL_HTML: <img width="300" src="../images/mm_notebook.jpg">
+#+REVEAL_HTML: <img width="300" src="../images/mathematica.svg">
 
 * Why aren't people doing this?
+#+begin_notes
+I am a total sucker for this stuff! But even I don't do it.
+#+end_notes
 
 If all this is software great, what are we doing?
 
+* Problems with Code as Comms
 
+#+ATTR_REVEAL: :frag (grow)
+- Literate Programming
+- Real Science is Multiplayer
+- Dynamic is Too Seductive
+- LP is one-way
+- Real Work doesn't happen here
+
+** LP
+
+The problem with Literate Programming is that you really want a culture of
+literate programming, so that you can build on all of this stuff together. I’m
+imagining something like the AI memos, or email but where everyone is reading in
+emacs and you can just fire code around, save it etc. Before all of this version
+control nonsense.
+
+** Real Science is Multiplayer
+
+Science is not just about communication. The progression of science has been
+inherently multiplayer; so the __nice__ thing about the PDF is you can print it
+out and sit in your chair and puzzle over what you’re seeing. And then make
+notes in the margins that potentially lead to the next brick in the wall.
+
+A WEAKNESS with existing stuff is that it’s all geared toward presentations.
+3b1b style, for example. Brilliant! But it’s a presentation. It’s not a "viewer"
+where I can check out my own transformations, play, etc etc
+
+** Dynamic == Too Seductive
+
+It is too seductive, people just want the code to __work__: but the alternative
+is what, thrashing around with python code?
+
+Something odd happens when the machine is involved. We GLEEFULLY abstain from
+ironing out and understanding it all, because the machine can perform the thing!
+Maybe that is like some old-timer in the lab who can work the fridge. But then
+we lose the knowledge.
+
+** Literate == one way
+
+ALSO: as a reader, I can't participate in the cultural thing that created the
+document!
+
+This is also the problem with notebooks. They are often so dependent on the
+user's local environment... I read the thing but it was not designed to be
+shared. Yes, I know about Docker etc...
+
+SO — and this is personal for me — I want to bring more of the teaching and
+explaining back into real software, into things you can use for real work in a
+lab.
+
+** People are not doing "real work" in these systems
+
+Same with LOGO, with Notebooks. you have to bail out at some point.
 
 * Why does it matter?
 #+begin_notes
-These are the crown jewels!
+These are the crown jewels of our society!
 
 We have many problems left that this computational fluid seems quite useful for.
 
@@ -346,11 +458,21 @@ we’re living, music, art, wow, better practice.
 The ability to do long term projects depends on the transmission of culture over
 long distances and times. With our current stuff, the harder the material gets,
 the more specialized the field gets, the more impressionistic the notation gets.
+
+How does the way out of the climate crisis, issues like that not depend on
+developing a deep intuition around control systems, physical models, physical
+simulations and nonlinear feedback?
 #+end_notes
+
+** Future of Education Quote
 
 * Explanation as Side Effect
 
 Zettelkasten. Then you go tidy it up for someone else.
+
+The dream environment is one where just playing in public leaves a record of
+what you did, and is shareable. See Zettelkasten for notes on what to do here.
+That was the beauty of the Roam promise.
 
 * What to make?
 #+begin_notes
@@ -358,7 +480,8 @@ Zettelkasten. Then you go tidy it up for someone else.
 
 ** SICM and FDG as clues
 
-these books had actually paved the way!
+these books had actually paved the way! And THAT is the culture I want to soak
+up! The hard narrative work is done, for these particular stories.
 
 Browser based, Clojure, Lisp, build on sicm
 
@@ -368,6 +491,83 @@ Browser based, Clojure, Lisp, build on sicm
 ** Textbook as Nurse Tree
 
 Get a picture of a nurse log...
+
+Physics and the Book: The Road to Reality. The textbook sort of is a starter
+pack. It’s a library already, it’s a nurse tree. It purports to tell you
+everything! And in principle it’s all computable and full of abstraction
+goodies.
+
+And THAT is the culture I want to soak up!
+
+- We have this grand human tale, over thousands of years, of figuring out how
+  the world works. Of how to model reality.
+
+The library that lives in all of these environments, and is fissionable and extensible.
+
+The idea being that the textbook is explicitly about the subject; but actually a
+model of exposition, of scientific communication.
+
+And the __exercises__ are an invitation to publish your own original thoughts,
+to participate in the discovery process yourself. But often with no way to
+practice the publication part. (The discovery has already happened, so why are
+we only practicing getting the answer? The goal is to __share__ it in a way that
+ignores someone else.)
+
+And the PIECES the library kicks out are usable elsewhere.
+
+
+* SICMUtils ❤️ Open Source
+
+https://github.com/sicmutils/sicmutils
+#+REVEAL_HTML: <img width="100%" src="../images/sicmutils.png">
+
+** Many Environments
+#+begin_notes
+The idea is that this is just a thing you can /reach for/... and then down the
+road, extend.
+#+end_notes
+
+- Nextjournal
+- =org-mode= (these slides!)
+- Browser (JS) or Server (JVM)
+- ...
+
+* SICMUtils Examples
+#+begin_notes
+Demos begin here.
+#+end_notes
+
+#+REVEAL: split
+#+begin_src clojure :results value pp :exports both
+[(+ (sin 'x) 'x) (+ (sin 12) 2)]
+#+end_src
+
+#+RESULTS:
+: [(+ (sin x) x) 1.4634270819995652]
+:
+
+#+begin_src clojure :results wrap :exports both
+(tex$$
+ (up (square (cos (* 't 'phi)))
+     (floor (* 4 'zeta))))
+#+end_src
+
+#+RESULTS:
+:results:
+$$\begin{pmatrix}\displaystyle{{\cos}^{2}\left(\phi\,t\right)} \cr \cr \displaystyle{\left\lfloor 4\,\zeta \right\rfloor}\end{pmatrix}$$
+:end:
+
+#+REVEAL: split
+#+begin_src clojure :results wrap :exports both
+(let [f (literal-function 'f (-> (UP Real Real) Real))]
+  (tex$$
+   ((D f) (up 'alpha_1 'alpha_2))))
+#+end_src
+
+#+RESULTS:
+:results:
+$$\begin{bmatrix}\displaystyle{\partial_0f\left(\begin{pmatrix}\displaystyle{{\alpha}_1} \cr \cr \displaystyle{{\alpha}_2}\end{pmatrix}\right)} \cr \cr \displaystyle{\partial_1f\left(\begin{pmatrix}\displaystyle{{\alpha}_1} \cr \cr \displaystyle{{\alpha}_2}\end{pmatrix}\right)}\end{bmatrix}$$
+:end:
 
 * Lagrange Equation Demo
 #+begin_notes
@@ -395,12 +595,13 @@ What is less interesting is the symbol-pushing and accounting /after/ you've
 realized.
 #+end_notes
 
+
 #+ATTR_REVEAL: :frag t :frag_idx 2
-What could this expression possibly mean?
-#+ATTR_REVEAL: :frag t :frag_idx 1
+"What could this expression possibly mean?"
+
 $${\frac{d}{d t} \frac{\partial L}{\partial \dot{q}}}-\frac{\partial L}{\partial q}=0$$
 
-#+REVEAL: split
+** Expand:
 
 $${\frac{d}{d t} \frac{\partial L}{\partial \dot{q}}}-\frac{\partial L}{\partial q}=0$$
 
@@ -412,10 +613,22 @@ $$\frac{d}{d t}\left( \left.\frac{\partial L(t, q, \dot{q})}{\partial \dot{q}}
 
 ** Okay, Fine
 #+begin_notes
+This system lets you write more explicit computational physics.
+
 Development now of the better notation.
 
 Describe "expression derivatives" vs function derivatives.
+
+Culture example:
+
+A PROBLEM here is that these cultures are fairly insular now, because they are
+so well developed. So much of the communication occurs in this /shorthand/.
+
+There is so much /culture/.
 #+end_notes
+
+$${\frac{d}{d t} \frac{\partial L}{\partial \dot{q}}}-\frac{\partial L}{\partial
+q}=0$$
 
 # Notice the trick I had to use to get alignment on the parentheses! On the
 # first line, I had to insert \left. and \right. so that I wouldn't be sticking
@@ -427,24 +640,21 @@ w(t)\right)\right) \\
 w(t)\right) = 0
 \end{align*}
 
-#+REVEAL: split
+** Substitutions
 #+begin_notes
 So let’s get rid of the expression derivative $d/dt$ and replace it with an
 appropriate functional derivative. If $f$ is a function then we will write
 $Df$ as the new function that is the derivative of $f$
-#+end_notes
 
-$$(D f)(t)=\left.\frac{d}{d x} f(x)\right|_{x=t}$$
-
-#+REVEAL: split
-#+begin_notes
 To do this for the Lagrange equation we need to construct a function to take
 the derivative of.
 
 our friend Gamma...
 #+end_notes
 
-$$\Gamma[w](t)=\left(t, w(t), \frac{d}{d t} w(t)\right).$$
+$$(D f)(t)=\left.\frac{d}{d x} f(x)\right|_{x=t}$$
+
+$$\Gamma[w](t)=\left(t, w(t), \frac{d}{d t} w(t)\right)$$
 
 #+REVEAL: split
 #+begin_notes
@@ -551,12 +761,8 @@ confusing!!!
 $${D}^{2}w\left(t\right)\,{D}^{2}T\left(Dw\left(t\right)\right) + DV\left(w\left(t\right)\right)$$
 :end:
 
-
-* SICMUtils / Clerk Demo
-
-That was not very clear! So let's convince ourselves that that is true, by doing
-the spring demo in the browser.
-
+* Clerk Demo
+#+begin_notes
 - spring demo
 - the physics examples
 - function examples
@@ -576,6 +782,10 @@ Then I'll show you another one that is just bonkers.
 SO, these "essays" are also little libraries!
 
 You can publish them as little "research papers"
+#+end_notes
+
+That was not very clear! So let's convince ourselves that that is true, by doing
+the spring demo in the browser.
 
 * Community
 
@@ -583,6 +793,8 @@ You can publish them as little "research papers"
 - Colin Smith, founded SICMUtils
 - Mentat Collective: Brad Feld and John Underkoffler
 - Clerk: Martin Kavalar, Jack Rusher, Nextjournal team
+- SCI: Michiel Borkent (@borkdude)
+- Mathbox: Chris Chudzicki, Steven Wittens
 
 * How to get involved? What's Next?
 #+begin_notes
@@ -595,6 +807,7 @@ USEFUL can we make the presentation? Fascinating all the way down! the workshop!
 - Collaborative editing, simulation
 - Full library as essays
 - Steal the pieces!
+- Build things like this!
 
 * Conclusion
 
@@ -609,243 +822,3 @@ original values. Which is all great, of course, except it seems like it’s not
 
 At the same time, what, we’re gonna change the world by working on developer
 tools?
-
-* First Take at this:
-
-** Why code as comms:
-
-Knowledge does not __live__in the symbols; it lives in the culture. It lives by
-being taught.
-
-Code is a medium to communicate. But it’s also a medium we use to /build/
-systems.
-
-To the extent that the system is self-describing, it also performs itself. So
-there is huge promise for the idea of code as communication, and lots of
-champions!
-
-SICP slide, SICP quote from my other keynote.
-
-I'll be talking about:
-
-*** What do we do now?
-
-A PROBLEM here is that these cultures are fairly insular now, because they are
-so well developed. So much of the communication occurs in this /shorthand/.
-
-And you can see it by trying to go function in a related world: Wikipedia, for
-some abstract mathematical structure — oh, these are all technical definitions!
-
-There is so much /culture/. So the question is, how to, see Book: Future of
-Education, transfer this element of the culture, to make tools that have some of
-the culture embodied in them?
-
-- [ ] get the future of education quote, bring that book.
-
-*** We want breakouts. How do we get them?
-
-How do we get breakouts, links between fields?
-
-Because obviously it happens! Abstractions let people link fields.
-
-And it’s very powerful when it does. DNA using information theory, etc etc
-
-How does the way out of the climate crisis, issues like that not depend on
-developing a deep intuition around control systems, physical models, physical
-simulations and nonlinear feedback ?
-
-** One way: GJS, Code as Comms
-
-One way to do it, pursued by GJS, is to champion “code is for communication”.
-But it’s obviously not JUST that.
-
-*** Problems with Code as Comms
-
-The problem with Literate Programming is that you really want a culture of
-literate programming, so that you can build on all of this stuff together. I’m
-imagining something like the AI memos, or email but where everyone is reading in
-emacs and you can just fire code around, save it etc. Before all of this version
-control nonsense.
-
-*** Real Science is Multiplayer
-
-Science is not just about communication. The progression of science has been
-inherently multiplayer; so the __nice__ thing about the PDF is you can print it
-out and sit in your chair and puzzle over what you’re seeing. And then make
-notes in the margins that potentially lead to the next brick in the wall.
-
-*** Dynamic == Too Seductive
-
-It is too seductive, people just want the code to __work__: but the alternative
-is what, thrashing around with python code?
-
-Something odd happens when the machine is involved. We GLEEFULLY abstain from
-ironing out and understanding it all, because the machine can perform the thing!
-Maybe that is like some old-timer in the lab who can work the fridge. But then
-we lose the knowledge.
-
-*** Literate is One Way
-ALSO: as a reader, I can't participate in the cultural thing that created the
-document!
-
-This is also the problem with notebooks. They are often so dependent on the
-user's local environment... I read the thing but it was not designed to be
-shared. Yes, I know about Docker etc...
-
-SO — and this is personal for me — I want to bring more of the teaching and
-explaining back into real software, into things you can use for real work in a
-lab.
-
-*** Does that exist? Weaknesses
-
-But a WEAKNESS with existing stuff is that it’s all geared toward presentations.
-3b1b style, for example. Brilliant! But it’s a presentation. It’s not a “viewer”
-where I can check out my own transformations, play, etc etc
-
-*** Other Takes
-
-Other Takes on this idea, beyond Literate Programming:
-
-Dynamicland, Roam, Tool for Thinking community. But tools for what /kinds/ of
-thoughts? What do we want to make here?
-
-LOGO is a really good one. Get a picture of LOGO, of Turtle Geometry
-
-[[../images/turtle_geometry.jpeg]]
-
-*** People are not doing "real work" in these systems
-
-Same with LOGO, with Notebooks. you have to bail out at some point.
-
-** Personal History
-
-*** Why do I care?
-
-I started with Lisp, solvers, games: get the quote from Engelberg.
-
-#+begin_quote
-Just for grins, I've attached a snapshot of what I'm doing right now with
-Chocolate Fix in Clojure. If you've never worked with Lisp, you'll probably find
-the program to be completely inscrutable, but I assure you, it's an elegant
-thing of beauty :) . Anyway, this will at least give you a small taste of what
-the language looks like.
-#+end_quote
-
-Fascinated by writing, Literate Programming, total sucker for that sort of
-thing.
-
-So I was a total sucker for SICP and then Book: SICM, the bibles.
-
-Also a sucker for the Zettelkasten idea.
-
-*** Building developer tools — but wtf does that even mean?
-
-I want to get myself across from engineering to physics to making etc...
-
-** People Hate Tools
-
-Then we get to the Google gig. We have this __rot__ going on, where __tools for
-thought__ is championed outside the world — often by people that are very
-idealistic and thing that this is the way things __should work__ — inherently
-gifty, Gift Economy like.
-
-But then the folks using the tools despise the tools. And the toolmakers get
-heat for not using them, because it’s so tough. Rare exceptions.
-
-Thrashing around with python and build systems... that is NOT what folks finding
-the deep principles behind QM were doing, there is no way it is going to lead to
-discoveries here.
-
-It is all ergonomically really bad.
-
-*** Why?
-
-Why? Well, we __know__ that there are certain __ways__ of writing programs that
-can be parallelized, for example. (Notes about how it __should__, or could,
-work.)
-
-same with autodiff, serialization… you can bake these into the tools. Clojure
-does this so well. And you just don’t have to think about these problems
-anymore.
-
-But we have __not__ been baking into research projects for ML, say, any sense of
-what you are trying to do with the code.
-
-** Dynamic Notebook, SICMUtils
-#+begin_notes
-
-Reference stuff I talked about in that, and how at Google there is NO lab
-notebook even.
-
-Feel free to use
-https://roadtoreality.substack.com/p/the-dynamic-notebook?utm_source=url… this
-was such a good essay and basically needs to be the talk.
-#+end_notes
-
-Anyway, I love the thought that making the physical basis, the various stories
-you can tell about a piece of code - more salient, that it might break down
-barriers.
-
-I have a desire to __teach__ here! and not by taking notes.
-
-The dream environment is one where just playing in public leaves a record of
-what you did, and is shareable. See Zettelkasten for notes on what to do here.
-That was the beauty of the Roam promise.
-
-*** What is SICMUtils? what's in it?
-
-Okay, so my take on this problem is SICMUtils.
-
-Big computer algebra system, get the full list of stuff.
-
-integrations with other people's stuff
-
-*** Explanatory Target - how to start?
-
-Physics and the Book: The Road to Reality. The textbook sort of is a starter
-pack. It’s a library already, it’s a nurse tree. It purports to tell you
-everything! And in principle it’s all computable and full of abstraction
-goodies.
-
-And THAT is the culture I want to soak up!
-
-the hard narrative work is done, for these particular stories.
-
-*** Why Textbooks, why physics?
-
-- Why sicmutils? Why play with physics?
-- We have this grand human tale, over thousands of years, of figuring out how
-  the world works. Of how to model reality.
-
-The library that lives in all of these environments, and is fissionable and extensible.
-
-The idea being that the textbook is explicitly about the subject; but actually a
-model of exposition, of scientific communication.
-
-And the __exercises__ are an invitation to publish your own original thoughts,
-to participate in the discovery process yourself. But often with no way to
-practice the publication part. (The discovery has already happened, so why are
-we only practicing getting the answer? The goal is to __share__ it in a way that
-ignores someone else.)
-
-And the PIECES the library kicks out are usable elsewhere.
-
-*** Community Involvement
-
-- Nextjournal's Clerk
-
-- Clojurescript, CLojure
-
-- SCI
-
-- Mathbox
-
-** Demos
-
-How to show off? Build up the Lagrangian example?
-
-And then show the actual library? But how does it fit into this narrative?
-
-** How can you Help, ie, conclusion, call to action.
-
-Build stuff like this!

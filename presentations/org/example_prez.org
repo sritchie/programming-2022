@@ -170,7 +170,7 @@ This slide has no image.
 The next slide demos a full screen image.
 
 # Totally great.
-#+REVEAL: split data-background="../images/knuth_literate.jpg"
+#+REVEAL: split data-background="../images/knuth_literate.jpeg"
 
 * Image Embedding
 
