@@ -11,7 +11,8 @@
            {:main
             {:entries
              [demo.viewers
-              nextjournal.clerk.sci-viewer]}}
+              nextjournal.clerk.sci-viewer
+              nextjournal.clerk.static-app]}}
 
            :output-dir "out"
            :target :browser}}}
