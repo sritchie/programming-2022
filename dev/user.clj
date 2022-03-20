@@ -11,11 +11,20 @@
 
 (comment
   (swap! clerk-config/!resource->url
-         assoc "/js/viewer.js" "http://localhost:9000/out/main.js")
+         assoc
+         "/js/viewer.js"
+         "http://localhost:9000/out/main.js")
 
   ;; Activate this line to start the clerk server.
   (clerk/serve!
-   {:browse? true :port 7777}))
+   {:browse? true :port 7777})
+
+  ;; build the static app:
+  (clerk/build-static-app!
+   {:bundle? false
+    :paths ["index.md"
+            "src/demo.clj"
+            "src/functions.clj"]}))
 
 (comment
   ;; call clerk/show on files to be rendered:

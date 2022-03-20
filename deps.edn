@@ -25,7 +25,8 @@
  :aliases
  {:nextjournal/clerk
   {:exec-fn nextjournal.clerk/build-static-app!
-   ;; notebooks to be built, accepts globs patterns
-   :exec-args {:bundle? false
-               :paths ["index.md"
-                       "src/demo.clj"]}}}}
+   ;; notebooks to be built, accepts globs patterns. This doesn't quite work
+   ;; yet!
+   :exec-args {:bundle? false :paths ["index.md"
+                                      "src/demo.clj"
+                                      "src/functions.clj"]}}}}
