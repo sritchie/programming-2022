@@ -68,9 +68,8 @@ available, so run some tests for fun:
 ;;=> "f(x) + Df(x) + 1/2 D²f(x) + 1/6 D³f(x) + ..."
 ```
 
-As a side effect, `clj` will automatically trigger the following commands,
-defined in `dev/user.clj`: and start a webserver for Clerk, the literate
-programming viewer:
+Next, start a webserver for Clerk, (the literate programming viewer) by running
+the following commands:
 
 ```clojure
 ;; point Clerk at our newly-generated JS bundle instead of its default:

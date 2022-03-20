@@ -9,12 +9,13 @@
  #'xr/*TeX-vertical-down-tuples*
  (constantly true))
 
-(swap! clerk-config/!resource->url
-       assoc "/js/viewer.js" "http://localhost:9000/out/main.js")
+(comment
+  (swap! clerk-config/!resource->url
+         assoc "/js/viewer.js" "http://localhost:9000/out/main.js")
 
-;; Activate this line to start the clerk server.
-(clerk/serve!
- {:browse? true :port 7777})
+  ;; Activate this line to start the clerk server.
+  (clerk/serve!
+   {:browse? true :port 7777}))
 
 (comment
   ;; call clerk/show on files to be rendered:
