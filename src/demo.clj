@@ -6,17 +6,16 @@
   (:require [clojure.pprint :as pp]
             [nextjournal.clerk :as clerk]
             [nextjournal.clerk.viewer :as viewer]
-            [sicmutils.env :as e]
+            [sicmutils.env :as e :refer :all]
             [sicmutils.expression :as x]
             [sicmutils.value :as v]))
 
 ;; ## Hello, SICMUtils!
 ;;
-;; First we'll import the full environment:
+;; Is this thing on?
 
-(e/bootstrap-repl!)
-
-(+ 'x 'x 'x 'x 'x)
+(simplify
+ (+ 'x 'x (expt 'y 4) 'x 'x))
 
 ;; ##  Custom Viewers
 ;;
@@ -25,7 +24,8 @@
 (+ (square (sin 'x))
    (square (cos 'x)))
 
-;; We can convert this to LaTeX, but clerk won't know what to do with the string.
+;; We can convert this to LaTeX, but clerk won't know what to do with the
+;; string.
 
 (->TeX
  (+ (square (sin 'x))
@@ -92,6 +92,7 @@
 (def multiviewer
   (literal-viewer transform-literal))
 
+#_
 (clerk/set-viewers! [multiviewer])
 
 (+ (square (sin 'x))

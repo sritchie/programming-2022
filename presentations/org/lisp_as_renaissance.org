@@ -12,15 +12,19 @@
 #+Subtitle: A Lispy Tour through Mathematical Physics
 
 #+begin_comment
-
 Tasks:
 
-- [ ] future of education quote, get this from the book
-- [ ] zettelkasten, get a picture
-- [ ] get the action formula, brush up on that for the beginning idea
-
 for demos:
+
 - [ ] tidy up the text inside each of the demos. (DONE I think?)
+
+remaining slides
+
+- [ ] after history of vector analysis, matrix vs quaternions slide?
+- [ ] get the action formula, brush up on that for the beginning idea
+- [ ] quotes from future of education
+- [ ] explorables tweet?
+- [ ] finish final conclusion slides etc
 
 #+end_comment
 
@@ -30,7 +34,57 @@ for demos:
 Hi, I'm Sam!
 
 Going to talk about sicmutils.
+#+end_notes
 
+A Lispy Tour through Mathematical Physics
+
+[[https://samritchie.io/][Sam Ritchie]], Mentat Collective
+
+* SICMUtils
+#+begin_notes
+- talk is about this library I've been working on...
+- Clojure, CAS, many environments, these slides, for one
+#+end_notes
+
+#+REVEAL: split
+#+begin_src clojure :results value pp :exports both
+[(+ (sin 'x) 'x) (+ (sin 12) 2)]
+#+end_src
+
+#+RESULTS:
+: [(+ (sin x) x) 1.4634270819995652]
+:
+
+#+begin_src clojure :results wrap :exports both
+(tex$$
+ (up (square (cos (* 't 'phi)))
+     (floor (* 4 'zeta))))
+#+end_src
+
+#+RESULTS:
+:results:
+$$\begin{pmatrix}\displaystyle{{\cos}^{2}\left(\phi\,t\right)} \cr \cr \displaystyle{\left\lfloor 4\,\zeta \right\rfloor}\end{pmatrix}$$
+:end:
+
+#+REVEAL: split
+#+begin_src clojure :results wrap :exports both
+(let [f (literal-function 'f (-> (UP Real Real) Real))]
+  (tex$$
+   ((D f) (up 'alpha_1 'alpha_2))))
+#+end_src
+
+#+RESULTS:
+:results:
+$$\begin{bmatrix}\displaystyle{\partial_0f\left(\begin{pmatrix}\displaystyle{{\alpha}_1} \cr \cr \displaystyle{{\alpha}_2}\end{pmatrix}\right)} \cr \cr \displaystyle{\partial_1f\left(\begin{pmatrix}\displaystyle{{\alpha}_1} \cr \cr \displaystyle{{\alpha}_2}\end{pmatrix}\right)}\end{bmatrix}$$
+:end:
+
+** ❤️ Open Source ❤️
+
+https://github.com/sicmutils/sicmutils
+#+REVEAL_HTML: <img width="100%" src="../images/sicmutils.png">
+
+* Agenda
+#+begin_notes
 And this idea that CODE can be a fantastic medium for communication. There is so
 much promise:
 
@@ -40,20 +94,23 @@ systems.
 To the extent that the system is self-describing, it also performs itself. So
 there is huge promise for the idea of code as communication, and lots of
 champions!
+
+But no one really does it. Not much serious publication work as literate files.
+
+WHY, what's missing?
 #+end_notes
 
-A Lispy Tour through Mathematical Physics
+- Why build another CAS?
+- Code as Communication?
+- Literate Systems (and their problems)
+- Why it matters
+- What to do?
 
-[[https://samritchie.io/][Sam Ritchie]], Mentat Collective
-
-* Talk's about SICMUtils
+* scmutils by GJS
 #+begin_notes
-what is sicmutils? CAS...
-#+end_notes
-
-* Based on scmutils by GJS
-#+begin_notes
-you know GJS, but he's been doing more... tip of the iceberg.
+- Based on scmutils by GJS
+- co-creator of Scheme...
+- SICP
 #+end_notes
 
 #+REVEAL_HTML: <img class="r-stretch" src="../images/gjs.jpg">
@@ -66,9 +123,23 @@ machines to execute."
 #+REVEAL_HTML: <small>~ Hal Abelson, Structure and Interpretation of Computer Programs</small>
 #+REVEAL_HTML: <br><img height="300px" src="../images/sicp.jpeg">
 
+* SICM and FDG
+#+begin_notes
+Followed up SICP with SICM and FDG.
+
+and he's been building this amazing system ever since.
+#+end_notes
+
+#+REVEAL_HTML: <img height="500" src="../images/sicm.jpeg">
+#+REVEAL_HTML: <img height="500" src="../images/fdg.jpeg">
+
 * Motivation? Google X etc
 #+begin_notes
+So I thought I'd port it to a browser-environment.
+
 Really fired up on Bret Victor's work, explorable explanations; kill the PDF!
+
+reading all these RL research papers..
 #+end_notes
 
 ** Disappointment!
@@ -114,13 +185,22 @@ Reminded me of
 
 * Code as Communication
 #+begin_notes
-One way to do it, pursued by GJS, is to champion "code is for communication".
-But it’s obviously not JUST that.
-#+end_notes
+Code is a medium to communicate. But it’s also a medium we use to /build/
+systems.
+
+To the extent that the system is self-describing, it also performs itself.
 
 So code should have carried on this legacy, right?
+#+end_notes
 
-* Numerical Computing Screenshots
+* Numerical Code as Communication?
+#+begin_notes
+I did a deep dive into numerical methods and here is what I've found.
+
+I'm going to pick on this one function but scipy is all like this.
+
+example: Brent's algo for univariate minimization.
+#+end_notes
 
 "We personally like Brent's algorithm for univariate minimization, as found on
 pages 79-80 of his book 'Algorithms for Minimization Without Derivatives'. It is
@@ -128,28 +208,27 @@ pretty reliable and pretty fast, *but we cannot explain how it works*."
 
 ~ scmutils, /refman.txt/
 
-#+REVEAL: split
+** Brent's Book, 1973
 #+begin_notes
-As an example - Brent's algo for univariate minimization.
-
-I'm going to pick on this one function but scipy is all like this.
-
 Back to the [[https://maths-people.anu.edu.au/~brent/pub/pub011.html][original book]] from 1973: "Algorithms for Minimization without
 Derivatives".
 #+end_notes
 #+REVEAL_HTML: <img class="r-stretch" src="../images/brent.jpg">
 
-#+REVEAL: split
+** FORTRAN: Numerical Recipes, 1986
 #+begin_notes
-1986! [[http://phys.uri.edu/nigh/NumRec/bookfpdf/f10-2.pdf][Numerical Recipes]], pretty good
+1986! [[http://phys.uri.edu/nigh/NumRec/bookfpdf/f10-2.pdf][Numerical Recipes]], pretty good... basically a port.
 #+end_notes
 #+REVEAL_HTML: <img class="r-stretch" src="../images/numerical_recipes.jpg">
 
-#+REVEAL: split
+** C++: Boost, 2006
 #+begin_notes
-Notes!
+Then Boost, C++, comes later, used now:
+
+what's the golden ratio doing in here?
 #+end_notes
-#+ATTR_REVEAL: :code_attribs data-line-numbers="37-41|47-52|56-60|90-98"
+
+#+ATTR_REVEAL: :code_attribs data-line-numbers="18|37-41|47-52|56-60|90-98"
 #+begin_src cpp
 template <class F, class T>
 std::pair<T, T> brent_find_minima(F f, T min, T max, int bits, std::uintmax_t& max_iter)
@@ -270,19 +349,135 @@ std::pair<T, T> brent_find_minima(F f, T min, T max, int bits, std::uintmax_t& m
 }
 #+end_src
 
-#+REVEAL: split
+** Python: Scipy, 2001
 #+begin_notes
-#+end_notes
+don't use this, whitespace off
 
 2001? here’s the python version of Brent
 https://github.com/scipy/scipy/blob/v1.5.4/scipy/optimize/optimize.py#L2078
 
 And probably delete some of the previous...
-
-#+REVEAL: split
-#+begin_notes
-Scheme!
 #+end_notes
+
+#+ATTR_REVEAL: :code_attribs data-line-numbers="31-42"
+#+begin_src python
+def optimize(self):
+  # set up for optimization
+  func = self.func
+  xa, xb, xc, fa, fb, fc, funcalls = self.get_bracket_info()
+  _mintol = self._mintol
+  _cg = self._cg
+  #################################
+  #BEGIN CORE ALGORITHM
+  #################################
+  x = w = v = xb
+  fw = fv = fx = func(*((x,) + self.args))
+  if (xa < xc):
+    a = xa
+    b = xc
+  else:
+    a = xc
+    b = xa
+    deltax = 0.0
+    funcalls += 1
+    iter = 0
+  while (iter < self.maxiter):
+    tol1 = self.tol * np.abs(x) + _mintol
+    tol2 = 2.0 * tol1
+    xmid = 0.5 * (a + b)
+    # check for convergence
+    if np.abs(x - xmid) < (tol2 - 0.5 * (b - a)):
+      break
+    # XXX In the first iteration, rat is only bound in the true case
+    # of this conditional. This used to cause an UnboundLocalError
+    # (gh-4140). It should be set before the if (but to what?).
+    if (np.abs(deltax) <= tol1):
+      if (x >= xmid):
+        deltax = a - x       # do a golden section step
+      else:
+        deltax = b - x
+        rat = _cg * deltax
+    else:                              # do a parabolic step
+      tmp1 = (x - w) * (fx - fv)
+      tmp2 = (x - v) * (fx - fw)
+      p = (x - v) * tmp2 - (x - w) * tmp1
+      tmp2 = 2.0 * (tmp2 - tmp1)
+      if (tmp2 > 0.0):
+        p = -p
+        tmp2 = np.abs(tmp2)
+        dx_temp = deltax
+        deltax = rat
+        # check parabolic fit
+        if ((p > tmp2 * (a - x)) and (p < tmp2 * (b - x)) and
+            (np.abs(p) < np.abs(0.5 * tmp2 * dx_temp))):
+          rat = p * 1.0 / tmp2        # if parabolic step is useful.
+          u = x + rat
+          if ((u - a) < tol2 or (b - u) < tol2):
+            if xmid - x >= 0:
+              rat = tol1
+            else:
+              rat = -tol1
+          else:
+            if (x >= xmid):
+              deltax = a - x  # if it's not do a golden section step
+            else:
+              deltax = b - x
+              rat = _cg * deltax
+
+      if (np.abs(rat) < tol1):            # update by at least tol1
+        if rat >= 0:
+          u = x + tol1
+        else:
+          u = x - tol1
+      else:
+        u = x + rat
+        fu = func(*((u,) + self.args))      # calculate new output value
+        funcalls += 1
+
+        if (fu > fx):                 # if it's bigger than current
+          if (u < x):
+            a = u
+          else:
+            b = u
+          if (fu <= fw) or (w == x):
+            v = w
+            w = u
+            fv = fw
+            fw = fu
+          elif (fu <= fv) or (v == x) or (v == w):
+            v = u
+            fv = fu
+          else:
+            if (u >= x):
+              a = x
+            else:
+              b = x
+          v = w
+          w = x
+          x = u
+          fv = fw
+          fw = fx
+          fx = fu
+
+          iter += 1
+ #################################
+        #END CORE ALGORITHM
+        #################################
+
+        self.xmin = x
+        self.fval = fx
+        self.iter = iter
+        self.funcalls = funcalls
+#+end_src
+
+** Scheme: 1987
+
+#+begin_notes
+Scheme? NOOO
+
+Mine is better.
+#+end_notes
+
 #+ATTR_REVEAL: :code_attribs data-line-numbers="32-43"
 #+begin_src scheme
 ;;; Brent's algorithm for univariate minimization -- transcribed from
@@ -345,8 +540,10 @@ Scheme!
 		    (loop (+ count 1))))))))))
 #+end_src
 
-** Actual Goal
+** Actual Algorithm
 #+begin_notes
+This is it...
+
 But this image isn't tied to the code! There have been systems to do that... and
 the picture is slightly wrong. you really want to watch it proceed.
 
@@ -355,21 +552,29 @@ MEME from Clean Code...
 
 #+REVEAL_HTML: <img class="r-stretch" src="../images/brent_parabola.png">
 
-** Why Care?
+** So What?
 #+begin_notes
 Because these methods are conceptually not that tough, and this is an
 improvement on another conceptually easy method. Lots of these are visually very
 easy!
 #+end_notes
 
+How can we do better?
+
 * Existing Work
 
 #+REVEAL: split data-background="../images/knuth_literate.jpeg"
 #+begin_notes
+PICK UP HERE:
+
+- what are the other efforts?
 Literate programming, of course
 #+end_notes
 
 ** LOGO
+#+begin_notes
+Microworlds!
+#+end_notes
 
 #+REVEAL_HTML: <img class="r-stretch" src="../images/papert.jpeg">
 
@@ -380,55 +585,30 @@ Literate programming, of course
 #+begin_notes
 Mention notebooks here too
 #+end_notes
+
 #+REVEAL_HTML: <img width="300" src="../images/mm_notebook.jpg">
 #+REVEAL_HTML: <img width="300" src="../images/mathematica.svg">
 
-* Why aren't people doing this?
+* Why aren't these working?
 #+begin_notes
 I am a total sucker for this stuff! But even I don't do it.
-#+end_notes
 
 If all this is software great, what are we doing?
-
-* Problems with Code as Comms
+#+end_notes
 
 #+ATTR_REVEAL: :frag (grow)
-- Literate Programming
+- Literate Programming == one-way
 - Real Science is Multiplayer
 - Dynamic is Too Seductive
-- LP is one-way
 - Real Work doesn't happen here
 
-** LP
-
+** Literate Programming == one way
+#+begin_notes
 The problem with Literate Programming is that you really want a culture of
 literate programming, so that you can build on all of this stuff together. I’m
 imagining something like the AI memos, or email but where everyone is reading in
 emacs and you can just fire code around, save it etc. Before all of this version
 control nonsense.
-
-** Real Science is Multiplayer
-
-Science is not just about communication. The progression of science has been
-inherently multiplayer; so the __nice__ thing about the PDF is you can print it
-out and sit in your chair and puzzle over what you’re seeing. And then make
-notes in the margins that potentially lead to the next brick in the wall.
-
-A WEAKNESS with existing stuff is that it’s all geared toward presentations.
-3b1b style, for example. Brilliant! But it’s a presentation. It’s not a "viewer"
-where I can check out my own transformations, play, etc etc
-
-** Dynamic == Too Seductive
-
-It is too seductive, people just want the code to __work__: but the alternative
-is what, thrashing around with python code?
-
-Something odd happens when the machine is involved. We GLEEFULLY abstain from
-ironing out and understanding it all, because the machine can perform the thing!
-Maybe that is like some old-timer in the lab who can work the fridge. But then
-we lose the knowledge.
-
-** Literate == one way
 
 ALSO: as a reader, I can't participate in the cultural thing that created the
 document!
@@ -440,12 +620,37 @@ shared. Yes, I know about Docker etc...
 SO — and this is personal for me — I want to bring more of the teaching and
 explaining back into real software, into things you can use for real work in a
 lab.
+#+end_notes
+
+** Real Science is Multiplayer
+#+begin_notes
+Science is not just about communication. The progression of science has been
+inherently multiplayer; so the __nice__ thing about the PDF is you can print it
+out and sit in your chair and puzzle over what you’re seeing. And then make
+notes in the margins that potentially lead to the next brick in the wall.
+
+A WEAKNESS with existing stuff is that it’s all geared toward presentations.
+3b1b style, for example. Brilliant! But it’s a presentation. It’s not a "viewer"
+where I can check out my own transformations, play, etc etc
+#+end_notes
+
+** Dynamic == Too Seductive
+#+begin_notes
+It is too seductive, people just want the code to __work__: but the alternative
+is what, thrashing around with python code?
+
+Something odd happens when the machine is involved. We GLEEFULLY abstain from
+ironing out and understanding it all, because the machine can perform the thing!
+Maybe that is like some old-timer in the lab who can work the fridge. But then
+we lose the knowledge.
+#+end_notes
 
 ** People are not doing "real work" in these systems
-
+#+begin_notes
 Same with LOGO, with Notebooks. you have to bail out at some point.
+#+end_notes
 
-* Why does it matter?
+* Why care?
 #+begin_notes
 These are the crown jewels of our society!
 
@@ -464,33 +669,36 @@ developing a deep intuition around control systems, physical models, physical
 simulations and nonlinear feedback?
 #+end_notes
 
-** Future of Education Quote
+** "Future of Education"
+#+begin_notes
+- [ ] fill in this picture and quote
 
-* Explanation as Side Effect
+  We're all quite good at this abstraction thing, but that's not normal!
+#+end_notes
 
-Zettelkasten. Then you go tidy it up for someone else.
+- Mythic Understanding
+- Romantic Understanding
+- *Philosophic Understanding*
+- Ironic Understanding
 
-The dream environment is one where just playing in public leaves a record of
-what you did, and is shareable. See Zettelkasten for notes on what to do here.
-That was the beauty of the Roam promise.
-
-* What to make?
+* What to do?
 #+begin_notes
 #+end_notes
 
 ** SICM and FDG as clues
-
+#+begin_notes
 these books had actually paved the way! And THAT is the culture I want to soak
 up! The hard narrative work is done, for these particular stories.
 
 Browser based, Clojure, Lisp, build on sicm
+#+end_notes
 
 #+REVEAL_HTML: <img height="500" src="../images/sicm.jpeg">
 #+REVEAL_HTML: <img height="500" src="../images/fdg.jpeg">
 
-** Textbook as Nurse Tree
-
-Get a picture of a nurse log...
+#+REVEAL: split data-background="../images/nurse_log.jpeg"
+#+begin_notes
+Textbook as Nurse Log
 
 Physics and the Book: The Road to Reality. The textbook sort of is a starter
 pack. It’s a library already, it’s a nurse tree. It purports to tell you
@@ -514,62 +722,18 @@ we only practicing getting the answer? The goal is to __share__ it in a way that
 ignores someone else.)
 
 And the PIECES the library kicks out are usable elsewhere.
-
-
-* SICMUtils ❤️ Open Source
-
-https://github.com/sicmutils/sicmutils
-#+REVEAL_HTML: <img width="100%" src="../images/sicmutils.png">
-
-** Many Environments
-#+begin_notes
-The idea is that this is just a thing you can /reach for/... and then down the
-road, extend.
 #+end_notes
 
-- Nextjournal
-- =org-mode= (these slides!)
-- Browser (JS) or Server (JVM)
-- ...
-
-* SICMUtils Examples
+** Explanation as Side Effect
 #+begin_notes
-Demos begin here.
+Zettelkasten. Then you go tidy it up for someone else.
+
+The dream environment is one where just playing in public leaves a record of
+what you did, and is shareable. See Zettelkasten for notes on what to do here.
+That was the beauty of the Roam promise.
 #+end_notes
 
-#+REVEAL: split
-#+begin_src clojure :results value pp :exports both
-[(+ (sin 'x) 'x) (+ (sin 12) 2)]
-#+end_src
-
-#+RESULTS:
-: [(+ (sin x) x) 1.4634270819995652]
-:
-
-#+begin_src clojure :results wrap :exports both
-(tex$$
- (up (square (cos (* 't 'phi)))
-     (floor (* 4 'zeta))))
-#+end_src
-
-#+RESULTS:
-:results:
-$$\begin{pmatrix}\displaystyle{{\cos}^{2}\left(\phi\,t\right)} \cr \cr \displaystyle{\left\lfloor 4\,\zeta \right\rfloor}\end{pmatrix}$$
-:end:
-
-#+REVEAL: split
-#+begin_src clojure :results wrap :exports both
-(let [f (literal-function 'f (-> (UP Real Real) Real))]
-  (tex$$
-   ((D f) (up 'alpha_1 'alpha_2))))
-#+end_src
-
-#+RESULTS:
-:results:
-$$\begin{bmatrix}\displaystyle{\partial_0f\left(\begin{pmatrix}\displaystyle{{\alpha}_1} \cr \cr \displaystyle{{\alpha}_2}\end{pmatrix}\right)} \cr \cr \displaystyle{\partial_1f\left(\begin{pmatrix}\displaystyle{{\alpha}_1} \cr \cr \displaystyle{{\alpha}_2}\end{pmatrix}\right)}\end{bmatrix}$$
-:end:
-
-* Lagrange Equation Demo
+* Euler-Lagrange Equations
 #+begin_notes
 This is a good section to talk about the Sussman pitch on Code as Comms.
 
@@ -595,7 +759,11 @@ What is less interesting is the symbol-pushing and accounting /after/ you've
 realized.
 #+end_notes
 
+$$S[q](t_a, t_b) = D \int_{t_a}^{t_b} L(t, q(t), Dq(t)) dt$$
 
+$$D \int_{t_a}^{t_b} L(t, q(t), Dq(t)) dt = 0$$
+
+#+REVEAL: split
 #+ATTR_REVEAL: :frag t :frag_idx 2
 "What could this expression possibly mean?"
 
@@ -683,9 +851,31 @@ $$D\left(\left(\partial_{2} L\right) \circ \left(\Gamma[w]\right)\right)
 #+RESULTS:
 : #'prez/Lagrange-equations
 
+#+reveal: split
+#+begin_notes
+You can look at the general form... but the POINT is that it's
+confusing!!!
+#+end_notes
+
+#+begin_src clojure :results wrap :exports both :cache yes
+(let [L (- (comp (literal-function 'T) velocity)
+           (comp (literal-function 'V) coordinate))
+      w (literal-function 'w)]
+  (tex$$
+   (((Lagrange-equations L) w) 't)))
+#+end_src
+
+#+RESULTS[b86d9da391958ae3e17a47fae3d7a055e4c153b2]:
+:results:
+$${D}^{2}w\left(t\right)\,{D}^{2}T\left(Dw\left(t\right)\right) + DV\left(w\left(t\right)\right)$$
+:end:
+
 #+REVEAL: split
 #+begin_notes
-Maybe cut this, I don't know if it's a good example.
+Specific example:
+
+w = angular frequency, radians/second
+sqrt(k/m) equals the period for a harmonic oscillator
 #+end_notes
 
 #+ATTR_REVEAL: :code_attribs data-line-numbers="7|8"
@@ -741,26 +931,6 @@ here.
 $$k\,w\left(t\right) + m\,{D}^{2}w\left(t\right)$$
 :end:
 
-
-#+reveal: split
-#+begin_notes
-Actually you can look at the general form... but the POINT is that it's
-confusing!!!
-#+end_notes
-
-#+begin_src clojure :results wrap :exports both :cache yes
-(let [L (- (comp (literal-function 'T) velocity)
-           (comp (literal-function 'V) coordinate))
-      w (literal-function 'w)]
-  (tex$$
-   (((Lagrange-equations L) w) 't)))
-#+end_src
-
-#+RESULTS[b86d9da391958ae3e17a47fae3d7a055e4c153b2]:
-:results:
-$${D}^{2}w\left(t\right)\,{D}^{2}T\left(Dw\left(t\right)\right) + DV\left(w\left(t\right)\right)$$
-:end:
-
 * Clerk Demo
 #+begin_notes
 - spring demo
@@ -784,8 +954,8 @@ SO, these "essays" are also little libraries!
 You can publish them as little "research papers"
 #+end_notes
 
-That was not very clear! So let's convince ourselves that that is true, by doing
-the spring demo in the browser.
+Let's convince ourselves that that is true, by doing the spring demo in the
+browser.
 
 * Community
 
