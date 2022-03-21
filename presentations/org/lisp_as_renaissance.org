@@ -20,9 +20,6 @@ for demos:
 
 remaining slides
 
-- [ ] after history of vector analysis, matrix vs quaternions slide?
-- [ ] get the action formula, brush up on that for the beginning idea
-- [ ] quotes from future of education
 - [ ] explorables tweet?
 - [ ] finish final conclusion slides etc
 
@@ -31,9 +28,7 @@ remaining slides
 
 * Lisp as Renaissance Workshop
 #+begin_notes
-Hi, I'm Sam!
-
-Going to talk about sicmutils.
+Hi, I'm Sam! Been a lisper for many years
 #+end_notes
 
 A Lispy Tour through Mathematical Physics
@@ -44,9 +39,14 @@ A Lispy Tour through Mathematical Physics
 #+begin_notes
 - talk is about this library I've been working on...
 - Clojure, CAS, many environments, these slides, for one
+- lives everywhere
 #+end_notes
 
 #+REVEAL: split
+#+begin_notes
+Generic operations, tex
+#+end_notes
+
 #+begin_src clojure :results value pp :exports both
 [(+ (sin 'x) 'x) (+ (sin 12) 2)]
 #+end_src
@@ -67,6 +67,11 @@ $$\begin{pmatrix}\displaystyle{{\cos}^{2}\left(\phi\,t\right)} \cr \cr \displays
 :end:
 
 #+REVEAL: split
+#+begin_notes
+autodiff, types, symbols
+actual code in the slides
+#+end_notes
+
 #+begin_src clojure :results wrap :exports both
 (let [f (literal-function 'f (-> (UP Real Real) Real))]
   (tex$$
@@ -79,44 +84,40 @@ $$\begin{bmatrix}\displaystyle{\partial_0f\left(\begin{pmatrix}\displaystyle{{\a
 :end:
 
 ** ❤️ Open Source ❤️
+#+begin_notes
+lives online, same with these slides.
+#+end_notes
 
 https://github.com/sicmutils/sicmutils
 #+REVEAL_HTML: <img width="100%" src="../images/sicmutils.png">
+https://github.com/sritchie/programming-2022
 
 * Agenda
 #+begin_notes
-And this idea that CODE can be a fantastic medium for communication. There is so
-much promise:
-
-Code is a medium to communicate. But it’s also a medium we use to /build/
-systems.
-
-To the extent that the system is self-describing, it also performs itself. So
-there is huge promise for the idea of code as communication, and lots of
-champions!
-
-But no one really does it. Not much serious publication work as literate files.
-
-WHY, what's missing?
+- CODE can be a fantastic medium for communication.
+- Code is a medium to communicate. But it’s also a medium we use to /build/
+  systems.
+- can perform itself!
+- we get by fine, why does it matter?
 #+end_notes
 
 - Why build another CAS?
 - Code as Communication?
 - Literate Systems (and their problems)
 - Why it matters
-- What to do?
+- What to do? + SICMUtils
 
 * scmutils by GJS
 #+begin_notes
-- Based on scmutils by GJS
-- co-creator of Scheme...
-- SICP
+- Based on scmutils by GJS, co-creator of Scheme...
 #+end_notes
 
 #+REVEAL_HTML: <img class="r-stretch" src="../images/gjs.jpg">
 
 #+REVEAL: split
-
+#+begin_notes
+SICP quote, exciting for me.
+#+end_notes
 "*programs must be written for people to read*, and only incidentally for
 machines to execute."
 
@@ -125,52 +126,42 @@ machines to execute."
 
 * SICM and FDG
 #+begin_notes
-Followed up SICP with SICM and FDG.
-
-and he's been building this amazing system ever since.
+- Followed up SICP with SICM and FDG.
+- scmutils is the iceberg below this system.
 #+end_notes
 
 #+REVEAL_HTML: <img height="500" src="../images/sicm.jpeg">
 #+REVEAL_HTML: <img height="500" src="../images/fdg.jpeg">
 
-* Motivation? Google X etc
+* Motivation, Google X
 #+begin_notes
-So I thought I'd port it to a browser-environment.
-
-Really fired up on Bret Victor's work, explorable explanations; kill the PDF!
-
-reading all these RL research papers..
+- Excited about Bret Victor's work, explorable explanations
+- kill the PDF!
+- reading all these RL research papers...
+- Port it to a browser-environment.
 #+end_notes
 
-** Disappointment!
+** Disappointment @ X!
 #+begin_notes
-Then we get to the Google gig. We have this __rot__ going on, where __tools for
-thought__ is championed outside the world — often by people that are very
-idealistic and thing that this is the way things __should work__ — inherently
-gifty, Gift Economy like.
-
-But then the folks using the tools despise the tools. And the toolmakers get
-heat for not using them, because it’s so tough. Rare exceptions.
+- tools for thought championed outside!
+- but people in ML labs really hate their tools
+- no lab notebook! snippets in chat
 
 Thrashing around with python and build systems... that is NOT what folks finding
-the deep principles behind QM were doing, there is no way it is going to lead to
-discoveries here.
-
-No one uses any analogue of lab notebook. Best is snippets pasted into Google
-Chat.
+the deep principles behind QM were doing.
 #+end_notes
 
 * 19th Century Scientific Communication
 #+begin_notes
-It didn't used to be this way!
-
-  It's important that these ideas are in the air, that we're proud of them as
-  ideas we can take and /use/, not just... oh, tech vibes.
+- didn't used to be this way!
 #+end_notes
 
 ** History of Vector Analysis
 #+begin_notes
-Quaternions, Clifford algebra, the battle for representations,
+- the battle for representations, lovely writing
+- complex numbers
+- Quaternions
+- Clifford algebra
 
 Different than programming language battles, I think.
 #+end_notes
@@ -179,34 +170,30 @@ Different than programming language battles, I think.
 
 #+REVEAL: split
 #+begin_notes
-Reminded me of
+Reminded me of this...
 #+end_notes
 #+REVEAL_HTML: <img class="r-stretch" src="../images/lisp_xkcd.jpeg">
 
 * Code as Communication
 #+begin_notes
-Code is a medium to communicate. But it’s also a medium we use to /build/
-systems.
-
-To the extent that the system is self-describing, it also performs itself.
-
-So code should have carried on this legacy, right?
+- Code == medium to communicate
+- also a medium we use to /build/ systems
+- so it should have supercharged this demo ability... right?
 #+end_notes
 
-* Numerical Code as Communication?
+** Numerical Code as Communication?
 #+begin_notes
-I did a deep dive into numerical methods and here is what I've found.
+- deep dive into numerical methods and here is what I've found.
+- pick on this one function but representative
 
-I'm going to pick on this one function but scipy is all like this.
-
-example: Brent's algo for univariate minimization.
+Brent's algo for univariate minimization.
 #+end_notes
 
 "We personally like Brent's algorithm for univariate minimization, as found on
 pages 79-80 of his book 'Algorithms for Minimization Without Derivatives'. It is
 pretty reliable and pretty fast, *but we cannot explain how it works*."
 
-~ scmutils, /refman.txt/
+~ =scmutils=, /refman.txt/
 
 ** Brent's Book, 1973
 #+begin_notes
@@ -224,8 +211,8 @@ Derivatives".
 ** C++: Boost, 2006
 #+begin_notes
 Then Boost, C++, comes later, used now:
-
-what's the golden ratio doing in here?
+- golden ratio woah!
+- comments
 #+end_notes
 
 #+ATTR_REVEAL: :code_attribs data-line-numbers="18|37-41|47-52|56-60|90-98"
@@ -351,12 +338,10 @@ std::pair<T, T> brent_find_minima(F f, T min, T max, int bits, std::uintmax_t& m
 
 ** Python: Scipy, 2001
 #+begin_notes
-don't use this, whitespace off
 
-2001? here’s the python version of Brent
-https://github.com/scipy/scipy/blob/v1.5.4/scipy/optimize/optimize.py#L2078
-
-And probably delete some of the previous...
+- 2001, [[https://github.com/scipy/scipy/blob/v1.5.4/scipy/optimize/optimize.py#L2078][python version]] of Brent
+- don't use this, whitespace off
+- comments in odd places
 #+end_notes
 
 #+ATTR_REVEAL: :code_attribs data-line-numbers="31-42"
@@ -473,9 +458,7 @@ def optimize(self):
 ** Scheme: 1987
 
 #+begin_notes
-Scheme? NOOO
-
-Mine is better.
+Scheme? Sussman! Please!
 #+end_notes
 
 #+ATTR_REVEAL: :code_attribs data-line-numbers="32-43"
@@ -540,12 +523,10 @@ Mine is better.
 		    (loop (+ count 1))))))))))
 #+end_src
 
-** Actual Algorithm
+** Actual Core Idea
 #+begin_notes
-This is it...
-
-But this image isn't tied to the code! There have been systems to do that... and
-the picture is slightly wrong. you really want to watch it proceed.
+- here is the idea
+- image isn't tied to code! pic wrong!
 
 MEME from Clean Code...
 #+end_notes
@@ -554,26 +535,32 @@ MEME from Clean Code...
 
 ** So What?
 #+begin_notes
-Because these methods are conceptually not that tough, and this is an
-improvement on another conceptually easy method. Lots of these are visually very
-easy!
+- all these methods are simple extensions of this!
+- same with quadrature; huge gains from intuition
+- huge TAX that we're paying
 #+end_notes
 
-How can we do better?
+- What's wrong with this?
+- How can we do better?
 
-* Existing Work
+* Existing Ideas
+#+begin_notes
+- approaches to code performing itself
+#+end_notes
+
+- Literate Programming
+- LOGO's Microworlds
+- Notebooks, Mathematica
 
 #+REVEAL: split data-background="../images/knuth_literate.jpeg"
 #+begin_notes
-PICK UP HERE:
-
-- what are the other efforts?
-Literate programming, of course
+- Literate programming!
+- many good books like this
 #+end_notes
 
-** LOGO
+** LOGO's Microworlds
 #+begin_notes
-Microworlds!
+- Microworlds put you in the system!
 #+end_notes
 
 #+REVEAL_HTML: <img class="r-stretch" src="../images/papert.jpeg">
@@ -581,9 +568,10 @@ Microworlds!
 #+REVEAL: split
 #+REVEAL_HTML: <img class="r-stretch" src="../images/turtle_geometry.jpeg">
 
-** Mathematica, Notebooks
+** Notebooks, Mathematica
 #+begin_notes
-Mention notebooks here too
+- notebooks is a beautiful idea
+- pioneered my mathematica
 #+end_notes
 
 #+REVEAL_HTML: <img width="300" src="../images/mm_notebook.jpg">
@@ -591,88 +579,50 @@ Mention notebooks here too
 
 * Why aren't these working?
 #+begin_notes
-I am a total sucker for this stuff! But even I don't do it.
-
-If all this is software great, what are we doing?
+- NOT working!
 #+end_notes
 
 #+ATTR_REVEAL: :frag (grow)
 - Literate Programming == one-way
-- Real Science is Multiplayer
+- Science is Multiplayer
 - Dynamic is Too Seductive
 - Real Work doesn't happen here
 
 ** Literate Programming == one way
 #+begin_notes
-The problem with Literate Programming is that you really want a culture of
-literate programming, so that you can build on all of this stuff together. I’m
-imagining something like the AI memos, or email but where everyone is reading in
-emacs and you can just fire code around, save it etc. Before all of this version
-control nonsense.
-
-ALSO: as a reader, I can't participate in the cultural thing that created the
-document!
-
-This is also the problem with notebooks. They are often so dependent on the
-user's local environment... I read the thing but it was not designed to be
-shared. Yes, I know about Docker etc...
-
-SO — and this is personal for me — I want to bring more of the teaching and
-explaining back into real software, into things you can use for real work in a
-lab.
+- very hard to share the ENVIRONMENT
+- hard to build a culture, 1 person thing
 #+end_notes
 
-** Real Science is Multiplayer
+** Science is Multiplayer
 #+begin_notes
-Science is not just about communication. The progression of science has been
-inherently multiplayer; so the __nice__ thing about the PDF is you can print it
-out and sit in your chair and puzzle over what you’re seeing. And then make
-notes in the margins that potentially lead to the next brick in the wall.
-
-A WEAKNESS with existing stuff is that it’s all geared toward presentations.
-3b1b style, for example. Brilliant! But it’s a presentation. It’s not a "viewer"
-where I can check out my own transformations, play, etc etc
+- sharing tools come from industry, not very creative
+- science happens at the whiteboard!
+- existing geared => presentation
 #+end_notes
 
 ** Dynamic == Too Seductive
 #+begin_notes
-It is too seductive, people just want the code to __work__: but the alternative
-is what, thrashing around with python code?
-
-Something odd happens when the machine is involved. We GLEEFULLY abstain from
-ironing out and understanding it all, because the machine can perform the thing!
-Maybe that is like some old-timer in the lab who can work the fridge. But then
-we lose the knowledge.
+- once it works we stop
+- abstain from understanding
+- so you lose all context
 #+end_notes
 
 ** People are not doing "real work" in these systems
 #+begin_notes
-Same with LOGO, with Notebooks. you have to bail out at some point.
+- you have to bail out of a notebook
+- no real work in notebooks
 #+end_notes
 
 * Why care?
 #+begin_notes
-These are the crown jewels of our society!
-
-We have many problems left that this computational fluid seems quite useful for.
-
-not to mention that this is a beautiful THING we have figured out how to do,
-this sense that abstraction is all around. If it is true of the universe where
-we’re living, music, art, wow, better practice.
-
-The ability to do long term projects depends on the transmission of culture over
-long distances and times. With our current stuff, the harder the material gets,
-the more specialized the field gets, the more impressionistic the notation gets.
-
-How does the way out of the climate crisis, issues like that not depend on
-developing a deep intuition around control systems, physical models, physical
-simulations and nonlinear feedback?
+- crown jewels of society!
+- long-term projects depend on transmission of culture
+- With current, harder material => specialization, impressionistic
 #+end_notes
 
 ** "Future of Education"
 #+begin_notes
-- [ ] fill in this picture and quote
-
   We're all quite good at this abstraction thing, but that's not normal!
 #+end_notes
 
@@ -683,14 +633,15 @@ simulations and nonlinear feedback?
 
 * What to do?
 #+begin_notes
+- I wanted to do something about this...
+- what to make?
 #+end_notes
 
 ** SICM and FDG as clues
 #+begin_notes
-these books had actually paved the way! And THAT is the culture I want to soak
-up! The hard narrative work is done, for these particular stories.
-
-Browser based, Clojure, Lisp, build on sicm
+- books paved the way
+- hard narrative work is done, for these stories.
+- SO: Browser based, Clojure, Lisp, build on sicm
 #+end_notes
 
 #+REVEAL_HTML: <img height="500" src="../images/sicm.jpeg">
@@ -698,78 +649,44 @@ Browser based, Clojure, Lisp, build on sicm
 
 #+REVEAL: split data-background="../images/nurse_log.jpeg"
 #+begin_notes
-Textbook as Nurse Log
-
-Physics and the Book: The Road to Reality. The textbook sort of is a starter
-pack. It’s a library already, it’s a nurse tree. It purports to tell you
-everything! And in principle it’s all computable and full of abstraction
-goodies.
-
-And THAT is the culture I want to soak up!
-
-- We have this grand human tale, over thousands of years, of figuring out how
-  the world works. Of how to model reality.
-
-The library that lives in all of these environments, and is fissionable and extensible.
-
-The idea being that the textbook is explicitly about the subject; but actually a
-model of exposition, of scientific communication.
-
-And the __exercises__ are an invitation to publish your own original thoughts,
-to participate in the discovery process yourself. But often with no way to
-practice the publication part. (The discovery has already happened, so why are
-we only practicing getting the answer? The goal is to __share__ it in a way that
-ignores someone else.)
-
-And the PIECES the library kicks out are usable elsewhere.
+- textbook as Nurse Log, and library
+- huge culture bundle
+- exercises == invitation to publish
 #+end_notes
 
 ** Explanation as Side Effect
 #+begin_notes
-Zettelkasten. Then you go tidy it up for someone else.
-
-The dream environment is one where just playing in public leaves a record of
-what you did, and is shareable. See Zettelkasten for notes on what to do here.
-That was the beauty of the Roam promise.
+- dream environment: you play, explanation comes for free
+- good evidence from Roam etc for text
 #+end_notes
 
 * Euler-Lagrange Equations
 #+begin_notes
-This is a good section to talk about the Sussman pitch on Code as Comms.
-
-Go from:
-
-- Lagrange equations, let's say WHAT WE MEAN
-- the expanded version
-- the clojure code
-- the animation
-
-This has pretty crappy flow now but I think this section is a pretty important
-one, to talk about what it MEANS to say that code can communicate.
-
-BY THE WAY, the way you derive this is just bananas, such a great way to THINK.
-
-- [ ] so add a slide about the integral T-V vs where you get...
-
-you'll find you might get sleepy for a few slides; but I will own it by saying
-that is kind of the point!
-
-What is interesting here is this fundamentally amazing, beautiful observation.
-What is less interesting is the symbol-pushing and accounting /after/ you've
-realized.
+example of a beautiful thing, least action
+- interesting == beautiful observation
+- less interesting == symbol-pushing
 #+end_notes
 
 $$S[q](t_a, t_b) = D \int_{t_a}^{t_b} L(t, q(t), Dq(t)) dt$$
 
 $$D \int_{t_a}^{t_b} L(t, q(t), Dq(t)) dt = 0$$
 
-#+REVEAL: split
+** Euler-Lagrange Equations
+
+#+begin_notes
+this is the result, usual form.
+anyone know the type?
+#+end_notes
+
 #+ATTR_REVEAL: :frag t :frag_idx 2
 "What could this expression possibly mean?"
 
 $${\frac{d}{d t} \frac{\partial L}{\partial \dot{q}}}-\frac{\partial L}{\partial q}=0$$
 
 ** Expand:
+#+begin_notes
+This is what is really going on.
+#+end_notes
 
 $${\frac{d}{d t} \frac{\partial L}{\partial \dot{q}}}-\frac{\partial L}{\partial q}=0$$
 
@@ -781,18 +698,7 @@ $$\frac{d}{d t}\left( \left.\frac{\partial L(t, q, \dot{q})}{\partial \dot{q}}
 
 ** Okay, Fine
 #+begin_notes
-This system lets you write more explicit computational physics.
-
-Development now of the better notation.
-
-Describe "expression derivatives" vs function derivatives.
-
-Culture example:
-
-A PROBLEM here is that these cultures are fairly insular now, because they are
-so well developed. So much of the communication occurs in this /shorthand/.
-
-There is so much /culture/.
+- fill in, replace with functional derivatives
 #+end_notes
 
 $${\frac{d}{d t} \frac{\partial L}{\partial \dot{q}}}-\frac{\partial L}{\partial
@@ -810,14 +716,8 @@ w(t)\right) = 0
 
 ** Substitutions
 #+begin_notes
-So let’s get rid of the expression derivative $d/dt$ and replace it with an
-appropriate functional derivative. If $f$ is a function then we will write
-$Df$ as the new function that is the derivative of $f$
-
-To do this for the Lagrange equation we need to construct a function to take
-the derivative of.
-
-our friend Gamma...
+- kill EXPRESSION derivative, replace again
+- use Hamma since we can build from path
 #+end_notes
 
 $$(D f)(t)=\left.\frac{d}{d x} f(x)\right|_{x=t}$$
@@ -826,9 +726,9 @@ $$\Gamma[w](t)=\left(t, w(t), \frac{d}{d t} w(t)\right)$$
 
 #+REVEAL: split
 #+begin_notes
-That lets us simplify a bit more.
-Finally, let's get the explicit =t= out of there.
-then, program
+- get the explicit =t= out of there
+- functional derivative
+- write as code!
 #+end_notes
 
 #+ATTR_REVEAL: :frag none :frag_idx 1
@@ -840,7 +740,7 @@ $$\frac{d}{dt}\left(
 $$D\left(\left(\partial_{2} L\right) \circ \left(\Gamma[w]\right)\right)
    \\ -\left(\partial_{1} L\right) \circ \left(\Gamma[w]\right)=0$$
 
-#+ATTR_REVEAL: :frag t :frag_idx 3 :code_attribs data-line-numbers="1|2-4|3|4"
+#+ATTR_REVEAL: :frag t :frag_idx 3 :code_attribs data-line-numbers="1|2-4"
 #+begin_src clojure :eval none
 (defn Lagrange-equations [L]
   (fn [w]
@@ -853,8 +753,8 @@ $$D\left(\left(\partial_{2} L\right) \circ \left(\Gamma[w]\right)\right)
 
 #+reveal: split
 #+begin_notes
-You can look at the general form... but the POINT is that it's
-confusing!!!
+- you can call this!
+- general form, F = ma
 #+end_notes
 
 #+begin_src clojure :results wrap :exports both :cache yes
@@ -870,7 +770,7 @@ confusing!!!
 $${D}^{2}w\left(t\right)\,{D}^{2}T\left(Dw\left(t\right)\right) + DV\left(w\left(t\right)\right)$$
 :end:
 
-#+REVEAL: split
+** Simple Harmonic Motion
 #+begin_notes
 Specific example:
 
@@ -913,10 +813,9 @@ sqrt(k/m) equals the period for a harmonic oscillator
 $$- a\,m\,{\omega}^{2}\,\cos\left(\omega\,t + \phi\right) + a\,k\,\cos\left(\omega\,t + \phi\right)$$
 :end:
 
-#+reveal: split
+** Hooke's Law
 #+begin_notes
-Boom, we have F = ma, because F = ma has to be true. So we have Hooke's law
-here.
+use literal function, get hooke's law:
 #+end_notes
 
 #+begin_src clojure :results wrap :exports both :cache yes
@@ -933,12 +832,9 @@ $$k\,w\left(t\right) + m\,{D}^{2}w\left(t\right)$$
 
 * Clerk Demo
 #+begin_notes
-- spring demo
+- spring first,
 - the physics examples
 - function examples
-- John video?
-- THE LIBRARY ITSELF is written
-   - show autodiff, numerical methods
 - the slides themselves have math generated by sicmutils
 - Nextjournal environment
 - Double Pendulum style essay...
@@ -959,9 +855,8 @@ browser.
 
 * Community
 
-- Sussman! Wisdom!
-- Colin Smith, founded SICMUtils
-- Mentat Collective: Brad Feld and John Underkoffler
+- Sussman et. al.
+- Colin Smith
 - Clerk: Martin Kavalar, Jack Rusher, Nextjournal team
 - SCI: Michiel Borkent (@borkdude)
 - Mathbox: Chris Chudzicki, Steven Wittens
@@ -970,25 +865,22 @@ browser.
 #+begin_notes
 so why is this interesting?
 
-Basically we know the material is good — so how compelling AND SIMULTANEOUSLY
-USEFUL can we make the presentation? Fascinating all the way down! the workshop!
+- Lisp, the computational fluid, is something eery and special
+- What are we going to do with it?
 #+end_notes
 
-- Collaborative editing, simulation
+- SICM and FDG: Executable Textbooks
 - Full library as essays
-- Steal the pieces!
-- Build things like this!
+- Collaborative editing, simulation
+- Please Steal!
 
-* Conclusion
+* Thanks!
+#+begin_notes
+questions?
+#+end_notes
 
-Lisp, the computational fluid, is something eery and special. It’s not
-/everything/; remember, these are just models! But it’s a big deal.
+Sam Ritchie, Mentat Collective
 
-What are we going to do with it?
+[[https://twitter.com/sritchie][@sritchie]]
 
-the whole industry is so frothy, money, excitement, gleefully jettisoning the
-original values. Which is all great, of course, except it seems like it’s not
-/allowed/ to go work on inspiring stuff, even though there is far more money.
-
-At the same time, what, we’re gonna change the world by working on developer
-tools?
+https://github.com/sritchie/programming-2022
