@@ -44,7 +44,9 @@ A Lispy Tour through Mathematical Physics
 
 #+REVEAL: split
 #+begin_notes
-Generic operations, tex
+- small demo!
+- Generic operations, tex
+- more later
 #+end_notes
 
 #+begin_src clojure :results value pp :exports both
@@ -579,7 +581,15 @@ MEME from Clean Code...
 
 * Why aren't these working?
 #+begin_notes
-- NOT working!
+- very hard to share the ENVIRONMENT
+- hard to build a culture, 1 person thing
+- sharing tools come from industry, not very creative
+- science happens at the whiteboard!
+- existing geared => presentation
+- once it works we stop
+- abstain from understanding
+- so you lose all context
+- no real work in notebooks
 #+end_notes
 
 #+ATTR_REVEAL: :frag (grow)
@@ -587,32 +597,6 @@ MEME from Clean Code...
 - Science is Multiplayer
 - Dynamic is Too Seductive
 - Real Work doesn't happen here
-
-** Literate Programming == one way
-#+begin_notes
-- very hard to share the ENVIRONMENT
-- hard to build a culture, 1 person thing
-#+end_notes
-
-** Science is Multiplayer
-#+begin_notes
-- sharing tools come from industry, not very creative
-- science happens at the whiteboard!
-- existing geared => presentation
-#+end_notes
-
-** Dynamic == Too Seductive
-#+begin_notes
-- once it works we stop
-- abstain from understanding
-- so you lose all context
-#+end_notes
-
-** People are not doing "real work" in these systems
-#+begin_notes
-- you have to bail out of a notebook
-- no real work in notebooks
-#+end_notes
 
 * Why care?
 #+begin_notes

@@ -8,8 +8,6 @@
             [physics-viewers :as pv]
             [sicmutils.env :as e :refer :all]))
 
-
-
 ;; ## Ellipsoid Particle
 ;;
 ;; > A bead of mass $m$ moves without friction on a triaxial ellipsoidal
@@ -43,12 +41,9 @@
     (* 1/2 m (square v))))
 
 (defn L-central-triaxial [m a b c]
-  (comp (L-free-particle m)
-
-        ;; with gravity:
-        #_(- (L-free-particle m)
-             (fn [[_ [_ _ z]]]
-               (* 9.8 m z)))
+  (comp (- (L-free-particle m)
+           (fn [[_ [_ _ z]]]
+             (* 9.8 m z)))
         (F->C (elliptical->rect a b c))))
 
 ;; Final Lagrangian:

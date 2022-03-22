@@ -14,11 +14,6 @@
 ;; presentation.
 
 (defn L-harmonic [m k]
-  (fn [[_ q v]]
-    (- (* 1/2 m (square v))
-       (* 1/2 k (square q))))
-
-  #_
   (fn [[_ [_ _ z :as q] v]]
     (let [T (* 1/2 m (square v))
           U (+ (* 1/2 k (square q))
