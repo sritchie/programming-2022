@@ -14,7 +14,6 @@ The talk files are
 
 - `org/lisp_as_renaissance.org`
 - `org/building_sicmutils.org`
-- `org/road_to_reality.org`
 
 And the exported HTML files have matching names with `html` headers.
 

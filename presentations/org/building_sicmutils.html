@@ -22,481 +22,29 @@
     <div class="reveal">
       <div class="slides">
         <section>
-          <section id="slide-org3a4d02b">
-            <h2 id="org3a4d02b">Building SICMUtils</h2>
+          <section id="slide-org856ba9e">
+            <h2 id="org856ba9e">Building SICMUtils</h2>
             <p>The Atelier of Abstractions</p>
           </section>
         </section>
         <section>
-          <section id="slide-org6a9a5a7">
-            <h2 id="org6a9a5a7">Abstract</h2>
+          <section id="slide-orga63e0d7">
+            <h2 id="orga63e0d7">SICMUtils</h2>
             <aside class="notes">
-              <p>
-                SICMUtils is a Clojure library designed for interactive
-                exploration of mathematical physics. It is simultaneously a work
-                of persuasive writing, a collection of essays on functional
-                pearls and computational ideas, a stable of workhorse functional
-                abstractions, and a practical place to work and visualize
-                algorithms and physical systems, on a server or in the browser.
-              </p>
-
-              <p>
-                How do you build a library like this? This talk will go through
-                the architecture of SICMUtils, based on many of the ideas of
-                "additive programming" from Gerald Sussman and Chris Hanson's
-                latest book, Software Design for Flexibility. We'll look at
-                surprising examples of the system becoming easier to extend over
-                time. Clojure's embrace of its host platform lets us use the
-                best modern work in Javascript for visualization, while keeping
-                the horsepower of our servers for real work. Lisp's particular
-                elegance will shine throughout.
-              </p>
+              <ul>
+                <li>CAS, previewed yesterday</li>
+                <li>Computer algebra system, previewed during the keynote</li>
+              </ul>
             </aside>
           </section>
-        </section>
-        <section>
-          <section id="slide-org50c3233">
-            <h2 id="org50c3233">What is SICMUtils?</h2>
-            <p>Computer algebra system, previewed during the keynote.</p>
-          </section>
-          <section id="slide-orgcfa0245">
-            <h3 id="orgcfa0245">Numerics</h3>
-            <p>
-              First, flesh out the numeric tower beyond javascript's Number.
-            </p>
-            <ul>
-              <li>BigInt support (a built-in JS type, luckily</li>
+          <section id="slide-org70980f0">
+            <h3 id="org70980f0">❤️ Open Source ❤️</h3>
+            <aside class="notes">
+              <ul>
+                <li>meant to be ripped off in pieces!</li>
+              </ul>
+            </aside>
 
-              <li>
-                Complex numbers (I wrapped
-                <a href="https://github.com/infusion/Complex.js/"
-                  >https://github.com/infusion/Complex.js/</a
-                >, but a better version would be generic in the real and
-                imaginary slots so you could easily get Gaussian integers
-                etc&#x2026;)
-
-                <ul>
-                  <li>
-                    To be really generic and pro, you'd build your Complex
-                    implementation by implementing the the Cayley-Dickson
-                    construction, which would give you quaternions, octonions
-                    etc for free.
-                  </li>
-                </ul>
-              </li>
-
-              <li>
-                Rational numbers (I wrapped
-                <a href="https://github.com/infusion/Fraction.js/"
-                  >https://github.com/infusion/Fraction.js/</a
-                >, specifically the version built on BigInt, which you'll need.
-                A better version would be generic in its numerator and
-                denominator types, so that you could reuse the same code for
-                rational functions)
-              </li>
-
-              <li>Quaternions!</li>
-
-              <li>
-                Flex your muscles and show off the extensibility of the numeric
-                tower by building a
-                <a href="https://en.wikipedia.org/wiki/Modular_arithmetic"
-                  >Modular Arithmetic</a
-                >
-                data type.
-              </li>
-            </ul>
-          </section>
-          <section id="slide-org77d2efb">
-            <h3 id="org77d2efb">Generic Operators</h3>
-            <ul>
-              <li>
-                Next, implement the ability to define generic, extensible
-                functions with open dispatch, using the prescription in
-                "Software Design for Flexibility".
-              </li>
-
-              <li>
-                Define +, -, /, *, all the trig operations, and a bunch more
-                like real-part, imag-part, modulo, remainder, gcd; basically you
-                are making a full generic numeric tower.
-              </li>
-
-              <li>
-                Install function generics too! functions operate on the RANGE of
-                input functions, for example, ((square +) 1 2) =&gt; 9.
-              </li>
-            </ul>
-          </section>
-          <section id="slide-org8d50ea6">
-            <h3 id="org8d50ea6">"Compound" Data Types</h3>
-            <ul>
-              <li>
-                Okay, fine, Complex and Quaternion are "compound"
-                already&#x2026; but let's keep going.
-              </li>
-
-              <li>
-                MAKE SURE all of these can take generic types for their
-                elements! let vectors, matrices etc hold whatever they want. You
-                can "constrain" them by only installing certain types into the
-                arithmetic dispatch, knowing that someone else can extend the
-                arithmetic further than the "batteries included" functions.
-              </li>
-
-              <li>
-                Vector; you can reuse the "array" datatype by implementing all
-                the arithmetic operators. (But what does multiply mean? The door
-                is open already to many branches of physics&#x2026; so implement
-                scalar*vector, ie, treat "vector" as "element of a vector space
-                in some basis"&#x2026;
-              </li>
-
-              <li>
-                Matrix; I won't list out the full set of functions for all of
-                these, but here's the Clojure API for fun.
-              </li>
-
-              <li>Polynomials!</li>
-
-              <li>
-                Power Series, the infinite version of polynomials. You can get
-                by with univariate, but multivariate is best. Lots of lovely
-                prior art here;
-
-                <ul>
-                  <li>
-                    You'll need to implement lazy sequences, or streams, to do
-                    this right; you get those from SICP.
-                  </li>
-                </ul>
-              </li>
-
-              <li>
-                Rational Function. If you did "fractions" above well, you can
-                reuse much of that code by passing in polynomials instead of
-                integers!
-              </li>
-            </ul>
-            <p>
-              You are going to need to implement "GCD" as well. This is HARD and
-              there are lots of tricks here. This is a huge project, but very
-              important for algebraic simplification later.
-            </p>
-
-            <ul>
-              <li>
-                Up and Down "structures", a powerful abstraction introduced by
-                Jerry and Jack in SICM.
-              </li>
-
-              <li>
-                Differential, the data structure that powers forward-mode
-                automatic differentiation. Similar to complex numbers, but e<sup
-                  >2</sup
-                >
-                == 0, plus a bunch of wackiness required to handle nesting of
-                derivatives. A big project and very fun! Also described in
-                "Software Design for Flexibility".
-              </li>
-            </ul>
-          </section>
-          <section id="slide-orge78c68c">
-            <h3 id="orge78c68c">"Literals", ie, symbolic-like things:</h3>
-            <ul>
-              <li>
-                Literal numbers: in Clojure and Scheme, "symbols" are treated as
-                literal (complex) numbers, but you'll need to make an explicit
-                "symbol" type in JS. The easiest way to implement all of the
-                arithmetic on these is to build up compound symbolic
-                expressions, like `(+ x y)`, which MAINTAIN a type of "literal
-                number" (important for dispatch). In practice, the scmutils
-                implementation applies some "constructor simplifications", like
-                making multiplication by 1 a no-op etc&#x2026; there is a lot of
-                "subtlety" here that could probably be banished by a solid think
-                on the relationship of these "generic implementations" for
-                literal numbers and the simplifier we'll discuss later.
-              </li>
-
-              <li>
-                Make this idea better by allowing literal numbers to be
-                constrained to literal integers, naturals, ratios, etc&#x2026;
-                this will help the simplifier.
-              </li>
-
-              <li>
-                Literal Functions:
-                <code>((literal-function 'f) 'x) =&gt; (f x)</code>. Okay, fine.
-                But later we'll implement differentiation for these&#x2026;
-              </li>
-
-              <li>
-                Literal vectors, matrices, up, down, literal versions of
-                everything above. This is bonus! But what do you really need to
-                make a "literal" thing?
-
-                <ul>
-                  <li>
-                    Implementations of ALLOWED generics for it, <code>+</code>,
-                    <code>-</code>, etc
-                  </li>
-
-                  <li>Some printable representation</li>
-
-                  <li>
-                    A simplifier! Which you can build out of components; now we
-                    are straying into abstract algebra&#x2026;
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </section>
-          <section id="slide-orgaddc97b">
-            <h3 id="orgaddc97b">Pattern Matching DSL</h3>
-            <p>
-              We'll need this for the simplifier. This is described in SDF, and
-              also proudly implemented in
-              <a
-                href="https://github.com/sicmutils/sicmutils/tree/main/src/pattern"
-                >https://github.com/sicmutils/sicmutils/tree/main/src/pattern</a
-              >. This lets you implement a simplifier using patterns like
-            </p>
-
-            <div class="org-src-container">
-              <pre><code class="clojure" >(rule (/ (* ??u ?x ??v) (sqrt ?x)) =&gt; (* ??u (sqrt ?x) ??v))
-</code></pre>
-            </div>
-
-            <p>
-              This is a big project to get right, and to feel good! And you can
-              go WAY past what's needed for this library too.
-            </p>
-          </section>
-          <section id="slide-orgb2ed5c5">
-            <h3 id="orgb2ed5c5">Simplification</h3>
-            <p>Now it's time to write the simplifier for all of these types.</p>
-
-            <ul>
-              <li>
-                Implement the massive batch of simplification rules in the
-                library.
-              </li>
-
-              <li>
-                Implement the ability to walk through algebraic expressions and
-                simplify from the top up, bottom down, the same but memoized ,
-                etc etc
-              </li>
-
-              <li>
-                You get a simplifier "for free" by implementing conversion to
-                and from both polynomials and rational functions. By absorbing
-                an expression into a polynomial, then "emitting" the expression
-                back out, you force it into a canonical form.
-
-                <ul>
-                  <li>
-                    To do this you need to write code to replace all
-                    subexpressions with invalid (non-Ring, for example)
-                    operations BEFORE conversion to polynomial, then sub them
-                    all back in afterward.
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </section>
-          <section id="slide-org80419da">
-            <h3 id="org80419da">Renderers</h3>
-            <p>
-              This is quite similar to simplification and function compilation,
-              discussed next.
-            </p>
-
-            <ul>
-              <li>Make a renderer from literal number =&gt; LaTeX</li>
-
-              <li>
-                For bonus points, make the renderer extensible, so you can
-                extend it to new operations
-              </li>
-
-              <li>
-                Write a -&gt;infix renderer! (Or maybe -&gt;prefix, since JS
-                will presumably do infix by default :) So maybe you need this to
-                print expressions at all.
-              </li>
-
-              <li>For bonus points, make a =&gt; graphviz renderer.</li>
-            </ul>
-          </section>
-          <section id="slide-org4b76c8c">
-            <h3 id="org4b76c8c">Function Compilation</h3>
-            <p>
-              Many of the library functions are going to be built out of the
-              basic generics. But that is not going to be fast; so we want the
-              ability to "compile" a function. That works like this:
-            </p>
-
-            <ul>
-              <li>
-                For a function from R<sup>n</sup> =&gt; R, Instead of a number,
-                pass in n symbols. Get out a big tree of symbolic expressions.
-              </li>
-
-              <li>Run the simplifier on the tree.</li>
-
-              <li>
-                Implement common subexpression extraction, and extract all of
-                those;
-              </li>
-
-              <li>
-                emit a code form that binds all of the common subexpressions
-                using `const`, with a function body consisting of the simplified
-                form with subexpressions replaced with const variables
-                (gensymmed).
-              </li>
-
-              <li>
-                Walk and replace all supported operations like +, -, abs, sin,
-                cos etc etc with their JS forms
-              </li>
-
-              <li>"eval" this into a proper, smoking fast function.</li>
-            </ul>
-
-            <p>
-              IN THEORY, I haven't done this yet, but you can make compilers for
-              matrix operations etc for which you have very fast native
-              operations. This is now being called
-              <a href="https://en.wikipedia.org/wiki/Multi-stage_programming"
-                >"multi-stage programming"</a
-              >.
-            </p>
-
-            <p>
-              With a literal type, concrete type and a simplifier, you now have
-              an extensible staged programming system.
-            </p>
-          </section>
-        </section>
-        <section>
-          <section id="slide-org477f305">
-            <h2 id="org477f305">Continued, Physics</h2>
-            <p>
-              Now, our goal is to do physics; the previous batch gave us the
-              ability to describe and manipulate states of models of physical
-              space (and transformations, of course, through the geometry +
-              algebra eery connections everywhere).
-            </p>
-
-            <p>
-              This is a pretty terse description of a ton of work, but it's
-              basically correct:
-            </p>
-          </section>
-          <section id="slide-org6f183c8">
-            <h3 id="org6f183c8">Numerical Methods</h3>
-            <p>
-              But next we'll need a numerical computing stack. I did a MONSTER
-              project here that I am proud of, so I will present my "Functional
-              Numerical Methods" literate export as a template here:
-              <a href="https://samritchie.io/functional-numerical-methods/"
-                >https://samritchie.io/functional-numerical-methods/</a
-              >
-            </p>
-
-            <p>But basically you'll need:</p>
-
-            <ul>
-              <li>Univariate and multivariate minimization routines</li>
-
-              <li>
-                Polynomial and rational function interpolation, including the
-                special case of Richardson interpolation
-              </li>
-
-              <li>
-                Numerical differentiation and integration. You're aiming for the
-                full Bulirsch-Stoer integrator, described and implemented in the
-                essay.
-              </li>
-
-              <li>
-                An ODE solver, for taking differential equations and evolving
-                simulations. This is very tough, but Colin Smith implemented the
-                state of the art version (Bulirsch-Stoer) as a JS library called
-                <a href="https://github.com/littleredcomputer/odex-js"
-                  >odex.js</a
-                >. Doing it in functional style using the primitives from
-                "Functional Numerical Methods", plus a new functional error
-                estimator, is a gold star bonus project, never done, as far as I
-                can tell.
-              </li>
-            </ul>
-          </section>
-          <section id="slide-orgf45a7e4">
-            <h3 id="orgf45a7e4">Automatic Differentiation</h3>
-            <ul>
-              <li>
-                You have all the pieces for forward-mode from the "Differential"
-                implementation before. Create a generic "partial-derivative"
-                function, implement the "D" operator and extend the former to as
-                many types as possible (power series, functions, matrices,
-                polynomials etc)
-              </li>
-
-              <li>
-                you can immutably implement reverse-mode too! This is important
-                for ML, for functions from many many variables =&gt; a small #
-                of variables (the opposite is true for forward mode). Here is a
-                template:
-                <a href="https://github.com/sicmutils/sicmutils/pull/226"
-                  >https://github.com/sicmutils/sicmutils/pull/226</a
-                >
-              </li>
-            </ul>
-
-            <p>
-              With these two in hand you can implement various mixed forward and
-              reverse mode functions, like very fast Hessian-vector products.
-            </p>
-          </section>
-          <section id="slide-org2f0148a">
-            <h3 id="org2f0148a">Mechanics</h3>
-            <p>
-              The meat of SICM; lagrangian mechanics, hamiltonian mechanics, etc
-              etc, with lots of examples and simulations
-            </p>
-          </section>
-          <section id="slide-org37c1247">
-            <h3 id="org37c1247">Differential Geometry</h3>
-            <p>
-              Build a "manifold" and "coordinate system" abstraction and
-              implement many of these (there are more abstractions but my
-              fingers are aching!) Everything in this folder, basically:
-              <a
-                href="https://github.com/sicmutils/sicmutils/tree/main/src/sicmutils/calculus"
-                >https://github.com/sicmutils/sicmutils/tree/main/src/sicmutils/calculus</a
-              >
-            </p>
-          </section>
-          <section id="slide-orgf5f5ec2">
-            <h3 id="orgf5f5ec2">Animations / Graphing</h3>
-            <p>
-              Now we are into the meat of my project. Build hooks into projects
-              like
-              <a href="https://jsxgraph.org/">https://jsxgraph.org/</a>, Mathbox
-              etc for letting users interact with, define and graph symbolic
-              expressions outside of the library's representation.
-            </p>
-          </section>
-          <section data-background="../images/sicmutils_ns.png"></section>
-          <section data-background="../images/quad_island.png"></section>
-        </section>
-        <section>
-          <section id="slide-org4061cc8">
-            <h2 id="org4061cc8">❤️ Open Source ❤️</h2>
             <p>
               <a href="https://github.com/sicmutils/sicmutils"
                 >https://github.com/sicmutils/sicmutils</a
@@ -506,12 +54,643 @@
           </section>
         </section>
         <section>
-          <section id="slide-orge4cefa2">
-            <h2 id="orge4cefa2">Gerald Sussman</h2>
-            <p>and many others!</p>
+          <section id="slide-org1be7c7f">
+            <h2 id="org1be7c7f">Thanks to GJS</h2>
+            <aside class="notes">
+              <ul>
+                <li>uses many techniques from SDF</li>
+              </ul>
+            </aside>
+
+            <p>(and many others!)</p>
 
             <img height="500" src="../images/gjs.jpg" />
             <img height="500" src="../images/sdf.jpeg" />
+          </section>
+        </section>
+        <section>
+          <section id="slide-org30ec2d7">
+            <h2 id="org30ec2d7">Agenda</h2>
+            <aside class="notes">nil</aside>
+
+            <ul>
+              <li>Overview of SICMUtils</li>
+              <li>Programming Techniques</li>
+              <li>Issues!</li>
+              <li>Revealing Demos</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section id="slide-org2d92fb6">
+            <h2 id="org2d92fb6">SICMUtils Project goals</h2>
+            <aside class="notes">
+              <p>reiterate:</p>
+
+              <ul>
+                <li>trying to write this sweeping history of modern physics</li>
+                <li>convinced you need to write AND read in the env</li>
+                <li>so: kitchen sink, embeddable in diff envs</li>
+              </ul>
+            </aside>
+          </section>
+          <section id="slide-orgd9fe494">
+            <h3 id="orgd9fe494">Library as Workshop / Textbook</h3>
+            <aside class="notes">
+              <ul>
+                <li>library is its own target</li>
+                <li>filled with stories</li>
+              </ul>
+            </aside>
+
+            <div id="org284e423" class="figure">
+              <p><img src="../images/workshop.jpeg" alt="workshop.jpeg" /></p>
+            </div>
+          </section>
+          <section id="slide-org6b57035">
+            <h3 id="org6b57035">Many Environments</h3>
+            <aside class="notes">
+              <ul>
+                <li>not an environment, it's a library of components</li>
+                <li>lives in many places</li>
+              </ul>
+            </aside>
+
+            <ul>
+              <li>REPL</li>
+              <li>Nextjournal</li>
+              <li><code>org-mode</code>, these slides</li>
+              <li>Clojure, Clojurescript</li>
+              <li>Zeugma, any Java environment</li>
+              <li>
+                <a href="https://www.texmacs.org/tmweb/home/welcome.en.html"
+                  >TexMacs</a
+                >
+              </li>
+              <li>Roam Research or Obsidian, etc</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section id="slide-org787b9ae">
+            <h2 id="org787b9ae">What's in the library?</h2>
+            <aside class="notes">
+              <ul>
+                <li>much familiar for lispers</li>
+                <li>27kLOC src, 25kLOC tests</li>
+              </ul>
+            </aside>
+          </section>
+          <section data-background="../images/sicmutils_ns.png"></section>
+          <section data-background="../images/quad_island.png"></section>
+          <section id="slide-org36ec7ac">
+            <h3 id="org36ec7ac">Numerics</h3>
+            <aside class="notes">
+              <ul>
+                <li>no ratio, complex in JS</li>
+                <li>prep the host</li>
+              </ul>
+            </aside>
+
+            <ul>
+              <li>
+                full numeric tower in JavaScript, up to <code>Complex</code>
+              </li>
+              <li>dual numbers</li>
+              <li>modular arithmetic types</li>
+              <li>Quaternions, beyond</li>
+            </ul>
+          </section>
+          <section id="slide-orgef68b14">
+            <h3 id="orgef68b14">Extensible Generics</h3>
+            <aside class="notes">
+              <ul>
+                <li>
+                  generic, extensible functions via protocols, multimethods
+                </li>
+                <li>`type` vs `kind`</li>
+                <li>show library code</li>
+                <li>extended to functions!</li>
+              </ul>
+            </aside>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >((square +) 'x 'y)
+</code></pre>
+            </div>
+
+            <pre class="example">
+(expt (+ x y) 2)
+
+</pre
+            >
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >((square +) 1 2)
+</code></pre>
+            </div>
+
+            <pre class="example">
+9
+
+</pre
+            >
+          </section>
+          <section id="slide-org6d962dc">
+            <h3 id="org6d962dc">Examples of Generics</h3>
+            <aside class="notes">
+              <ul>
+                <li>sample of the extensible methods&#x2026;</li>
+                <li>you can make your own of course</li>
+              </ul>
+            </aside>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" > [sicmutils.generic
+  * + - / divide
+  negate
+  negative? infinite?
+  invert
+  abs
+  sqrt
+  quotient remainder modulo
+  floor ceiling
+  integer-part fractional-part
+  expt
+  exp exp2 exp10
+  log log2 log10
+  gcd lcm
+  exact-divide
+  square cube
+  cos sin tan
+  cot sec csc
+  atan
+  acos asin acot asec acsc
+  cosh sinh tanh coth sech csch
+  acosh asinh atanh acoth asech acsch
+  sinc tanc sinhc tanhc
+  make-rectangular make-polar
+  real-part imag-part
+  magnitude angle conjugate
+  transpose trace determinant dimension
+  dot-product inner-product outer-product cross-product
+  partial-derivative Lie-derivative
+  solve-linear solve-linear-left solve-linear-right
+  simplify]
+</code></pre>
+            </div>
+          </section>
+          <section id="slide-orgbb605dc">
+            <h3 id="orgbb605dc">Symbolic Computation</h3>
+            <aside class="notes">
+              <ul>
+                <li>simplifier, rules</li>
+              </ul>
+            </aside>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(+ (square (sin 'x))
+   (square (cos 'x)))
+</code></pre>
+            </div>
+
+            <pre class="example">
+(+ (expt (sin x) 2) (expt (cos x) 2))
+
+</pre
+            >
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(simplify
+ (+ (square (sin 'x))
+    (square (cos 'x))))
+</code></pre>
+            </div>
+
+            <pre class="example">
+1
+
+</pre
+            >
+          </section>
+          <section id="slide-org09c4912">
+            <h3 id="org09c4912">"Compound" Data Types</h3>
+            <aside class="notes">
+              <ul>
+                <li>show off</li>
+              </ul>
+            </aside>
+
+            <ul>
+              <li>vector, matrix, up, down structures</li>
+              <li>polynomial, rational function</li>
+              <li>power series</li>
+              <li>quaternions</li>
+            </ul>
+          </section>
+          <section id="slide-org70d5edb">
+            <h3 id="org70d5edb">"Literals", ie, symbolic-like things:</h3>
+            <ul>
+              <li>literal numbers</li>
+              <li>literal functions</li>
+              <li>symbols, or <code>literal-number</code></li>
+              <li>literal vectors, matrices etc</li>
+            </ul>
+          </section>
+          <section id="slide-org2a7d720">
+            <h3 id="org2a7d720">Pattern Matching DSL</h3>
+            <aside class="notes">
+              <p>implemented in SDF, extended to Clojure</p>
+            </aside>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(rule (/ (* ??u ?x ??v) (sqrt ?x))
+      =&gt;
+      (* ??u (sqrt ?x) ??v))
+</code></pre>
+            </div>
+          </section>
+          <section id="slide-org316e60f">
+            <h3 id="org316e60f">Pattern Combinators</h3>
+            <div class="org-src-container">
+              <pre><code class="clojure" >(let [r (while (fn [l _] (&lt; l 100))
+          (rule ?x =&gt; (? #(inc (% '?x)))))]
+  (= 101 (r 12)))
+</code></pre>
+            </div>
+
+            <p data-fragment-index="2" class="fragment roll-in">
+              Literal Derivative:
+            </p>
+
+            <div class="org-src-container">
+              <pre
+                data-fragment-index="2"
+                class="fragment roll-in"
+              ><code class="clojure" >(choice
+ (rule (D ?f)           =&gt; ((expt D 2) ?f))
+ (rule ((expt D ?n) ?f) =&gt; ((expt D (? #(inc (% '?n)))) ?f))
+ (rule ?f               =&gt; (D ?f)))
+</code></pre>
+            </div>
+          </section>
+          <section id="slide-orged95e25">
+            <h3 id="orged95e25">Renderers</h3>
+            <aside class="notes">
+              <ul>
+                <li>obvious, open thing, S-expressions</li>
+                <li>simplifier</li>
+              </ul>
+            </aside>
+
+            <p>Infix:</p>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(-&gt;infix
+ (+ (square (sin 'eta))
+    (cube (tan 'phi_2))))
+</code></pre>
+            </div>
+
+            <pre class="example">
+sin²(η) + (tan(φ₂))³
+</pre
+            >
+
+            <p>TeX:</p>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(-&gt;TeX
+ (+ (square (sin 'eta))
+    (cube (tan 'phi_2))))
+</code></pre>
+            </div>
+
+            <pre class="example">
+{\sin}^{2}\left(\eta\right) + {\left(\tan\left({\phi}_2\right)\right)}^{3}
+</pre
+            >
+          </section>
+          <section id="slide-org0c7a55d">
+            <h3 id="org0c7a55d">Renderers</h3>
+            <p>JavaScript Source Renderer</p>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(println
+ (-&gt;JavaScript
+  (+ (square (sin 'eta))
+     (cube (tan 'phi-2)))))
+</code></pre>
+            </div>
+
+            <pre class="example">
+function(eta, phi_2) {
+  return Math.pow(Math.sin(eta), 2) + Math.pow(Math.tan(phi_2), 3);
+}
+</pre
+            >
+          </section>
+          <section id="slide-org4026486">
+            <h3 id="org4026486">Function Compilation</h3>
+            <aside class="notes">
+              <ul>
+                <li>reuses all the stuff above</li>
+                <li>you can do this for matrices too!</li>
+              </ul>
+            </aside>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(defn my-fn [x y]
+  (+ x
+     (sin y)
+     (square (cos 'x))
+     (square (sin 'x))
+     (cube (sin y))))
+
+(binding [*mode* :source]
+  (compile-fn my-fn))
+</code></pre>
+            </div>
+
+            <pre class="example">
+(clojure.core/fn [x45929 x45930]
+  (clojure.core/let [G0000000000000000 (Math/sin x45930)]
+    (clojure.core/+ (clojure.core/*
+                     -1.0
+                     G0000000000000000
+                     (Math/pow (Math/cos x45930) 2.0))
+                    x45929
+                    (clojure.core/* 2.0 G0000000000000000)
+                   1.0)))
+</pre
+            >
+          </section>
+          <section id="slide-org72ef548">
+            <h3 id="org72ef548">Functional Numerical Methods</h3>
+            <ul>
+              <li>Univariate and multivariate minimization</li>
+              <li>Polynomial and RF interpolation</li>
+              <li>Richardson Extrapolation</li>
+              <li>(FUNCTIONAL!) Numerical quadrature</li>
+              <li>numeric derivatives</li>
+              <li>Native ODE solvers</li>
+              <li>&#x2026;</li>
+            </ul>
+          </section>
+          <section id="slide-org7eb3b27">
+            <h3 id="org7eb3b27">Automatic Differentiation</h3>
+            <ul>
+              <li>Forward mode,</li>
+              <li>immutable reverse mode!</li>
+            </ul>
+          </section>
+          <section id="slide-orgd2fa04e">
+            <h3 id="orgd2fa04e">Physics</h3>
+            <ul>
+              <li>Hamiltonian and Lagrangian mechanics</li>
+              <li>Differential Geometry</li>
+              <li>Manifolds, Coordinate Systems</li>
+              <li>Tensor Calculus</li>
+              <li>Geometric Algebra</li>
+            </ul>
+          </section>
+          <section id="slide-orga97fa0a">
+            <h3 id="orga97fa0a">Animations</h3>
+            <ul>
+              <li>Mathbox</li>
+              <li>JSXGraph</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section id="slide-org11668db">
+            <h2 id="org11668db">SICMUtils Programming Techniques</h2>
+            <aside class="notes">
+              <ul>
+                <li>gotten easier as we go!</li>
+                <li>how?</li>
+              </ul>
+            </aside>
+
+            <ul>
+              <li>Extensible Generics Stick with Clojure</li>
+              <li>Combinators</li>
+              <li>DSLs, Pattern Matching</li>
+            </ul>
+          </section>
+          <section id="slide-org1105c55">
+            <h3 id="org1105c55">Type vs Kind</h3>
+            <aside class="notes">
+              <ul>
+                <li>protocol vs multimethod dispatch</li>
+                <li>protocols are fast, multimethods are flexible</li>
+              </ul>
+            </aside>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(map kind [(make-rectangular 1 2) 10 {:k "v"}])
+</code></pre>
+            </div>
+
+            <pre class="example">
+(:sicmutils.complex/complex
+ java.lang.Long
+ clojure.lang.PersistentArrayMap)
+
+</pre
+            >
+          </section>
+          <section id="slide-org90a8422">
+            <h3 id="org90a8422">Constrained Extensibility</h3>
+            <aside class="notes">
+              <ul>
+                <li>On a per type basis</li>
+                <li>but folks can install their own generics too!</li>
+              </ul>
+            </aside>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(derive ::square-matrix ::matrix)
+(derive ::column-matrix ::matrix)
+(derive ::row-matrix ::matrix)
+(derive ::matrix ::f/cofunction)
+
+(defmethod g/mul [::matrix ::matrix] [a b]
+  (mul a b))
+
+(defmethod g/mul [::v/scalar ::matrix] [n a]
+  (scalar*matrix n a))
+
+(defmethod g/mul [::matrix ::v/scalar] [a n]
+  (matrix*scalar a n))
+</code></pre>
+            </div>
+          </section>
+          <section id="slide-org4eed760">
+            <h3 id="org4eed760">Stick with Clojure</h3>
+            <aside class="notes">nil</aside>
+
+            <ul>
+              <li>Different Environments, CLJS</li>
+              <li>Small # of core data structures</li>
+              <li>immutability everywhere</li>
+            </ul>
+          </section>
+          <section id="slide-orgbc2e6b4">
+            <h3 id="orgbc2e6b4">Pragmatic Core</h3>
+            <div class="org-src-container">
+              <pre><code class="clojure" >[] {} #{} () :keyword 'sym
+
+#quaternion [1 2 3 4]
+
+#complex [2 3]
+</code></pre>
+            </div>
+          </section>
+          <section id="slide-org27e9da3">
+            <h3 id="org27e9da3">Combinators</h3>
+            <ul>
+              <li>pattern matching</li>
+              <li>many of the arithmetic types have this built in</li>
+              <li>
+                numerical methods work too, we had the
+                <code>infinite</code> combinator.
+              </li>
+            </ul>
+          </section>
+          <section id="slide-org4d721c8">
+            <h3 id="org4d721c8">DSL, Pattern Matching:</h3>
+            <div class="org-src-container">
+              <pre><code class="clojure" data-line-numbers="3-6|8-12|14-17|19-24">(require '[pattern.rule :as r :refer [ruleset =&gt;]])
+
+(defn unary-elimination [&amp; ops]
+  (let [op-set (into #{} ops)]
+    (ruleset
+     ((? _ op-set) ?x) =&gt; ?x)))
+
+(defn constant-elimination [op constant]
+  (letfn [(filter-constants [{xs '??xs}]
+            (remove #{constant} xs))]
+    (ruleset
+     (~op ??xs) =&gt; (~op (?? ~filter-constants)))))
+
+(defn constant-promotion [op constant]
+  (ruleset
+   (~op _ ~constant) =&gt; ~constant
+   (~op ~constant _) =&gt; ~constant))
+
+(def my-simplify
+  (r/rule-simplifier
+   (unary-elimination '+ '*)
+   (constant-elimination '+ 0)
+   (constant-elimination '* 1)
+   (constant-promotion '* 0)))
+</code></pre>
+            </div>
+          </section>
+          <section>
+            <div class="org-src-container">
+              <pre><code class="clojure" >(my-simplify
+ '(cos (+ 0 (+ 0 12 0) (* 1 x))))
+</code></pre>
+            </div>
+
+            <pre class="example">
+(cos (+ 12 x))
+
+</pre
+            >
+          </section>
+          <section id="slide-orgb8e7edf">
+            <h3 id="orgb8e7edf">Operator Example from the codebase</h3>
+            <div class="org-src-container">
+              <pre><code class="clojure" >(def simplify-operator-name
+  (rule-simplifier
+   (rules/associative '+ '*)
+   rules/exponent-contract
+   (rules/unary-elimination '+ '*)))
+</code></pre>
+            </div>
+          </section>
+          <section id="slide-orgf98eef0">
+            <h3 id="orgf98eef0">Generic Programming</h3>
+            <ul>
+              <li class="off">
+                <code>[&#xa0;]</code> bring compilation example back up
+              </li>
+            </ul>
+          </section>
+          <section id="slide-orgc42dc05">
+            <h3 id="orgc42dc05">Multi-Stage Programming</h3>
+            <aside class="notes">
+              <ul>
+                <li>
+                  <p>
+                    just as easily you could be sending operations off to matrix
+                    library&#x2026; there is no reason to prefer Python etc.
+                  </p>
+
+                  <p>Everything fast there is staged down to FORTRAN etc.</p>
+                </li>
+              </ul>
+            </aside>
+          </section>
+          <section id="slide-org3cf25c3">
+            <h3 id="org3cf25c3">Community!</h3>
+            <p>It has gotten EASIER to add to it as it's gone.</p>
+
+            <ul>
+              <li>Nextjournal, Clerk, Jack Rusher, Martin Kavalar etc</li>
+              <li>Maria</li>
+              <li>SCI</li>
+              <li>clj-kondo</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section id="slide-org3c2ef19">
+            <h2 id="org3c2ef19">Hard?</h2>
+            <ul>
+              <li>No types so far</li>
+              <li>what's the right way to introspect the library?</li>
+              <li>viewers are difficult</li>
+              <li>how to make the lib disppear?</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgaf603cc">
+            <h2 id="orgaf603cc">What's Coming?</h2>
+            <div class="outline-text-2" id="text-orgaf603cc"></div>
+          </section>
+          <section id="slide-orgc0d356a">
+            <h3 id="orgc0d356a">Rewrite the textbooks</h3>
+            <img height="500" src="../images/sicm.jpeg" />
+            <img height="500" src="../images/fdg.jpeg" />
+          </section>
+          <section id="slide-org0cb6269">
+            <h3 id="org0cb6269">=&gt; Wikipedia</h3>
+          </section>
+        </section>
+        <section>
+          <section id="slide-org60dddfb">
+            <h2 id="org60dddfb">Thanks!</h2>
+            <aside class="notes">
+              <p>questions?</p>
+            </aside>
+
+            <p>Sam Ritchie, Mentat Collective</p>
+
+            <p>
+              <a href="https://twitter.com/sritchie">@sritchie</a>
+            </p>
+
+            <p>
+              Slides, Demos live at
+              <a href="https://github.com/sritchie/programming-2022"
+                >https://github.com/sritchie/programming-2022</a
+              >
+            </p>
           </section>
         </section>
       </div>

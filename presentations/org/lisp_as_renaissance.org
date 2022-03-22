@@ -1,6 +1,3 @@
-:PROPERTIES:
-:Effort:   10
-:END:
 #+Startup: indent
 
 #+OPTIONS: num:nil reveal_global_footer:t toc:nil reveal_history:t
@@ -10,21 +7,6 @@
 
 #+Title: Lisp as Renaissance Workshop
 #+Subtitle: A Lispy Tour through Mathematical Physics
-
-#+begin_comment
-Tasks:
-
-for demos:
-
-- [ ] tidy up the text inside each of the demos. (DONE I think?)
-
-remaining slides
-
-- [ ] explorables tweet?
-- [ ] finish final conclusion slides etc
-
-#+end_comment
-
 
 * Lisp as Renaissance Workshop
 #+begin_notes
@@ -867,4 +849,4 @@ Sam Ritchie, Mentat Collective
 
 [[https://twitter.com/sritchie][@sritchie]]
 
-https://github.com/sritchie/programming-2022
+Slides, Demos live at https://github.com/sritchie/programming-2022
