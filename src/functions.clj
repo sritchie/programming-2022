@@ -119,7 +119,6 @@
      (square
       (cos (* t x)))))
 
-
 ;; The function works locally, with numbers or symbols:
 
 [(my-fn 1 2) (my-fn 'x 't)]

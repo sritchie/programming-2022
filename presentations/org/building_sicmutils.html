@@ -22,14 +22,19 @@
     <div class="reveal">
       <div class="slides">
         <section>
-          <section id="slide-org856ba9e">
-            <h2 id="org856ba9e">Building SICMUtils</h2>
+          <section id="slide-org8c05668">
+            <h2 id="org8c05668">Building SICMUtils</h2>
             <p>The Atelier of Abstractions</p>
+
+            <p>
+              <a href="https://samritchie.io/">Sam Ritchie</a>, Mentat
+              Collective
+            </p>
           </section>
         </section>
         <section>
-          <section id="slide-orga63e0d7">
-            <h2 id="orga63e0d7">SICMUtils</h2>
+          <section id="slide-orgb0ad7a5">
+            <h2 id="orgb0ad7a5">SICMUtils</h2>
             <aside class="notes">
               <ul>
                 <li>CAS, previewed yesterday</li>
@@ -37,8 +42,8 @@
               </ul>
             </aside>
           </section>
-          <section id="slide-org70980f0">
-            <h3 id="org70980f0">❤️ Open Source ❤️</h3>
+          <section id="slide-orgf276189">
+            <h3 id="orgf276189">❤️ Open Source ❤️</h3>
             <aside class="notes">
               <ul>
                 <li>meant to be ripped off in pieces!</li>
@@ -54,8 +59,21 @@
           </section>
         </section>
         <section>
-          <section id="slide-org1be7c7f">
-            <h2 id="org1be7c7f">Thanks to GJS</h2>
+          <section id="slide-org0925fb7">
+            <h2 id="org0925fb7">Agenda</h2>
+            <aside class="notes">nil</aside>
+
+            <ul>
+              <li>Overview of SICMUtils</li>
+              <li>Programming Techniques</li>
+              <li>Issues</li>
+              <li>Demos</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section id="slide-orgc6ec9dc">
+            <h2 id="orgc6ec9dc">Thanks to GJS</h2>
             <aside class="notes">
               <ul>
                 <li>uses many techniques from SDF</li>
@@ -69,33 +87,18 @@
           </section>
         </section>
         <section>
-          <section id="slide-org30ec2d7">
-            <h2 id="org30ec2d7">Agenda</h2>
-            <aside class="notes">nil</aside>
-
-            <ul>
-              <li>Overview of SICMUtils</li>
-              <li>Programming Techniques</li>
-              <li>Issues!</li>
-              <li>Revealing Demos</li>
-            </ul>
-          </section>
-        </section>
-        <section>
-          <section id="slide-org2d92fb6">
-            <h2 id="org2d92fb6">SICMUtils Project goals</h2>
+          <section id="slide-orgbf6bef2">
+            <h2 id="orgbf6bef2">SICMUtils Project goals</h2>
             <aside class="notes">
-              <p>reiterate:</p>
-
               <ul>
-                <li>trying to write this sweeping history of modern physics</li>
+                <li>write literate stuff</li>
                 <li>convinced you need to write AND read in the env</li>
                 <li>so: kitchen sink, embeddable in diff envs</li>
               </ul>
             </aside>
           </section>
-          <section id="slide-orgd9fe494">
-            <h3 id="orgd9fe494">Library as Workshop / Textbook</h3>
+          <section id="slide-org9c38da2">
+            <h3 id="org9c38da2">Library as Workshop / Textbook</h3>
             <aside class="notes">
               <ul>
                 <li>library is its own target</li>
@@ -103,12 +106,12 @@
               </ul>
             </aside>
 
-            <div id="org284e423" class="figure">
+            <div id="org6b4cb30" class="figure">
               <p><img src="../images/workshop.jpeg" alt="workshop.jpeg" /></p>
             </div>
           </section>
-          <section id="slide-org6b57035">
-            <h3 id="org6b57035">Many Environments</h3>
+          <section id="slide-orgc549831">
+            <h3 id="orgc549831">Many Environments</h3>
             <aside class="notes">
               <ul>
                 <li>not an environment, it's a library of components</li>
@@ -132,19 +135,29 @@
           </section>
         </section>
         <section>
-          <section id="slide-org787b9ae">
-            <h2 id="org787b9ae">What's in the library?</h2>
+          <section id="slide-org306a0c7">
+            <h2 id="org306a0c7">What's in the library?</h2>
             <aside class="notes">
               <ul>
-                <li>much familiar for lispers</li>
+                <li>much that's familiar for lispers</li>
                 <li>27kLOC src, 25kLOC tests</li>
               </ul>
             </aside>
           </section>
-          <section data-background="../images/sicmutils_ns.png"></section>
-          <section data-background="../images/quad_island.png"></section>
-          <section id="slide-org36ec7ac">
-            <h3 id="org36ec7ac">Numerics</h3>
+          <section data-background="../images/sicmutils_ns.png">
+            <aside class="notes">
+              <p>thought this would be elegant</p>
+            </aside>
+          </section>
+          <section data-background="../images/quad_island.png">
+            <aside class="notes">
+              <ul>
+                <li>quad island</li>
+              </ul>
+            </aside>
+          </section>
+          <section id="slide-org183d26d">
+            <h3 id="org183d26d">Numerics</h3>
             <aside class="notes">
               <ul>
                 <li>no ratio, complex in JS</li>
@@ -161,15 +174,14 @@
               <li>Quaternions, beyond</li>
             </ul>
           </section>
-          <section id="slide-orgef68b14">
-            <h3 id="orgef68b14">Extensible Generics</h3>
+          <section id="slide-org068f9fc">
+            <h3 id="org068f9fc">Extensible Generics</h3>
             <aside class="notes">
               <ul>
                 <li>
                   generic, extensible functions via protocols, multimethods
                 </li>
                 <li>`type` vs `kind`</li>
-                <li>show library code</li>
                 <li>extended to functions!</li>
               </ul>
             </aside>
@@ -196,8 +208,8 @@
 </pre
             >
           </section>
-          <section id="slide-org6d962dc">
-            <h3 id="org6d962dc">Examples of Generics</h3>
+          <section id="slide-orgf4247ff">
+            <h3 id="orgf4247ff">Examples of Generics</h3>
             <aside class="notes">
               <ul>
                 <li>sample of the extensible methods&#x2026;</li>
@@ -206,7 +218,7 @@
             </aside>
 
             <div class="org-src-container">
-              <pre><code class="clojure" > [sicmutils.generic
+              <pre><code class="clojure" data-line-numbers="1-10|24-31"> [sicmutils.generic
   * + - / divide
   negate
   negative? infinite?
@@ -240,8 +252,8 @@
 </code></pre>
             </div>
           </section>
-          <section id="slide-orgbb605dc">
-            <h3 id="orgbb605dc">Symbolic Computation</h3>
+          <section id="slide-orgfdfb23e">
+            <h3 id="orgfdfb23e">Symbolic Computation</h3>
             <aside class="notes">
               <ul>
                 <li>simplifier, rules</li>
@@ -273,8 +285,8 @@
 </pre
             >
           </section>
-          <section id="slide-org09c4912">
-            <h3 id="org09c4912">"Compound" Data Types</h3>
+          <section id="slide-orgca5c34a">
+            <h3 id="orgca5c34a">"Compound" Data Types</h3>
             <aside class="notes">
               <ul>
                 <li>show off</li>
@@ -288,17 +300,18 @@
               <li>quaternions</li>
             </ul>
           </section>
-          <section id="slide-org70d5edb">
-            <h3 id="org70d5edb">"Literals", ie, symbolic-like things:</h3>
+          <section id="slide-orgdcba4fc">
+            <h3 id="orgdcba4fc">"Literals", ie, symbolic-like things:</h3>
             <ul>
               <li>literal numbers</li>
               <li>literal functions</li>
               <li>symbols, or <code>literal-number</code></li>
-              <li>literal vectors, matrices etc</li>
+              <li>literal vectors, matrices</li>
+              <li>quantum states, bra, ket</li>
             </ul>
           </section>
-          <section id="slide-org2a7d720">
-            <h3 id="org2a7d720">Pattern Matching DSL</h3>
+          <section id="slide-org79a1460">
+            <h3 id="org79a1460">Pattern Matching DSL</h3>
             <aside class="notes">
               <p>implemented in SDF, extended to Clojure</p>
             </aside>
@@ -310,8 +323,8 @@
 </code></pre>
             </div>
           </section>
-          <section id="slide-org316e60f">
-            <h3 id="org316e60f">Pattern Combinators</h3>
+          <section id="slide-orge647a19">
+            <h3 id="orge647a19">Pattern Combinators</h3>
             <div class="org-src-container">
               <pre><code class="clojure" >(let [r (while (fn [l _] (&lt; l 100))
           (rule ?x =&gt; (? #(inc (% '?x)))))]
@@ -334,8 +347,8 @@
 </code></pre>
             </div>
           </section>
-          <section id="slide-orged95e25">
-            <h3 id="orged95e25">Renderers</h3>
+          <section id="slide-org41f1dc5">
+            <h3 id="org41f1dc5">Renderers</h3>
             <aside class="notes">
               <ul>
                 <li>obvious, open thing, S-expressions</li>
@@ -371,8 +384,8 @@ sin²(η) + (tan(φ₂))³
 </pre
             >
           </section>
-          <section id="slide-org0c7a55d">
-            <h3 id="org0c7a55d">Renderers</h3>
+          <section id="slide-org75cddae">
+            <h3 id="org75cddae">Renderers</h3>
             <p>JavaScript Source Renderer</p>
 
             <div class="org-src-container">
@@ -390,8 +403,8 @@ function(eta, phi_2) {
 </pre
             >
           </section>
-          <section id="slide-org4026486">
-            <h3 id="org4026486">Function Compilation</h3>
+          <section id="slide-org85d758b">
+            <h3 id="org85d758b">Function Compilation</h3>
             <aside class="notes">
               <ul>
                 <li>reuses all the stuff above</li>
@@ -425,8 +438,8 @@ function(eta, phi_2) {
 </pre
             >
           </section>
-          <section id="slide-org72ef548">
-            <h3 id="org72ef548">Functional Numerical Methods</h3>
+          <section id="slide-org32e7886">
+            <h3 id="org32e7886">Functional Numerical Methods</h3>
             <ul>
               <li>Univariate and multivariate minimization</li>
               <li>Polynomial and RF interpolation</li>
@@ -437,15 +450,17 @@ function(eta, phi_2) {
               <li>&#x2026;</li>
             </ul>
           </section>
-          <section id="slide-org7eb3b27">
-            <h3 id="org7eb3b27">Automatic Differentiation</h3>
+          <section id="slide-orgacb0ad3">
+            <h3 id="orgacb0ad3">Automatic Differentiation</h3>
             <ul>
               <li>Forward mode,</li>
               <li>immutable reverse mode!</li>
             </ul>
           </section>
-          <section id="slide-orgd2fa04e">
-            <h3 id="orgd2fa04e">Physics</h3>
+          <section id="slide-orga8e0cc3">
+            <h3 id="orga8e0cc3">Physics</h3>
+            <aside class="notes">nil</aside>
+
             <ul>
               <li>Hamiltonian and Lagrangian mechanics</li>
               <li>Differential Geometry</li>
@@ -454,32 +469,35 @@ function(eta, phi_2) {
               <li>Geometric Algebra</li>
             </ul>
           </section>
-          <section id="slide-orga97fa0a">
-            <h3 id="orga97fa0a">Animations</h3>
+          <section id="slide-org8acda33">
+            <h3 id="org8acda33">Animations</h3>
+            <aside class="notes">nil</aside>
+
             <ul>
               <li>Mathbox</li>
               <li>JSXGraph</li>
+              <li>extensible from Clojure, not JS!</li>
             </ul>
           </section>
         </section>
         <section>
-          <section id="slide-org11668db">
-            <h2 id="org11668db">SICMUtils Programming Techniques</h2>
+          <section id="slide-org3489c5e">
+            <h2 id="org3489c5e">SICMUtils Programming Techniques</h2>
             <aside class="notes">
               <ul>
                 <li>gotten easier as we go!</li>
-                <li>how?</li>
               </ul>
             </aside>
 
             <ul>
-              <li>Extensible Generics Stick with Clojure</li>
+              <li>Extensible Generics</li>
+              <li>Clojure is Opinionated!</li>
               <li>Combinators</li>
               <li>DSLs, Pattern Matching</li>
             </ul>
           </section>
-          <section id="slide-org1105c55">
-            <h3 id="org1105c55">Type vs Kind</h3>
+          <section id="slide-org1af6629">
+            <h3 id="org1af6629">Type vs Kind</h3>
             <aside class="notes">
               <ul>
                 <li>protocol vs multimethod dispatch</li>
@@ -500,8 +518,8 @@ function(eta, phi_2) {
 </pre
             >
           </section>
-          <section id="slide-org90a8422">
-            <h3 id="org90a8422">Constrained Extensibility</h3>
+          <section id="slide-orgb603198">
+            <h3 id="orgb603198">Constrained Extensibility</h3>
             <aside class="notes">
               <ul>
                 <li>On a per type basis</li>
@@ -526,18 +544,18 @@ function(eta, phi_2) {
 </code></pre>
             </div>
           </section>
-          <section id="slide-org4eed760">
-            <h3 id="org4eed760">Stick with Clojure</h3>
+          <section id="slide-orgdebee22">
+            <h3 id="orgdebee22">Stick with Clojure</h3>
             <aside class="notes">nil</aside>
 
             <ul>
               <li>Different Environments, CLJS</li>
               <li>Small # of core data structures</li>
-              <li>immutability everywhere</li>
+              <li>~Everything is Immutable</li>
             </ul>
           </section>
-          <section id="slide-orgbc2e6b4">
-            <h3 id="orgbc2e6b4">Pragmatic Core</h3>
+          <section id="slide-orgf9e9143">
+            <h3 id="orgf9e9143">Pragmatic Core</h3>
             <div class="org-src-container">
               <pre><code class="clojure" >[] {} #{} () :keyword 'sym
 
@@ -547,19 +565,20 @@ function(eta, phi_2) {
 </code></pre>
             </div>
           </section>
-          <section id="slide-org27e9da3">
-            <h3 id="org27e9da3">Combinators</h3>
+          <section id="slide-orga020b6a">
+            <h3 id="orga020b6a">Combinators</h3>
+            <aside class="notes">
+              <p>speed past</p>
+            </aside>
+
             <ul>
-              <li>pattern matching</li>
-              <li>many of the arithmetic types have this built in</li>
-              <li>
-                numerical methods work too, we had the
-                <code>infinite</code> combinator.
-              </li>
+              <li>pattern matching combinators</li>
+              <li>numerical method combinators: <code>infinite</code></li>
+              <li>Aggregation functions</li>
             </ul>
           </section>
-          <section id="slide-org4d721c8">
-            <h3 id="org4d721c8">DSL, Pattern Matching:</h3>
+          <section id="slide-orgc0726c1">
+            <h3 id="orgc0726c1">DSL, Pattern Matching:</h3>
             <div class="org-src-container">
               <pre><code class="clojure" data-line-numbers="3-6|8-12|14-17|19-24">(require '[pattern.rule :as r :refer [ruleset =&gt;]])
 
@@ -601,8 +620,12 @@ function(eta, phi_2) {
 </pre
             >
           </section>
-          <section id="slide-orgb8e7edf">
-            <h3 id="orgb8e7edf">Operator Example from the codebase</h3>
+          <section id="slide-orge5c7ae1">
+            <h3 id="orge5c7ae1">Operator Simplification</h3>
+            <aside class="notes">
+              <p>this is in the lib.</p>
+            </aside>
+
             <div class="org-src-container">
               <pre><code class="clojure" >(def simplify-operator-name
   (rule-simplifier
@@ -612,69 +635,78 @@ function(eta, phi_2) {
 </code></pre>
             </div>
           </section>
-          <section id="slide-orgf98eef0">
-            <h3 id="orgf98eef0">Generic Programming</h3>
-            <ul>
-              <li class="off">
-                <code>[&#xa0;]</code> bring compilation example back up
-              </li>
-            </ul>
-          </section>
-          <section id="slide-orgc42dc05">
-            <h3 id="orgc42dc05">Multi-Stage Programming</h3>
+          <section id="slide-org6f8c0b0">
+            <h3 id="org6f8c0b0">Multi-Stage Programming</h3>
             <aside class="notes">
               <ul>
-                <li>
-                  <p>
-                    just as easily you could be sending operations off to matrix
-                    library&#x2026; there is no reason to prefer Python etc.
-                  </p>
-
-                  <p>Everything fast there is staged down to FORTRAN etc.</p>
-                </li>
+                <li>matrix compilation</li>
+                <li>SIMD</li>
+                <li>compile derivatives</li>
               </ul>
             </aside>
+
+            <div class="org-src-container">
+              <pre><code class="clojure" >(defn my-fn [x y]
+  (+ x
+     (sin y)
+     (square (cos 'x))
+     (square (sin 'x))
+     (cube (sin y))))
+
+(binding [*mode* :source]
+  (compile-fn my-fn))
+</code></pre>
+            </div>
+
+            <pre class="example">
+(clojure.core/fn [x45929 x45930]
+  (clojure.core/let [G0000000000000000 (Math/sin x45930)]
+    (clojure.core/+ (clojure.core/*
+                     -1.0
+                     G0000000000000000
+                     (Math/pow (Math/cos x45930) 2.0))
+                    x45929
+                    (clojure.core/* 2.0 G0000000000000000)
+                   1.0)))
+</pre
+            >
           </section>
-          <section id="slide-org3cf25c3">
-            <h3 id="org3cf25c3">Community!</h3>
-            <p>It has gotten EASIER to add to it as it's gone.</p>
+          <section id="slide-org5cfe017">
+            <h3 id="org5cfe017">Clojure Community</h3>
+            <aside class="notes">
+              <p>It has gotten EASIER to add to it as it's gone.</p>
+            </aside>
 
             <ul>
-              <li>Nextjournal, Clerk, Jack Rusher, Martin Kavalar etc</li>
-              <li>Maria</li>
-              <li>SCI</li>
-              <li>clj-kondo</li>
+              <li>Sussman et. al.</li>
+              <li>Colin Smith</li>
+              <li>Clerk: Martin Kavalar, Jack Rusher, Nextjournal team</li>
+              <li>maria.cloud</li>
+              <li>SCI, CLJ-Kondo: Michiel Borkent (@borkdude)</li>
             </ul>
           </section>
         </section>
         <section>
-          <section id="slide-org3c2ef19">
-            <h2 id="org3c2ef19">Hard?</h2>
+          <section id="slide-org8b534b9">
+            <h2 id="org8b534b9">Hard?</h2>
             <ul>
               <li>No types so far</li>
               <li>what's the right way to introspect the library?</li>
-              <li>viewers are difficult</li>
-              <li>how to make the lib disppear?</li>
+              <li>Context</li>
             </ul>
           </section>
         </section>
         <section>
-          <section id="slide-orgaf603cc">
-            <h2 id="orgaf603cc">What's Coming?</h2>
-            <div class="outline-text-2" id="text-orgaf603cc"></div>
-          </section>
-          <section id="slide-orgc0d356a">
-            <h3 id="orgc0d356a">Rewrite the textbooks</h3>
-            <img height="500" src="../images/sicm.jpeg" />
-            <img height="500" src="../images/fdg.jpeg" />
-          </section>
-          <section id="slide-org0cb6269">
-            <h3 id="org0cb6269">=&gt; Wikipedia</h3>
+          <section id="slide-org13d805c">
+            <h2 id="org13d805c">Demos</h2>
+            <aside class="notes">
+              <p>Over to Clerk again.</p>
+            </aside>
           </section>
         </section>
         <section>
-          <section id="slide-org60dddfb">
-            <h2 id="org60dddfb">Thanks!</h2>
+          <section id="slide-orgcd4d25a">
+            <h2 id="orgcd4d25a">Thanks!</h2>
             <aside class="notes">
               <p>questions?</p>
             </aside>

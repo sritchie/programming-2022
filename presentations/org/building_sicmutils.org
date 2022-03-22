@@ -12,6 +12,8 @@
 
 The Atelier of Abstractions
 
+[[https://samritchie.io/][Sam Ritchie]], Mentat Collective
+
 * SICMUtils
 #+begin_notes
 - CAS, previewed yesterday
@@ -26,6 +28,15 @@ The Atelier of Abstractions
 https://github.com/sicmutils/sicmutils
 #+REVEAL_HTML: <img width="100%" src="../images/sicmutils.png">
 
+* Agenda
+#+begin_notes
+#+end_notes
+
+- Overview of SICMUtils
+- Programming Techniques
+- Issues
+- Demos
+
 * Thanks to GJS
 #+begin_notes
 - uses many techniques from SDF
@@ -36,20 +47,9 @@ https://github.com/sicmutils/sicmutils
 #+REVEAL_HTML: <img height="500" src="../images/gjs.jpg">
 #+REVEAL_HTML: <img height="500" src="../images/sdf.jpeg">
 
-* Agenda
-#+begin_notes
-#+end_notes
-
-- Overview of SICMUtils
-- Programming Techniques
-- Issues!
-- Revealing Demos
-
 * SICMUtils Project goals
 #+begin_notes
-reiterate:
-
-- trying to write this sweeping history of modern physics
+- write literate stuff
 - convinced you need to write AND read in the env
 - so: kitchen sink, embeddable in diff envs
 #+end_notes
@@ -78,13 +78,20 @@ reiterate:
 
 * What's in the library?
 #+begin_notes
-- much familiar for lispers
+- much that's familiar for lispers
 - 27kLOC src, 25kLOC tests
 #+end_notes
 
 # Two namespace pictures
 #+REVEAL: split data-background="../images/sicmutils_ns.png"
+#+begin_notes
+thought this would be elegant
+#+end_notes
+
 #+REVEAL: split data-background="../images/quad_island.png"
+#+begin_notes
+- quad island
+#+end_notes
 
 ** Numerics
 #+begin_notes
@@ -101,7 +108,6 @@ reiterate:
 #+begin_notes
 - generic, extensible functions via protocols, multimethods
 - `type` vs `kind`
-- show library code
 - extended to functions!
 #+end_notes
 
@@ -127,6 +133,7 @@ reiterate:
  - you can make your own of course
  #+end_notes
 
+ #+ATTR_REVEAL: :code_attribs data-line-numbers="1-10|24-31"
  #+begin_src clojure
  [sicmutils.generic
   ,* + - / divide
@@ -200,7 +207,8 @@ reiterate:
 - literal numbers
 - literal functions
 - symbols, or =literal-number=
-- literal vectors, matrices etc
+- literal vectors, matrices
+- quantum states, bra, ket
 
 ** Pattern Matching DSL
 #+begin_notes
@@ -321,6 +329,8 @@ JavaScript Source Renderer
 - immutable reverse mode!
 
 ** Physics
+#+begin_notes
+#+end_notes
 
 - Hamiltonian and Lagrangian mechanics
 - Differential Geometry
@@ -329,18 +339,20 @@ JavaScript Source Renderer
 - Geometric Algebra
 
 ** Animations
+#+begin_notes
+#+end_notes
 
 - Mathbox
 - JSXGraph
+- extensible from Clojure, not JS!
 
 * SICMUtils Programming Techniques
 #+begin_notes
 - gotten easier as we go!
-- how?
 #+end_notes
 
 - Extensible Generics
-  Stick with Clojure
+- Clojure is Opinionated!
 - Combinators
 - DSLs, Pattern Matching
 
@@ -388,7 +400,7 @@ JavaScript Source Renderer
 
 - Different Environments, CLJS
 - Small # of core data structures
-- immutability everywhere
+- ~Everything is Immutable
 
 ** Pragmatic Core
 
@@ -401,10 +413,13 @@ JavaScript Source Renderer
 #+end_src
 
 ** Combinators
+#+begin_notes
+speed past
+#+end_notes
 
-- pattern matching
-- many of the arithmetic types have this built in
-- numerical methods work too, we had the =infinite= combinator.
+- pattern matching combinators
+- numerical method combinators: =infinite=
+- Aggregation functions
 
 ** DSL, Pattern Matching:
 
@@ -453,6 +468,9 @@ JavaScript Source Renderer
 :
 
 ** Operator Simplification
+#+begin_notes
+this is in the lib.
+#+end_notes
 
   #+begin_src clojure
 (def simplify-operator-name
@@ -464,10 +482,9 @@ JavaScript Source Renderer
 
 ** Multi-Stage Programming
 #+begin_notes
-- just as easily you could be sending operations off to matrix library... there
-  is no reason to prefer Python etc.
-
-  Everything fast there is staged down to FORTRAN etc.
+- matrix compilation
+- SIMD
+- compile derivatives
 #+end_notes
 
 #+begin_src clojure :exports both

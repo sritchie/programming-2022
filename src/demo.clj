@@ -81,16 +81,16 @@
                 x))
           (get x @!sel)])))})
 
+(def multiviewer
+  (literal-viewer transform-literal))
+
 ;; does it work?
 
-(clerk/with-viewer (literal-viewer transform-literal)
+(clerk/with-viewer multiviewer
   (+ (square (sin 'x))
      (square (cos 'x))))
 
 ;; woohoo! We can set it as default for the namespace:
-
-(def multiviewer
-  (literal-viewer transform-literal))
 
 #_
 (clerk/set-viewers! [multiviewer])
