@@ -1,4 +1,4 @@
-# Presentations
+# ELS and `<programming>` 2022 Presentations
 
 Welcome!
 
@@ -6,11 +6,27 @@ These presentations were developed using Emacs [org-mode](https://orgmode.org/)
 and the [org-re-reveal](https://gitlab.com/oer/org-re-reveal) package to
 generate [reveal.js](https://revealjs.com) presentations from the `org` files.
 
+**Recordings:**
+
+- [Lisp as Renaissance Workshop: A Lispy Tour through Mathematical Physics](https://www.twitch.tv/videos/1432240926?t=01h55m03s)
+- [Building SICMUtils, the Atelier of Abstractions](https://www.twitch.tv/videos/1433198080?t=05h03m54s)
+
+**PDFs:**
+
+PDF versions of the talks are hosted at [Speakerdeck](https://speakerdeck.com),
+or you can generate your own copies by following [these
+instructions](https://github.com/sritchie/programming-2022/tree/main/presentations#print-as-pdf).
+
+- [Slides: Lisp as Renaissance Workshop](https://speakerdeck.com/sritchie/lisp-as-renaissance-workshop-a-lispy-tour-through-mathematical-physics)
+- [Slides: Building SICMUtils, the Atelier of Abstractions](https://speakerdeck.com/sritchie/building-sicmutils-the-atelier-of-abstractions)
+
+**Org files:**
+
 All of the actual presentation code lives in `org`, just to keep things clean.
 
 Shared presentation options live in `org/reveal_header.org`.
 
-The talk files are
+The org-mode talk files are
 
 - `org/lisp_as_renaissance.org`
 - `org/building_sicmutils.org`
