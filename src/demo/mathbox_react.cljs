@@ -26,16 +26,16 @@
    :camera {}})
 
 (defn cube
-  [id {:keys [width-rez height-rez depth-rez size opacity]}]
-  [(r/adapt-react-class MB/Mathbox)
+  [{:keys [id width-rez height-rez depth-rez size opacity]}]
+  [Mathbox
    {:options {:plugins ["core" "controls" "cursor"]
               :controls {:klass orbit}
               :camera {}}
     :style {:height "400px" :width "100%"}
     :initialCameraPosition init-cam}
-   [(r/adapt-react-class MB/Cartesian)
+   [Cartesian
     {}
-    [(r/adapt-react-class MB/Volume)
+    [Volume
      {:id id
       :width width-rez
       :bufferWidth width-rez
@@ -48,7 +48,7 @@
       :live false
       :expr (fn [emit x y z]
               (emit x y z opacity))}
-     [(r/adapt-react-class MB/Point)
+     [Point
       {:points (str "#" id)
        :colors (str "#" id)
        :color 0xffffff

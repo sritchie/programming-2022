@@ -18,12 +18,11 @@
 (def cube-viewer
   {:fetch-fn (fn [_ x] x)
    :render-fn
-   '(fn [{:keys [width-rez height-rez depth-rez size opacity]
-         :as value}]
-      (js/console.log (pr-str value))
+
+   '(fn [value]
       (v/html
        (when value
-         [mbr/cube "volume" value]))
+         [mbr/cube value]))
       #_
       (v/html
        [mbr/Mathbox
@@ -57,7 +56,8 @@
 
 ;; live-changing the axes deletes everything
 (clerk/with-viewer cube-viewer
-  {:width-rez 20
+  {:id "volume"
+   :width-rez 5
    :height-rez 20
    :depth-rez 20
    :size 4
