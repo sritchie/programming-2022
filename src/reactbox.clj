@@ -18,49 +18,20 @@
 (def cube-viewer
   {:fetch-fn (fn [_ x] x)
    :render-fn
-
    '(fn [value]
       (v/html
        (when value
-         [mbr/cube value]))
-      #_
-      (v/html
-       [mbr/Mathbox
-        {:options {:plugins ["core" "controls" "cursor"]
-                   :controls {:klass mbr/orbit}
-                   :camera {}}
-         :style {:height "400px" :width "100%"}
-         :initialCameraPosition mbr/init-cam}
-        [mbr/Cartesian
-         {}
-         [mbr/Volume
-          {:id "volume"
-           :width width-rez
-           :bufferWidth width-rez
-           :height height-rez
-           :bufferHeight height-rez
-           :depth depth-rez
-           :bufferDepth depth-rez
-           :items 1
-           :channels 4
-           :live false
-           :expr (fn [emit x y z]
-                   (emit x y z opacity))}
-          [mbr/Point
-           {:points "#volume"
-            :colors "#volume"
-            :color 0xffffff
-            :size size}]]]]))})
+         [mbr/cube value])))})
 
 ;; We can then use the above viewer using `with-viewer`:
 
 ;; live-changing the axes deletes everything
 (clerk/with-viewer cube-viewer
   {:id "volume"
-   :width-rez 5
+   :width-rez 12
    :height-rez 20
-   :depth-rez 20
-   :size 4
+   :depth-rez 22
+   :size 8
    :opacity 1.0})
 
 ;; ## Function Viewer

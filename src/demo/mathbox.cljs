@@ -133,7 +133,7 @@
         (.axis #js {:axis 1 :width 3})
         (.axis #js {:axis 2 :width 3})
         (.axis #js {:axis 3 :width 3})
-        #_(.grid #js {:width 2 :divideX 20 :divideY 10})
+
         (.interval
          (clj->js
           {:width samples
